@@ -8,7 +8,6 @@ export const AppRouter = () => {
   return (
     <Routes>
       <Route
-        index
         path="/*"
         element={
           <PublicRoute>
@@ -18,7 +17,7 @@ export const AppRouter = () => {
       />
 
       <Route
-        path="/*"
+        path="/panel/*"
         element={
           <PrivateRoute>
             <AdminRoutes />

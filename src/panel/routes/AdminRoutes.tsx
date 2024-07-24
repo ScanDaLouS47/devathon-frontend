@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Aside } from '../components/Aside';
 import { AdminPage } from '../pages/adminPanel/AdminPage';
 import { DashboardPage } from '../pages/adminPanel/DashboardPage';
 import { ListReservationsPage } from '../pages/adminPanel/ListReservationsPage';
@@ -6,13 +7,17 @@ import { ReservationsPage } from '../pages/adminPanel/ReservationsPage';
 
 export const AdminRoutes = () => {
   return (
-    <Routes>
-      <Route path="/panel/admin" element={<AdminPage />} />
-      <Route path="/panel/dashboard" element={<DashboardPage />} />
-      <Route path="/panel/reservations" element={<ReservationsPage />} />
-      <Route path="/panel/list-reservations" element={<ListReservationsPage />} />
+    <>
+      <Aside />
 
-      <Route path="*" element={<Navigate to="/panel/admin" />} />
-    </Routes>
+      <Routes>
+        <Route index path="admin" element={<AdminPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="reservations" element={<ReservationsPage />} />
+        <Route path="list-reservations" element={<ListReservationsPage />} />
+
+        <Route path="*" element={<Navigate to="/panel/admin" />} />
+      </Routes>
+    </>
   );
 };

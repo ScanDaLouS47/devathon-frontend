@@ -1,12 +1,7 @@
-import { Aside } from '../../components/Aside';
-import { AdminRoutes } from '../../routes/AdminRoutes';
-
 export const AdminPage = () => {
   return (
     <div>
-      <Aside />
-
-      <AdminRoutes />
+      <h1>AdminPage</h1>
     </div>
   );
 };
