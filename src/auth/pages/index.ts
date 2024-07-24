@@ -1,3 +1,3 @@
-//Archivo barril para exportar todas las paginas de autenticacion
+// Archivo barril para exportar todas las paginas de authentication
 export * from './login/LoginPage';
-export * from './RegisterPage';
+export * from './register/RegisterPage';

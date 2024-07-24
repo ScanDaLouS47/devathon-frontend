@@ -48,7 +48,7 @@ export const LoginPage = () => {
           </button>
         </form>
         <div className="login__btns">
-          <NavLink className="login__register" to={'/auth/register'}>
+          <NavLink className="login__register" to={''}>
             Forgot Password?
           </NavLink>
           <NavLink className="login__register" to={'/auth/register'}>
