@@ -5,6 +5,7 @@ import { FormInput } from '../../../components/formInput/FormInput';
 import './registerPage.scss';
 import { registerSchema, RegisterType } from './registerSchema';
 import { useEffect, useRef, useState } from 'react';
+import { client } from '../../../supabase/Client';
 
 export const RegisterPage = () => {
   const {
@@ -42,9 +43,26 @@ export const RegisterPage = () => {
     inputRef.current?.focus();
   }, []);
 
-  const handleRegister: SubmitHandler<RegisterType> = (data) => {
+  const handleRegister: SubmitHandler<RegisterType> = async(data) => {
     console.log(data);
+    const resp = await client.auth.signUp({
+      email: watchFields.email,
+      password: watchFields.password,
+    });
+
+    (resp.error) && console.log(resp.error);
     // navigate('/panel/admin');
+
+    useEffect(() => {
+      client.auth.onAuthStateChange((event, session) => {
+  
+        (!session) ? navigate('/') : navigate('/home');      
+  
+        console.log(event, 'EVENT');
+        console.log(session, '##session');      
+      })
+      
+    }, [])
   };
 
   return (
