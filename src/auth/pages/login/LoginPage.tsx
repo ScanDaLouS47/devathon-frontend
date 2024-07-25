@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import './loginPage.scss';
 import { loginSchema, LoginType } from './losginSchema';
+import { client } from '../../../supabase/Client';
 
 export const LoginPage = () => {
   const {
@@ -15,8 +16,30 @@ export const LoginPage = () => {
   });
   const navigate = useNavigate();
 
-  const handleLogin: SubmitHandler<LoginType> = (data) => {
-    console.log(data);
+  const handleLogin: SubmitHandler<LoginType> = ({email, password}) => {
+    // console.log(data);
+
+    const resp = client.auth.signInWithPassword({
+      email,
+      password 
+    });
+
+    console.log(resp, 'RESPONSE');
+    // navigate('/panel/admin');
+  };
+  const handleLoginGoogle = () => {
+    // console.log(data);
+
+    const resp = client.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `http://localhost:5173/auth/login`
+      }
+    });   
+    
+    // DATA , ERROR
+
+    console.log(resp, 'RESPONSE');
     // navigate('/panel/admin');
   };
   return (
@@ -47,6 +70,9 @@ export const LoginPage = () => {
             Sign In
           </button>
         </form>
+        <button className="form__btn" type="submit" onClick={handleLoginGoogle}>
+          Google
+        </button>
         <div className="login__btns">
           <NavLink className="login__register" to={''}>
             Forgot Password?
