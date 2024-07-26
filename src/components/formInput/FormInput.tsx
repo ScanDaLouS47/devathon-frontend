@@ -14,7 +14,7 @@ export const FormInput = React.forwardRef(
     return (
       <div className="row">
         <label className={`row__label ${hasError}`} htmlFor={inputProps.id}>
-          {label}*
+          {label && `${label}*`}
         </label>
         <div className={`row__container ${hasError}`}>
           <input ref={ref} className="row__input" autoComplete="off" {...inputProps} />

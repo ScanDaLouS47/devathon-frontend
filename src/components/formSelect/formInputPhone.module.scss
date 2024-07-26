@@ -1,0 +1,120 @@
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.2rem;
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__container {
+    padding: 0;
+    border-radius: 0.3125rem;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__error {
+    border-color: rgb(237, 74, 74);
+    color: rgb(237, 74, 74);
+  }
+
+  &__select {
+    width: 15%;
+    outline: 0.125rem solid transparent;
+    margin: 0.3rem 0.5rem;
+    background-color: transparent;
+    color: var(--gray-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.125rem;
+
+    &::placeholder {
+      color: var(--gray-color);
+    }
+  }
+
+  &__selectedImage {
+    width: 24px;
+    max-width: 24px;
+    height: 24px;
+    max-height: 24px;
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__options {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
+    background-color: inherit;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 8px;
+    transition: background-color 0.2s;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    cursor: pointer;
+    color: var(--gray-color);
+
+    &:hover {
+      background-color: rgb(223, 223, 223);
+    }
+
+    &:focus {
+      background-color: var(--gray-color);
+      outline: none;
+    }
+  }
+
+  &__optionImage {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    object-fit: cover;
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+  }
+
+  &__icon {
+    color: rgb(237, 74, 74);
+    width: 1rem;
+  }
+
+  &__message {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+    color: rgb(237, 74, 74);
+  }
+}

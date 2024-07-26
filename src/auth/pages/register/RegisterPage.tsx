@@ -4,13 +4,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import './registerPage.scss';
 import { registerSchema, RegisterType } from './registerSchema';
-import { useEffect, useRef, useState } from 'react';
+import { FormInputPhone } from '../../../components/formSelect/FormInputPhone';
+// import { client } from '../../../supabase/Client';
+import { options } from '../../../../public/options';
 
 export const RegisterPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<RegisterType>({
     resolver: zodResolver(registerSchema),
@@ -18,33 +19,26 @@ export const RegisterPage = () => {
   });
   const navigate = useNavigate();
 
-  const watchFields = watch();
-
-  const [isDisabled, setIsDisabled] = useState(true);
-  useEffect(() => {
-    const isFilled =
-      watchFields.name !== undefined &&
-      watchFields.lastName !== undefined &&
-      watchFields.email !== undefined &&
-      watchFields.password !== undefined &&
-      watchFields.repeatPassword !== undefined &&
-      watchFields.name !== '' &&
-      watchFields.lastName !== '' &&
-      watchFields.email !== '' &&
-      watchFields.password !== '' &&
-      watchFields.repeatPassword !== '';
-
-    setIsDisabled(!isFilled);
-  }, [watchFields]);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  const handleRegister: SubmitHandler<RegisterType> = (data) => {
+  const handleRegister: SubmitHandler<RegisterType> = async (data) => {
     console.log(data);
+    // const resp = await client.auth.signUp({
+    //   email: data.email,
+    //   password: data.password,
+    // });
+
+    // resp.error && console.log(resp.error);
     // navigate('/panel/admin');
+
+    // useEffect(() => {
+    //   client.auth.onAuthStateChange((event, session) => {
+
+    //     (!session) ? navigate('/') : navigate('/home');
+
+    //     console.log(event, 'EVENT');
+    //     console.log(session, '##session');
+    //   })
+
+    // }, [])
   };
 
   return (
@@ -64,12 +58,35 @@ export const RegisterPage = () => {
           />
 
           <FormInput
-            label="lastName"
+            label="Last Name"
             error={errors['lastName']}
             id="lastName"
             type="lastName"
             placeholder="Doe"
             {...register('lastName')}
+          />
+
+          {/*
+                  [
+                    {
+                      value: string;
+                      text?: string;
+                      img?: {
+                        src: string;
+                        alt: string;
+                      };
+                    };
+                  ]
+          */}
+
+          <FormInputPhone
+            options={options}
+            label={'Phone Number'}
+            error={errors['phone']}
+            // register={register('phone')}
+            register={register('phone', {
+              setValueAs: (value) => `${options[0].countryTag ? `+${options[0].countryTag}` : ''}${value}`,
+            })}
           />
 
           <FormInput
@@ -99,7 +116,7 @@ export const RegisterPage = () => {
             {...register('repeatPassword')}
           />
 
-          <button className="form__btn" type="submit" disabled={isDisabled}>
+          <button className="form__btn" type="submit">
             Register
           </button>
         </form>
