@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, ForwardedRef } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
-import { WarningIcon } from '../icons/WarningIcon';
 import styles from './formInputPhone.module.scss';
 import { FormInput } from '../formInput/FormInput';
 
@@ -75,7 +74,6 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             placeholder={`+${selectedValue.countryTag} 123 123 123`}
             {...register}
           />
-          {error && <WarningIcon className={`${styles.row__icon}`} />}
         </div>
         {/* Contenedor de las opciones */}
         {isOpen && (
@@ -92,7 +90,6 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             ))}
           </div>
         )}
-        <span className={`${styles.row__message}`}>{error?.message}</span>
       </div>
     );
   },
