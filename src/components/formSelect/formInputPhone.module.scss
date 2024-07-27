@@ -57,13 +57,14 @@
   }
 
   &__options {
-    position: relative;
-    top: 0;
-    left: 0;
+    position: absolute;
+    top: 24rem;
+    left: 46rem;
+    max-width: 9rem;
     width: 100%;
     z-index: 3;
     box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
-    background-color: inherit;
+    background-color: rgb(255, 255, 255);
     border-radius: 0.3125rem;
     -webkit-border-radius: 0.3125rem;
     -moz-border-radius: 0.3125rem;
@@ -74,7 +75,7 @@
   &__option {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.3rem;
     padding: 8px;
     transition: background-color 0.2s;
     -webkit-transition: background-color 0.2s;
@@ -112,6 +113,7 @@
   }
 
   &__message {
+    height: 0.25rem;
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1rem;
