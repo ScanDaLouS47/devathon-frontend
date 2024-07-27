@@ -31,7 +31,7 @@ export const registerSchema = z
       .string()
       .min(8, { message: 'Password must be at least 8 characters long' })
       .max(16, { message: 'Password must be at most 16 characters long' })
-      .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/, {
+      .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#ñç^¨])[A-Za-z\d@$!%*?&#ñç^¨]{8,16}$/, {
         message: 'Password must have 1 symbol, 1 uppercase, and 1 number',
       })
       .trim(),
@@ -39,7 +39,7 @@ export const registerSchema = z
       .string()
       .min(8, { message: 'Password must be at least 8 characters long' })
       .max(16, { message: 'Password must be at most 16 characters long' })
-      .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/, {
+      .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#ñç^¨])[A-Za-z\d@$!%*?&#ñç^¨]{8,16}$/, {
         message: 'Password must have 1 symbol, 1 uppercase, 1 number',
       })
       .trim(),

@@ -83,7 +83,6 @@ export const RegisterPage = () => {
             options={options}
             label={'Phone Number'}
             error={errors['phone']}
-            // register={register('phone')}
             register={register('phone', {
               setValueAs: (value) => `${options[0].countryTag ? `+${options[0].countryTag}` : ''}${value}`,
             })}
