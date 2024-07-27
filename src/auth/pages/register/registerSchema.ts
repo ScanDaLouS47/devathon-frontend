@@ -6,13 +6,13 @@ export const registerSchema = z
       .string()
       .min(3, { message: 'Name must be at least 3 characters long' })
       .max(50, { message: 'Name must be at most 50 characters long' })
-      .regex(/^[A-Za-zÁÉÍÓÚÑäëïöüñ'-]{3,50}$/, { message: 'Invalid name format' })
+      .regex(/^[A-Za-zÀ-ÖØ-öø-ÿĀ-ž' ]{3,50}$/, { message: 'Invalid name format' })
       .trim(),
     lastName: z
       .string()
       .min(3, { message: 'Last name must be at least 3 characters long' })
       .max(50, { message: 'Last name must be at most 50 characters long' })
-      .regex(/^[A-Za-zÁÉÍÓÚÑäëïöüñ'-]{3,50}$/, { message: 'Invalid last name format' })
+      .regex(/^[A-Za-zÀ-ÖØ-öø-ÿĀ-ž' ]{3,50}$/, { message: 'Invalid last name format' })
       .trim(),
     phone: z
       .string()
