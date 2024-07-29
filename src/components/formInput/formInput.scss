@@ -3,9 +3,11 @@
   display: flex;
   flex-direction: column;
   row-gap: 0.2rem;
+
   &__label {
     font-weight: 600;
   }
+
   &__container {
     border: 0.125rem solid transparent;
     padding: 0 1rem;
@@ -14,10 +16,6 @@
     border: 0.125rem solid var(--gray-color);
     display: flex;
     justify-content: space-between;
-  }
-  &__error {
-    border-color: rgb(237, 74, 74);
-    color: rgb(237, 74, 74);
   }
 
   &__input {
@@ -29,14 +27,26 @@
       color: var(--gray-color);
     }
   }
+
+  &__toggleButton {
+    margin-right: 0.5rem;
+  }
+
   &__icon {
     color: rgb(237, 74, 74);
     width: 1rem;
   }
+
   &__message {
+    height: 0.25rem;
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1rem;
+    color: rgb(237, 74, 74);
+  }
+
+  &__error {
+    border-color: rgb(237, 74, 74);
     color: rgb(237, 74, 74);
   }
 }
