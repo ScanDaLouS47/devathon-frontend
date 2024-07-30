@@ -53,7 +53,7 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
       <div className={styles.row} ref={ref}>
         <label className={`${styles.row__label} ${hasError}`}>{label}*</label>
         <div className={`${styles.row__container} ${hasError}`}>
-          {/* Contenedor de la opción seleccionada */}
+          {/* opción seleccionada */}
           <div
             className={`${styles.row__select}`}
             tabIndex={0}
@@ -66,6 +66,21 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
               alt={selectedValue.country}
             />
           </div>
+          {/* Contenedor de las opciones */}
+          {isOpen && (
+            <div className={`${styles.row__options}`} ref={dropdownRef}>
+              {options.map((element, index) => (
+                <div
+                  className={`${styles.row__option}`}
+                  key={index}
+                  onClick={() => handleOptionSelect(element)}
+                >
+                  <img className={`${styles.row__optionImage}`} src={element.imgURL} alt={element.country} />
+                  <span>{element.countryTag && `+${element.countryTag} ${element.country}`}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <FormInput
             label=""
             error={error}
@@ -75,21 +90,6 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             {...register}
           />
         </div>
-        {/* Contenedor de las opciones */}
-        {isOpen && (
-          <div className={`${styles.row__options}`} ref={dropdownRef}>
-            {options.map((element, index) => (
-              <div
-                className={`${styles.row__option}`}
-                key={index}
-                onClick={() => handleOptionSelect(element)}
-              >
-                <img className={`${styles.row__optionImage}`} src={element.imgURL} alt={element.country} />
-                <span>{element.countryTag && `+${element.countryTag} ${element.country}`}</span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     );
   },
