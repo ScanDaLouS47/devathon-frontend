@@ -9,6 +9,7 @@
   }
 
   &__container {
+    position: relative;
     padding: 0;
     border-radius: 0.3125rem;
     background-color: transparent;
@@ -58,8 +59,8 @@
 
   &__options {
     position: absolute;
-    top: 24rem;
-    left: 46rem;
+    top: 3.5rem;
+    left: 1.5rem;
     max-width: 9rem;
     width: 100%;
     z-index: 3;
@@ -118,5 +119,13 @@
     font-weight: 600;
     line-height: 1rem;
     color: rgb(237, 74, 74);
+  }
+}
+
+@media (width <= 290px) {
+  .row {
+    &__options {
+      left: 0;
+    }
   }
 }

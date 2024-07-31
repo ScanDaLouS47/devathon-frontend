@@ -1,11 +1,11 @@
+import './registerPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
-import './registerPage.scss';
 import { registerSchema, RegisterType } from './registerSchema';
 import { FormInputPhone } from '../../../components/formSelect/FormInputPhone';
-// import { client } from '../../../supabase/Client';
+import { client } from '../../../supabase/Client';
 import { options } from '../../../../public/options';
 
 export const RegisterPage = () => {
@@ -21,13 +21,13 @@ export const RegisterPage = () => {
 
   const handleRegister: SubmitHandler<RegisterType> = async (data) => {
     console.log(data);
-    // const resp = await client.auth.signUp({
-    //   email: data.email,
-    //   password: data.password,
-    // });
+    const resp = await client.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
 
-    // resp.error && console.log(resp.error);
-    // navigate('/panel/admin');
+    resp.error && console.log(resp.error);
+    navigate('/panel/admin');
 
     // useEffect(() => {
     //   client.auth.onAuthStateChange((event, session) => {
@@ -65,19 +65,6 @@ export const RegisterPage = () => {
             placeholder="Doe"
             {...register('lastName')}
           />
-
-          {/*
-                  [
-                    {
-                      value: string;
-                      text?: string;
-                      img?: {
-                        src: string;
-                        alt: string;
-                      };
-                    };
-                  ]
-          */}
 
           <FormInputPhone
             options={options}
