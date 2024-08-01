@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { AuthConext, AuthReducerState, UserReducerType } from './AuthContext';
+import { AuthContext, AuthReducerState, UserReducerType } from './AuthContext';
 import { authReducer } from './authReducer';
 
 type AuthProviderType = {
@@ -14,7 +14,7 @@ const initalState: AuthReducerState = {
   },
 };
 
-export const AuthProvide = ({ children }: AuthProviderType) => {
+export const AuthProvider = ({ children }: AuthProviderType) => {
   const [authState, dispatch] = useReducer(authReducer, initalState);
 
   const onLogin = (id: string, email: string) => {
@@ -25,9 +25,10 @@ export const AuthProvide = ({ children }: AuthProviderType) => {
 
     dispatch({ type: 'signIn', payload: user });
   };
+
   const onLogout = () => {};
 
   console.log({ authState });
 
-  return <AuthConext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthConext.Provider>;
+  return <AuthContext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthContext.Provider>;
 };

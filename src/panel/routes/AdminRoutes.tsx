@@ -16,7 +16,7 @@ export const AdminRoutes = () => {
         <Route path="reservations" element={<ReservationsPage />} />
         <Route path="list-reservations" element={<ListReservationsPage />} />
 
-        <Route path="*" element={<Navigate to="/panel/admin" />} />
+        <Route path="*" element={<Navigate to="/panel/admin" replace />} />
       </Routes>
     </>
   );

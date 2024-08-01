@@ -19,8 +19,8 @@
   }
 
   &__error {
-    border-color: rgb(237, 74, 74);
-    color: rgb(237, 74, 74);
+    border-color: var(--error);
+    color: var(--error);
   }
 
   &__select {
@@ -109,7 +109,7 @@
   }
 
   &__icon {
-    color: rgb(237, 74, 74);
+    color: var(--error);
     width: 1rem;
   }
 
@@ -118,7 +118,7 @@
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1rem;
-    color: rgb(237, 74, 74);
+    color: var(--error);
   }
 }
 

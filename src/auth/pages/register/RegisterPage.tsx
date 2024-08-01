@@ -6,7 +6,8 @@ import { FormInput } from '../../../components/formInput/FormInput';
 import { registerSchema, RegisterType } from './registerSchema';
 import { FormInputPhone } from '../../../components/formSelect/FormInputPhone';
 import { client } from '../../../supabase/Client';
-import { options } from '../../../../public/options';
+import { options } from '../../../../data/options';
+import { useState } from 'react';
 
 export const RegisterPage = () => {
   const {
@@ -17,28 +18,44 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
     mode: 'onChange',
   });
+
   const navigate = useNavigate();
 
+  const [registerError, setRegisterError] = useState<string | null>(null);
+
   const handleRegister: SubmitHandler<RegisterType> = async (data) => {
-    console.log(data);
-    const resp = await client.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      const { data: authData, error } = await client.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            name: data.name,
+            lastName: data.lastName,
+            phone: data.phone,
+          },
+        },
+      });
 
-    resp.error && console.log(resp.error);
-    navigate('/panel/admin');
+      if (error) {
+        throw new Error(error.message);
+      }
 
-    // useEffect(() => {
-    //   client.auth.onAuthStateChange((event, session) => {
+      if (!authData.user) {
+        throw new Error('No user data received');
+      }
 
-    //     (!session) ? navigate('/') : navigate('/home');
-
-    //     console.log(event, 'EVENT');
-    //     console.log(session, '##session');
-    //   })
-
-    // }, [])
+      console.log('Registration successful:', authData);
+      navigate('/auth/login');
+    } catch (error) {
+      if (error instanceof Error) {
+        setRegisterError(error.message);
+        console.error('Registration error:', error.message);
+      } else {
+        setRegisterError('An unexpected error occurred');
+        console.error('Unexpected error:', error);
+      }
+    }
   };
 
   return (
@@ -46,12 +63,14 @@ export const RegisterPage = () => {
       <div className="register__container">
         <h1 className="register__title">Sign Up</h1>
 
+        {registerError && <div className="error-message">{registerError}</div>}
+
         <form className="form" onSubmit={handleSubmit(handleRegister)}>
           <FormInput
             label="Name"
             error={errors['name']}
             id="name"
-            type="name"
+            type="text"
             placeholder="John"
             autoFocus
             {...register('name')}
@@ -61,7 +80,7 @@ export const RegisterPage = () => {
             label="Last Name"
             error={errors['lastName']}
             id="lastName"
-            type="lastName"
+            type="text"
             placeholder="Doe"
             {...register('lastName')}
           />
@@ -112,7 +131,7 @@ export const RegisterPage = () => {
             Sign in
           </NavLink>
         </div>
-        <NavLink to={'/panel/admin'}>GO TO PANEL</NavLink>
+        {/* <NavLink to={'/panel/admin'}>GO TO PANEL</NavLink> */}
       </div>
     </div>
   );

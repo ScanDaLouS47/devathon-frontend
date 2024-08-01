@@ -16,9 +16,9 @@ export const registerSchema = z
       .trim(),
     phone: z
       .string()
-      .min(1, { message: 'Phone must be at least 1 character long' })
+      .min(2, { message: 'Phone must be at least 2 character long' })
       .max(14, { message: 'Phone must be at most 14 characters long' })
-      .regex(/^\+?[1-9]\d{1,14}$/, { message: 'Invalid phone format' }) // Ajustado para permitir diferentes longitudes
+      .regex(/^\+?[1-9]\d{2,14}$/, { message: 'Invalid phone format' })
       .trim(),
     email: z
       .string()
@@ -31,7 +31,7 @@ export const registerSchema = z
       .string()
       .min(8, { message: 'Password must be at least 8 characters long' })
       .max(16, { message: 'Password must be at most 16 characters long' })
-      .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#ñç^¨])[A-Za-z\d@$!%*?&#ñç^¨]{8,16}$/, {
+      .regex(/^(?!.*(.)\1{2})(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#ñç^¨])[A-Za-z\d@$!%*?&#ñç^¨]{8,16}$/, {
         message: 'Password must have 1 symbol, 1 uppercase, and 1 number',
       })
       .trim(),
@@ -39,7 +39,7 @@ export const registerSchema = z
       .string()
       .min(8, { message: 'Password must be at least 8 characters long' })
       .max(16, { message: 'Password must be at most 16 characters long' })
-      .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#ñç^¨])[A-Za-z\d@$!%*?&#ñç^¨]{8,16}$/, {
+      .regex(/^(?!.*(.)\1{2})(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#ñç^¨])[A-Za-zd@$!%*?&#ñç^¨~]{8,16}$/, {
         message: 'Password must have 1 symbol, 1 uppercase, 1 number',
       })
       .trim(),
