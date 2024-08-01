@@ -45,7 +45,7 @@ export const UpdatePassPage = () => {
   return (
     <div className="forgot wrapper">
       <div className="forgot__container">
-        <h1 className="forgot__title">Actualize Your Password</h1>
+        <h1 className="forgot__title">Reset Your Password</h1>
 
         {updatePassError && <span className="forgot__message--error">{updatePassError}</span>}
 
