@@ -20,11 +20,10 @@ type SelectProps = {
 
 export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
   ({ label, error, options, register }: SelectProps, ref: ForwardedRef<HTMLDivElement>) => {
-    // Inicializa el valor seleccionado con el primer país de las opciones
-    const [selectedValue, setSelectedValue] = useState<OptionType>(options[0]);
+    const [selectedValue, setSelectedValue] = useState<OptionType>(options[0]); // Inicializa el valor seleccionado con el primer país de las opciones
     const [isOpen, setIsOpen] = useState<boolean>(false); // Estado para manejar la visibilidad del dropdown
-    const hasError = error ? `${styles.row__error}` : '';
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const hasError = error ? `${styles.row__error}` : '';
 
     const handleOptionSelect = (option: OptionType) => {
       setSelectedValue(option);
@@ -66,7 +65,7 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
               alt={selectedValue.country}
             />
           </div>
-          {/* Contenedor de las opciones */}
+          {/* Modal de las opciones */}
           {isOpen && (
             <div className={`${styles.row__options}`} ref={dropdownRef}>
               {options.map((element, index) => (

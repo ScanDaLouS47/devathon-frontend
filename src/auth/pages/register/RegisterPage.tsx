@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { registerSchema, RegisterType } from './registerSchema';
-import { FormInputPhone } from '../../../components/formSelect/FormInputPhone';
+import { FormInputPhone } from '../../../components/formInputPhone/FormInputPhone';
 import { client } from '../../../supabase/Client';
 import { options } from '../../../../data/options';
 import { useState } from 'react';
