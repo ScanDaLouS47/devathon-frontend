@@ -1,5 +1,5 @@
 .header {
-  height: 5rem;
+  height: 7rem;
 
   &__bg {
     display: flex;
@@ -19,54 +19,99 @@
 
   &__container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 100%;
-    max-width: 1400px;
+    max-width: 545px;
+    position: relative; // Para el Modal
   }
 
   &__logo {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     text-align: center;
-    padding-left: 1rem;
-    width: 85%;
+    padding: 8px;
+    margin-left: 1rem;
   }
 
   &__profile {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    text-align: left;
-    width: 15%;
+    text-align: center;
     font-weight: 600;
+    padding: 8px;
+    margin-right: 1rem;
+    position: relative;
 
-    &__option {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 8px;
-      transition: background-color 0.2s;
-      -webkit-transition: background-color 0.2s;
-      -moz-transition: background-color 0.2s;
-      -ms-transition: background-color 0.2s;
-      -o-transition: background-color 0.2s;
-      cursor: pointer;
-      color: var(--gray-color);
-      font-weight: 600;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% + 5px);
+      height: calc(100% + 5px);
+      border-radius: 50%;
+      border: 7px solid transparent;
+      transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+    }
 
-      &:hover {
-        background-color: rgb(223, 223, 223);
-      }
+    &.hovered::before {
+      border-color: var(--grey-color);
+    }
+  }
 
-      &:focus {
-        background-color: var(--gray-color);
-        outline: none;
-      }
+  &__profile__modal {
+    position: absolute;
+    top: 5rem;
+    left: 23.5rem;
+    max-width: 9rem;
+    width: 100%;
+    z-index: 3;
+    box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+  }
+
+  &__profile__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 8px;
+    transition: background-color 0.2s;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    cursor: pointer;
+    color: var(--gray-color);
+    font-weight: 600;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+
+    &:hover {
+      background-color: rgb(223, 223, 223);
+    }
+
+    &:focus {
+      background-color: var(--gray-color);
+      outline: none;
     }
   }
 }
@@ -79,6 +124,14 @@
 
     svg {
       fill: var(--logout);
+    }
+  }
+}
+
+@media (width <= 450px) {
+  .header {
+    &__profile__modal {
+      left: 13.5rem;
     }
   }
 }

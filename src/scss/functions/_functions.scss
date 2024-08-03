@@ -1,0 +1,7 @@
+@function proportional-height($width) {
+  $base-width: 7rem;
+  $base-height: 4rem; // 7rem - 3rem
+  $ratio: $base-height / $base-width;
+  
+  @return $width * $ratio;
+}
