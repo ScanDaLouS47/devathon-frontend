@@ -6,21 +6,21 @@ type AuthProviderType = {
   children: React.ReactNode;
 };
 
-const initalState: AuthReducerState = {
+const initialState: AuthReducerState = {
   logged: false,
   user: {
-    id: '',
-    email: null,
+    email: '',
+    password: '',
   },
 };
 
 export const AuthProvider = ({ children }: AuthProviderType) => {
-  const [authState, dispatch] = useReducer(authReducer, initalState);
+  const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  const onLogin = (id: string, email: string) => {
+  const onLogin = (email: string, password: string) => {
     const user: UserReducerType = {
-      id,
       email,
+      password,
     };
 
     dispatch({ type: 'signIn', payload: user });

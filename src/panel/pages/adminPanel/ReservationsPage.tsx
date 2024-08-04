@@ -1,3 +1,7 @@
 export const ReservationsPage = () => {
-  return <div>ReservationsPage</div>;
+  return (
+    <div>
+      <h1>ReservationsPage</h1>
+    </div>
+  );
 };

@@ -5,6 +5,8 @@ import UserIcon from '../icons/UserIcon';
 import SettingsIcon from '../icons/SettingsIcon';
 import LogOutIcon from '../icons/LogOutIcon';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/hook/useAuth';
+import { fetchApi } from '../../utils/fetchApi';
 
 export const Header = React.forwardRef(() => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -12,15 +14,20 @@ export const Header = React.forwardRef(() => {
   const modalRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { authState, onLogout } = useAuth();
+  const { logged } = authState;
 
   const handleOptionSelect = (option: string) => {
     setIsModalVisible(false);
     if (option === 'settings') {
-      navigate('/settings');
+      navigate('/user/settings');
     } else if (option === 'logout') {
-      // Aquí puedes agregar la lógica para desloguear al usuario
-      console.log('Log Out');
-      navigate('/auth/login');
+      onLogout();
+      navigate('/auth/login', {
+        replace: true,
+      });
+      const resp = fetchApi('/api/v1/logout');
+      console.log(resp);
     }
   };
 
@@ -28,7 +35,6 @@ export const Header = React.forwardRef(() => {
     setIsModalVisible(!isModalVisible);
   };
 
-  // Cierra el modal si se hace clic fuera del componente
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -50,24 +56,24 @@ export const Header = React.forwardRef(() => {
   return (
     <header className={styles.header}>
       <section className={styles.header__bg}>
-        <div className={styles.header__container}>
-          <div className={styles.header__logo}>
-            <Logo width="10" />
+        <div className={`${styles.header__container}`}>
+          <div className={`${styles.header__logo} ${logged == false && styles.noLogged}`}>
+            <Logo width="15" />
           </div>
 
-          <div
-            className={`${styles.header__profile} ${isHover ? styles.hovered : ''}`}
-            onClick={toggleModal}
-            aria-expanded={isModalVisible}
-            ref={profileRef}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-          >
-            <UserIcon
-              width="2.25"
-              color="rgb(146, 146, 146)"
-            />
-          </div>
+          {logged && (
+            <div
+              className={`${styles.header__profile} ${isHover ? styles.hovered : ''}`}
+              onClick={toggleModal}
+              aria-expanded={isModalVisible}
+              ref={profileRef}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            >
+              <UserIcon width="2.25" color="rgb(146, 146, 146)" />
+            </div>
+          )}
+
           {isModalVisible && (
             <div className={styles.header__profile__modal} ref={modalRef}>
               <div className={styles.header__profile__option} onClick={() => handleOptionSelect('settings')}>

@@ -1,3 +1,7 @@
 export const SchedulesPage = () => {
-  return <div>SchedulesPage</div>;
+  return (
+    <div>
+      <h1>SchedulesPage</h1>
+    </div>
+  );
 };

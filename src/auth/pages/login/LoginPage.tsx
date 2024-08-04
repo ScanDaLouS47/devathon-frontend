@@ -6,6 +6,9 @@ import { FormInput } from '../../../components/formInput/FormInput';
 import { loginSchema, LoginType } from './loginSchema';
 import { client } from '../../../supabase/Client';
 import { useState } from 'react';
+import { useAuth } from '../../hook/useAuth';
+
+// POST a Jose con sup_id e email
 
 export const LoginPage = () => {
   const {
@@ -15,6 +18,8 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
   });
+
+  const { onLogin } = useAuth();
 
   const navigate = useNavigate();
 
@@ -35,8 +40,14 @@ export const LoginPage = () => {
         throw new Error('No user or session data received');
       }
 
+      const supId = data.user.user_metadata.sub;
+      const supEmail = data.user.user_metadata.email;
+      onLogin(supId, supEmail);
+
       // console.log(data, 'HTTP RESPONSE');
-      // navigate('/panel/user');
+      navigate('/panel/admin', {
+        replace: true,
+      });
     } catch (error) {
       if (error instanceof Error) {
         setLoginError(error.message);

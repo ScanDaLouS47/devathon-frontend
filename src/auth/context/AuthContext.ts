@@ -6,18 +6,18 @@ export type AuthReducerState = {
 };
 
 export type UserReducerType = {
-  id: string;
-  email: string | null;
+  email: string;
+  password: string;
 };
 
 type AuthContextType = {
   authState: AuthReducerState;
-  onLogin: (id: string, email: string) => void;
+  onLogin: (email: string, password: string) => void;
   onLogout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
-  authState: { logged: false, user: { id: '', email: null } },
+  authState: { logged: false, user: { email: '', password: '' } },
   onLogin: () => null,
   onLogout: () => null,
 });

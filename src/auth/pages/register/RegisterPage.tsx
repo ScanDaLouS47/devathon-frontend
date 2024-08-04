@@ -8,8 +8,24 @@ import { FormInputPhone } from '../../../components/formInputPhone/FormInputPhon
 import { client } from '../../../supabase/Client';
 import { options } from '../../../../data/options';
 import { useState } from 'react';
+import { fetchApi } from '../../../utils/fetchApi';
 
 export const RegisterPage = () => {
+  // POST a Jose
+  /**
+    name
+
+    lName
+
+    email
+
+    phone
+
+    password
+
+    image
+   */
+
   const {
     register,
     handleSubmit,
@@ -36,6 +52,24 @@ export const RegisterPage = () => {
           },
         },
       });
+      console.log('Registration successful on Supabase:', authData);
+      console.log('Supabase ID:', authData.user?.user_metadata.sub);
+
+      const resp = fetchApi(
+        '/api/v1/create',
+        'POST',
+        null,
+        {
+          name: data.name,
+          lName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          password: authData.user?.user_metadata.sub,
+          image: 'None',
+        },
+        false,
+      );
+      console.log('Registration successful on my Backend', resp);
 
       if (error) {
         throw new Error(error.message);
@@ -45,7 +79,6 @@ export const RegisterPage = () => {
         throw new Error('No user data received');
       }
 
-      console.log('Registration successful:', authData);
       navigate('/auth/login');
     } catch (error) {
       if (error instanceof Error) {

@@ -14,7 +14,7 @@ export const UserRoutes = () => {
         <Route path="my-reservations" element={<MyReservations />} />
         <Route path="schedules" element={<SchedulesPage />} />
 
-        <Route path="*" element={<Navigate to="/panel/user" replace />} />
+        <Route path="*" element={<Navigate to="/panel/user" />} />
       </Routes>
     </>
   );
