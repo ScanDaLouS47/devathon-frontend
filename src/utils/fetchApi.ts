@@ -1,3 +1,4 @@
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
  * Function to perform an API request to a specified HTTP endpoint.
  *
@@ -32,8 +33,8 @@
  */
 export const fetchApi = async <T>(
   path: string,
-  method: string = 'GET',
-  id?: string | null,
+  method: HttpMethod = 'GET',
+  id?: string,
   data?: T,
   requireToken: boolean = true,
 ): Promise<unknown> => {
@@ -45,7 +46,6 @@ export const fetchApi = async <T>(
       'Content-Type': 'application/json',
     };
 
-    // Include Authorization header only if required
     if (requireToken && accessToken) {
       headers['Authorization'] = `Bearer ${accessToken}`;
     }
@@ -56,10 +56,13 @@ export const fetchApi = async <T>(
       ...(data ? { body: JSON.stringify(data) } : null),
     };
 
-    const response = await fetch(`${apiBaseUrl}${path}/${id ? id : ''}`, fetchOptions);
+    const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
+    // const response = await fetch('http://127.0.0.1:8000/api/v1/create', fetchOptions);
 
     if (!response.ok) {
-      throw new Error(`Response: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `ON FETCHING API: ${response.status} ${response.statusText} (${response.type.toLocaleUpperCase()})`,
+      );
     }
 
     return response.json();
@@ -76,7 +79,7 @@ export const fetchApi = async <T>(
  * VITE_API_URL + /api/v1/login => POST
  * VITE_API_URL + /api/v1/user/profile => GET (only for user)
  * VITE_API_URL + /api/v1/user => GET (all users)
- * VITE_API_URL + /api/v1/user/show/id => GET (only for admin betById)
+ * VITE_API_URL + /api/v1/user/show/{id} => GET (only for admin betById)
  * VITE_API_URL + /api/v1/logout => GET
  * VITE_API_URL + /api/v1/user/update => PUT
  *

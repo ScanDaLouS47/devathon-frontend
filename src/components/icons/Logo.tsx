@@ -38,7 +38,7 @@ const Logo = ({ width, color }: { width: string; color?: string }): JSX.Element 
         style={{
           width: `100%`,
           height: `100%`,
-          boxShadow: `1px 1px 7px 1.5px rgba(0, 0, 0, 0.3)`,
+          boxShadow: `1px 1px 3px 1.5px rgba(0, 0, 0, 0.3)`,
           borderRadius: `0.3125rem`,
           position: `absolute`,
           top: `-1.3px`,

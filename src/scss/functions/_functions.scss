@@ -1,7 +1,14 @@
+// FUNCTION PX TO REM;
+@function pxToRem($px) {
+  $rem: calc($px / 16);
+  @return $rem + rem;
+}
+
+// PROPORTIONAL WIDTH
 @function proportional-height($width) {
   $base-width: 7rem;
   $base-height: 4rem; // 7rem - 3rem
   $ratio: $base-height / $base-width;
-  
+
   @return $width * $ratio;
 }

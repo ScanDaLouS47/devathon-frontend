@@ -22,7 +22,7 @@
     flex-direction: column;
     row-gap: 1.5em;
   }
-  
+
   &__register {
     font-weight: 600;
     color: var(--orange);
@@ -50,4 +50,8 @@
     color: var(--orange);
     cursor: pointer;
   }
+}
+
+.error-message {
+  color: var(--error);
 }

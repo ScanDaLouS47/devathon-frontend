@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Aside } from '../components/Aside';
-import { UserPage } from '../pages/userPanel/UserPage';
-import { MyReservations } from '../pages/userPanel/MyReservations';
-import { SchedulesPage } from '../pages/userPanel/SchedulesPage';
+import { UserPage } from '../pages/userPanel/userPage/UserPage';
+import { MyReservations } from '../pages/userPanel/myReservations/MyReservations';
+import { SchedulesPage } from '../pages/userPanel/schedulesPage/SchedulesPage';
 
 export const UserRoutes = () => {
   return (

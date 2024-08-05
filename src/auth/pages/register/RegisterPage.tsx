@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { fetchApi } from '../../../utils/fetchApi';
 
 export const RegisterPage = () => {
-  // POST a Jose
+  // POST a /api/v1/create
   /**
     name
 
@@ -23,7 +23,7 @@ export const RegisterPage = () => {
 
     password
 
-    image
+    image_url
    */
 
   const {
@@ -52,24 +52,24 @@ export const RegisterPage = () => {
           },
         },
       });
-      console.log('Registration successful on Supabase:', authData);
-      console.log('Supabase ID:', authData.user?.user_metadata.sub);
+      console.log('ON SUPABASE', authData);
+      console.log('SUP_ID', authData.user?.user_metadata.sub);
 
       const resp = fetchApi(
         '/api/v1/create',
         'POST',
-        null,
+        '',
         {
           name: data.name,
           lName: data.lastName,
           email: data.email,
           phone: data.phone,
           password: authData.user?.user_metadata.sub,
-          image: 'None',
+          image_url: 'None',
         },
         false,
       );
-      console.log('Registration successful on my Backend', resp);
+      console.log('ON MY BACKEND', resp);
 
       if (error) {
         throw new Error(error.message);
@@ -77,6 +77,10 @@ export const RegisterPage = () => {
 
       if (!authData.user) {
         throw new Error('No user data received');
+      }
+
+      if (!resp) {
+        throw new Error('Bad request');
       }
 
       navigate('/auth/login');
@@ -164,7 +168,6 @@ export const RegisterPage = () => {
             Sign in
           </NavLink>
         </div>
-        {/* <NavLink to={'/panel/admin'}>GO TO PANEL</NavLink> */}
       </div>
     </div>
   );

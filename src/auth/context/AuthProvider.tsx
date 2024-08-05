@@ -11,16 +11,18 @@ const initialState: AuthReducerState = {
   user: {
     email: '',
     password: '',
+    role: '',
   },
 };
 
 export const AuthProvider = ({ children }: AuthProviderType) => {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  const onLogin = (email: string, password: string) => {
+  const onLogin = (email: string, password: string, role: string) => {
     const user: UserReducerType = {
       email,
       password,
+      role,
     };
 
     dispatch({ type: 'signIn', payload: user });

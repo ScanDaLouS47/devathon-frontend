@@ -1,14 +1,20 @@
 import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink /* useNavigate */ } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { loginSchema, LoginType } from './loginSchema';
 import { client } from '../../../supabase/Client';
 import { useState } from 'react';
 import { useAuth } from '../../hook/useAuth';
+import { fetchApi } from '../../../utils/fetchApi';
 
-// POST a Jose con sup_id e email
+// POST a /api/v1/create
+/**
+    email
+
+    password
+   */
 
 export const LoginPage = () => {
   const {
@@ -21,7 +27,7 @@ export const LoginPage = () => {
 
   const { onLogin } = useAuth();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -31,6 +37,7 @@ export const LoginPage = () => {
         email,
         password,
       });
+      console.log('ON SUPABASE', data);
 
       if (error) {
         throw new Error(error.message);
@@ -40,14 +47,25 @@ export const LoginPage = () => {
         throw new Error('No user or session data received');
       }
 
-      const supId = data.user.user_metadata.sub;
+      const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
-      onLogin(supId, supEmail);
 
-      // console.log(data, 'HTTP RESPONSE');
-      navigate('/panel/admin', {
-        replace: true,
-      });
+      const resp = fetchApi(
+        '/api/v1/login',
+        'POST',
+        '',
+        {
+          supPass,
+          supEmail,
+        },
+        false,
+      );
+      console.log('ON MY BACKEND', resp);
+
+      onLogin(supEmail, supPass, 'user'); // Acá iría todo lo de `resp.data`
+      // navigate('/panel/user/usr', {
+      //   replace: true,
+      // });
     } catch (error) {
       if (error instanceof Error) {
         setLoginError(error.message);
@@ -75,9 +93,6 @@ export const LoginPage = () => {
       if (!data) {
         throw new Error('No user or session data received');
       }
-
-      // console.log(data, 'HTTP RESPONSE');
-      // navigate('/panel/...');
     } catch (error) {
       if (error instanceof Error) {
         setLoginError(error.message);
@@ -130,7 +145,6 @@ export const LoginPage = () => {
             Create Account
           </NavLink>
         </div>
-        {/* <NavLink to={'/panel/admin'}>GO TO PANEL</NavLink> */}
       </div>
     </div>
   );
