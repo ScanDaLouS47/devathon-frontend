@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/hook/useAuth';
-import { Aside } from '../panel/components/Aside';
 
-export const PrivateRoute = () => {
+export const PrivateUserRoutes = () => {
   const { authState } = useAuth();
+  console.log(authState);
+
   const navigate = useNavigate();
   console.log(authState);
 
@@ -13,12 +14,12 @@ export const PrivateRoute = () => {
       navigate('/auth/login');
       return;
     }
-    if (authState.user?.role !== 'admin') navigate('/panel/user');
-  }, [authState.user?.role]);
+    if (authState.user?.role !== 'user') navigate('/panel/admin');
+  }, []);
 
   return (
     <section>
-      <Aside />
+      <h2>ASIDE</h2>
       <Outlet />
     </section>
   );

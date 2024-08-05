@@ -1,20 +1,13 @@
-import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
-import { loginSchema, LoginType } from './loginSchema';
 import { client } from '../../../supabase/Client';
-import { useState } from 'react';
-import { useAuth } from '../../hook/useAuth';
 import { fetchApi } from '../../../utils/fetchApi';
-
-// POST a /api/v1/create
-/**
-    email
-
-    password
-   */
+import { useAuth } from '../../hook/useAuth';
+import './loginPage.scss';
+import { loginSchema, LoginType } from './loginSchema';
 
 export const LoginPage = () => {
   const {
@@ -65,9 +58,13 @@ export const LoginPage = () => {
       );
       console.log('ON MY BACKEND', resp);
 
-      // localStorage.setItem("access_token_api", resp?.data.token as string);
-      onLogin(supEmail, supPass, 'user'); // Acá iría todo lo de `resp.data`
-      // onLogin(resp.user.email, supPass, resp.user.role); // Acá iría todo lo de `resp.data`
+      //USER DATA TEST
+      const user = {
+        email: 'pepe@pepe.com',
+        role: 'admin',
+      };
+
+      onLogin(user);
     } catch (error) {
       if (error instanceof Error) {
         setLoginError(error.message);

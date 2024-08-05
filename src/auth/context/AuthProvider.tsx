@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer } from 'react';
 import { AuthContext, AuthReducerState, UserReducerType } from './AuthContext';
 import { authReducer } from './authReducer';
 
@@ -8,36 +8,28 @@ type AuthProviderType = {
 
 const initialState: AuthReducerState = {
   logged: false,
-  user: {
-    email: '',
-    password: '',
-    role: '',
-  },
+  user: null,
+};
+const init = (): AuthReducerState => {
+  const userString = localStorage.getItem('userData');
+  const userData = userString ? JSON.parse(userString) : null;
+  return {
+    logged: !!userData,
+    user: userData,
+  };
 };
 
 export const AuthProvider = ({ children }: AuthProviderType) => {
-  const [authState, dispatch] = useReducer(authReducer, initialState);
+  const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
-  useEffect(() => {
-    const storedAuthState = sessionStorage.getItem('authState');
-    if (storedAuthState) {
-      dispatch({ type: 'signIn', payload: JSON.parse(storedAuthState) });
-    }
-  }, []);
-
-  const onLogin = (email: string, password: string, role: string) => {
-    const user: UserReducerType = {
-      email,
-      password,
-      role,
-    };
-
-    sessionStorage.setItem('authState', JSON.stringify(user));
+  const onLogin = (user: UserReducerType) => {
+    console.log(user);
+    localStorage.setItem('userData', JSON.stringify(user));
     dispatch({ type: 'signIn', payload: user });
   };
 
   const onLogout = () => {
-    sessionStorage.removeItem('authState');
+    localStorage.removeItem('userData');
     localStorage.removeItem('access_token_api');
     localStorage.removeItem('sb-xyiqucxpwnvmembqwevm-auth-token'); // Supabase
     dispatch({ type: 'signOut' });

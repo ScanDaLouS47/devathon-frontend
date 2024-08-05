@@ -3,7 +3,6 @@ import { createContext } from 'react';
 export type UserReducerType = {
   id?: number;
   email: string;
-  password: string;
   role: string;
   name?: string;
   lName?: string;
@@ -13,17 +12,17 @@ export type UserReducerType = {
 
 export type AuthReducerState = {
   logged: boolean;
-  user: UserReducerType;
+  user: UserReducerType | null;
 };
 
 type AuthContextType = {
   authState: AuthReducerState;
-  onLogin: (email: string, password: string, role: string) => void;
+  onLogin: (user: UserReducerType) => void;
   onLogout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
-  authState: { logged: false, user: { email: '', password: '', role: '' } },
+  authState: { logged: false, user: null },
   onLogin: () => null,
   onLogout: () => null,
 });
