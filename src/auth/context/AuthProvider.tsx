@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import { AuthContext, AuthReducerState, UserReducerType } from './AuthContext';
 import { authReducer } from './authReducer';
 
@@ -18,6 +18,13 @@ const initialState: AuthReducerState = {
 export const AuthProvider = ({ children }: AuthProviderType) => {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
+  useEffect(() => {
+    const storedAuthState = sessionStorage.getItem('authState');
+    if (storedAuthState) {
+      dispatch({ type: 'signIn', payload: JSON.parse(storedAuthState) });
+    }
+  }, []);
+
   const onLogin = (email: string, password: string, role: string) => {
     const user: UserReducerType = {
       email,
@@ -25,10 +32,14 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
       role,
     };
 
+    sessionStorage.setItem('authState', JSON.stringify(user));
     dispatch({ type: 'signIn', payload: user });
   };
 
-  const onLogout = () => {};
+  const onLogout = () => {
+    sessionStorage.removeItem('authState');
+    dispatch({ type: 'signOut' });
+  };
 
   console.log({ authState });
 

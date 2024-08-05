@@ -1,3 +1,5 @@
+import { RespFetch } from './../../interfaces/respFetch';
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
  * Function to perform an API request to a specified HTTP endpoint.
@@ -37,7 +39,7 @@ export const fetchApi = async <T>(
   id?: string,
   data?: T,
   requireToken: boolean = true,
-): Promise<unknown> => {
+): Promise<RespFetch> => {
   const apiBaseUrl = import.meta.env.VITE_API_URL;
   const accessToken = requireToken ? localStorage.getItem('access_token') : null;
 
@@ -70,6 +72,12 @@ export const fetchApi = async <T>(
     if (error instanceof Error) {
       console.error('THROW ERROR', error.message);
     }
+
+    return {
+      ok: false,
+      data: undefined,
+      msg: error instanceof Error ? error.message : 'An unknown error occurred',
+    };
   }
 };
 

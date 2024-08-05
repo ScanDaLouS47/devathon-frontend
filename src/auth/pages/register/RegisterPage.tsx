@@ -65,6 +65,7 @@ export const RegisterPage = () => {
           email: data.email,
           phone: data.phone,
           password: authData.user?.user_metadata.sub,
+          // password: '123456Aa#',
           image_url: 'None',
         },
         false,
