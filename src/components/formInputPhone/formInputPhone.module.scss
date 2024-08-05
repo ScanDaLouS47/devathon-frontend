@@ -1,3 +1,5 @@
+@use '../../scss/functions/functions' as func;
+
 .row {
   width: 100%;
   display: flex;
@@ -11,16 +13,20 @@
   &__container {
     position: relative;
     padding: 0;
-    border-radius: 0.3125rem;
     background-color: transparent;
     border: none;
     display: flex;
     justify-content: space-between;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
   }
 
   &__error {
-    border-color: rgb(237, 74, 74);
-    color: rgb(237, 74, 74);
+    border-color: var(--error);
+    color: var(--error);
   }
 
   &__select {
@@ -41,16 +47,16 @@
   }
 
   &__selectedImage {
-    width: 24px;
-    max-width: 24px;
-    height: 24px;
-    max-height: 24px;
+    width: func.pxToRem(24);
+    max-width: func.pxToRem(24);
+    height: func.pxToRem(24);
+    max-height: func.pxToRem(24);
     border-radius: 10%;
     -webkit-border-radius: 10%;
     -moz-border-radius: 10%;
     -ms-border-radius: 10%;
     -o-border-radius: 10%;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 10%);
 
     &:hover {
       opacity: 0.7;
@@ -65,7 +71,7 @@
     width: 100%;
     z-index: 3;
     box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     border-radius: 0.3125rem;
     -webkit-border-radius: 0.3125rem;
     -moz-border-radius: 0.3125rem;
@@ -77,7 +83,7 @@
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 8px;
+    padding: func.pxToRem(8);
     transition: background-color 0.2s;
     -webkit-transition: background-color 0.2s;
     -moz-transition: background-color 0.2s;
@@ -85,7 +91,11 @@
     -o-transition: background-color 0.2s;
     cursor: pointer;
     color: var(--gray-color);
-
+    border-radius: 0 0.3125rem;
+    -webkit-border-radius: 0 0.3125rem;
+    -moz-border-radius: 0 0.3125rem;
+    -ms-border-radius: 0 0.3125rem;
+    -o-border-radius: 0 0.3125rem;
     &:hover {
       background-color: rgb(223, 223, 223);
     }
@@ -97,9 +107,9 @@
   }
 
   &__optionImage {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+    width: func.pxToRem(24);
+    height: func.pxToRem(24);
+    margin-right: func.pxToRem(8);
     object-fit: cover;
     border-radius: 10%;
     -webkit-border-radius: 10%;
@@ -109,7 +119,7 @@
   }
 
   &__icon {
-    color: rgb(237, 74, 74);
+    color: var(--error);
     width: 1rem;
   }
 
@@ -118,11 +128,11 @@
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1rem;
-    color: rgb(237, 74, 74);
+    color: var(--error);
   }
 }
 
-@media (width <= 290px) {
+@media (width <= 450px) {
   .row {
     &__options {
       left: 0;

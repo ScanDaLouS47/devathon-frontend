@@ -4,11 +4,28 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { registerSchema, RegisterType } from './registerSchema';
-import { FormInputPhone } from '../../../components/formSelect/FormInputPhone';
+import { FormInputPhone } from '../../../components/formInputPhone/FormInputPhone';
 import { client } from '../../../supabase/Client';
-import { options } from '../../../../public/options';
+import { options } from '../../../../data/options';
+import { useState } from 'react';
+import { fetchApi } from '../../../utils/fetchApi';
 
 export const RegisterPage = () => {
+  // POST a /api/v1/create
+  /**
+    name
+
+    lName
+
+    email
+
+    phone
+
+    password
+
+    image_url
+   */
+
   const {
     register,
     handleSubmit,
@@ -17,28 +34,65 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
     mode: 'onChange',
   });
+
   const navigate = useNavigate();
 
+  const [registerError, setRegisterError] = useState<string | null>(null);
+
   const handleRegister: SubmitHandler<RegisterType> = async (data) => {
-    console.log(data);
-    const resp = await client.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      const { data: authData, error } = await client.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            name: data.name,
+            lastName: data.lastName,
+            phone: data.phone,
+          },
+        },
+      });
+      console.log('ON SUPABASE', authData);
+      console.log('SUP_ID', authData.user?.user_metadata.sub);
 
-    resp.error && console.log(resp.error);
-    navigate('/panel/admin');
+      const resp = fetchApi(
+        '/api/v1/create',
+        'POST',
+        '',
+        {
+          name: data.name,
+          lName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          password: authData.user?.user_metadata.sub,
+          image_url: 'None',
+        },
+        false,
+      );
+      console.log('ON MY BACKEND', resp);
 
-    // useEffect(() => {
-    //   client.auth.onAuthStateChange((event, session) => {
+      if (error) {
+        throw new Error(error.message);
+      }
 
-    //     (!session) ? navigate('/') : navigate('/home');
+      if (!authData.user) {
+        throw new Error('No user data received');
+      }
 
-    //     console.log(event, 'EVENT');
-    //     console.log(session, '##session');
-    //   })
+      if (!resp) {
+        throw new Error('Bad request');
+      }
 
-    // }, [])
+      navigate('/auth/login');
+    } catch (error) {
+      if (error instanceof Error) {
+        setRegisterError(error.message);
+        console.error('Registration error:', error.message);
+      } else {
+        setRegisterError('An unexpected error occurred');
+        console.error('Unexpected error:', error);
+      }
+    }
   };
 
   return (
@@ -46,12 +100,14 @@ export const RegisterPage = () => {
       <div className="register__container">
         <h1 className="register__title">Sign Up</h1>
 
+        {registerError && <div className="error-message">{registerError}</div>}
+
         <form className="form" onSubmit={handleSubmit(handleRegister)}>
           <FormInput
             label="Name"
             error={errors['name']}
             id="name"
-            type="name"
+            type="text"
             placeholder="John"
             autoFocus
             {...register('name')}
@@ -61,7 +117,7 @@ export const RegisterPage = () => {
             label="Last Name"
             error={errors['lastName']}
             id="lastName"
-            type="lastName"
+            type="text"
             placeholder="Doe"
             {...register('lastName')}
           />
@@ -112,7 +168,6 @@ export const RegisterPage = () => {
             Sign in
           </NavLink>
         </div>
-        <NavLink to={'/panel/admin'}>GO TO PANEL</NavLink>
       </div>
     </div>
   );

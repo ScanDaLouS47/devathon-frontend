@@ -1,3 +1,4 @@
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
  * Function to perform an API request to a specified HTTP endpoint.
  *
@@ -12,6 +13,7 @@
  * @param data - The data payload to send with the request. This is used only
  *               for methods like 'POST', 'PUT', and 'PATCH' that require a request body.
  *               It will be converted to a JSON string and included in the request body.
+ * @param requireToken - A boolean indicating whether an access token is required for the request.
  * @returns A promise that resolves to the JSON response from the API.
  *
  * @template T - The type of the data payload for requests with a body. This allows
@@ -20,51 +22,46 @@
  * @example
  * ```
  * // Example of fetching data
- * const users = await fetchApi('/users');
+ * const getUsers = await fetchApi('/users');
  *
  * // Example of posting data
- * const newUser = await fetchApi('/users', 'POST', null, { name: 'John Doe' });
+ * const login = await fetchApi('/login', 'POST', null, { name: 'John Doe' });
+ *
+ * // Example of posting data without token on register
+ * const newUser = await fetchApi('/api/v1/auth/create', 'POST', null, { email: 'user@example.com' }, false);
  * ```
  */
 export const fetchApi = async <T>(
   path: string,
-  method: string = 'GET',
-  id?: string | null,
+  method: HttpMethod = 'GET',
+  id?: string,
   data?: T,
+  requireToken: boolean = true,
 ): Promise<unknown> => {
   const apiBaseUrl = import.meta.env.VITE_API_URL;
-  const apiKey = import.meta.env.VITE_API_KEY;
-  const accessToken = localStorage.getItem('access_token');
-
-  // console.log('API BASE URL', apiBaseUrl);
-  // console.log('API KEY', apiKey);
-  // console.log('ACCESS TOKEN', accessToken);
+  const accessToken = requireToken ? localStorage.getItem('access_token') : null;
 
   try {
-    if (!accessToken) {
-      throw new Error(`Access token is missing. Please authenticate to get a valid token`);
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    if (requireToken && accessToken) {
+      headers['Authorization'] = `Bearer ${accessToken}`;
     }
 
     const fetchOptions: RequestInit = {
       method,
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': `${apiKey}`,
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers,
       ...(data ? { body: JSON.stringify(data) } : null),
     };
 
-    const response = await fetch(`${apiBaseUrl}${path}/${id ? id : ''}`, fetchOptions);
+    const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
+    // const response = await fetch('http://127.0.0.1:8000/api/v1/create', fetchOptions);
 
     if (!response.ok) {
       throw new Error(
-        `
-        Response: ${response.ok}
-        Headers: ${response.headers}
-        Type: ${response.type}
-        Status: ${response.status}
-        `,
+        `ON FETCHING API: ${response.status} ${response.statusText} (${response.type.toLocaleUpperCase()})`,
       );
     }
 
@@ -75,3 +72,15 @@ export const fetchApi = async <T>(
     }
   }
 };
+
+/**
+ *
+ * VITE_API_URL + /api/v1/create => POST
+ * VITE_API_URL + /api/v1/login => POST
+ * VITE_API_URL + /api/v1/user/profile => GET (only for user)
+ * VITE_API_URL + /api/v1/user => GET (all users)
+ * VITE_API_URL + /api/v1/user/show/{id} => GET (only for admin betById)
+ * VITE_API_URL + /api/v1/logout => GET
+ * VITE_API_URL + /api/v1/user/update => PUT
+ *
+ */

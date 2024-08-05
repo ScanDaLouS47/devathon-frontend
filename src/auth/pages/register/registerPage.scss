@@ -1,5 +1,7 @@
+@use '../../../scss/variables/variables' as var;
+
 .register {
-  height: 100dvh;
+  height: calc(100dvh - var.$header-height);
   padding: 1em;
   display: grid;
   place-items: center;
@@ -20,7 +22,7 @@
     flex-direction: column;
     row-gap: 1.5em;
   }
-  
+
   &__register {
     font-weight: 600;
     color: var(--orange);
@@ -48,4 +50,8 @@
     color: var(--orange);
     cursor: pointer;
   }
+}
+
+.error-message {
+  color: var(--error);
 }

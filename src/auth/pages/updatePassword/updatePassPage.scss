@@ -1,6 +1,6 @@
 @use '../../../scss/variables/variables' as var;
 
-.login {
+.forgot {
   height: calc(100dvh - var.$header-height);
   padding: 1em;
   display: grid;
@@ -10,6 +10,7 @@
     font-size: clamp(1.5rem, 6vw, 2rem);
     font-weight: 600;
   }
+
   &__container {
     width: 100%;
     max-width: 33.125rem;
@@ -17,11 +18,11 @@
     background-color: #fff;
     border-radius: 0.3em;
     box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
-
     display: flex;
     flex-direction: column;
     row-gap: 1.5em;
   }
+
   &__register {
     font-weight: 600;
     color: var(--orange);
@@ -30,7 +31,20 @@
   &__btns {
     padding: 0.5em 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__message {
+    height: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+    color: var(--orange);
+
+    &--error {
+      color: var(--error);
+    }
   }
 }
 
@@ -48,8 +62,4 @@
     color: var(--orange);
     cursor: pointer;
   }
-}
-
-.error-message {
-  color: var(--error);
 }
