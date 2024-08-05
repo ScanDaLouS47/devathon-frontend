@@ -1,7 +1,8 @@
 @use './scss/reset/reset';
+@use './scss/functions/functions' as func;
 
 .wrapper {
-  max-width: 1400px;
+  max-width: func.pxToRem(1400);
   margin-left: auto;
   margin-right: auto;
 }

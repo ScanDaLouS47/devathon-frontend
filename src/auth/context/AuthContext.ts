@@ -1,21 +1,29 @@
 import { createContext } from 'react';
+
+export type UserReducerType = {
+  id?: number;
+  email: string;
+  password: string;
+  role: string;
+  name?: string;
+  lName?: string;
+  phone?: string;
+  image_url?: string | null;
+};
+
 export type AuthReducerState = {
   logged: boolean;
   user: UserReducerType;
 };
-export type UserReducerType = {
-  id: string;
-  email: string | null;
-};
 
 type AuthContextType = {
   authState: AuthReducerState;
-  onLogin: (id: string, email: string) => void;
+  onLogin: (email: string, password: string, role: string) => void;
   onLogout: () => void;
 };
 
-export const AuthConext = createContext<AuthContextType>({
-  authState: { logged: false, user: { id: '', email: null } },
+export const AuthContext = createContext<AuthContextType>({
+  authState: { logged: false, user: { email: '', password: '', role: '' } },
   onLogin: () => null,
   onLogout: () => null,
 });

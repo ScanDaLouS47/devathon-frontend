@@ -1,5 +1,7 @@
+@use '../../../scss/variables/variables' as var;
+
 .login {
-  height: 100dvh;
+  height: calc(100dvh - var.$header-height);
   padding: 1em;
   display: grid;
   place-items: center;
@@ -46,4 +48,8 @@
     color: var(--orange);
     cursor: pointer;
   }
+}
+
+.error-message {
+  color: var(--error);
 }

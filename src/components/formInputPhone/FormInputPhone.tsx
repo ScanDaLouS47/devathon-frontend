@@ -5,8 +5,8 @@ import { FormInput } from '../formInput/FormInput';
 
 type OptionType = {
   value: string;
-  country: string; // Nombre del país
-  countryTag?: string; // Extensión del país
+  country: string;
+  countryTag?: string;
   imgURL?: string;
 };
 
@@ -20,11 +20,11 @@ type SelectProps = {
 
 export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
   ({ label, error, options, register }: SelectProps, ref: ForwardedRef<HTMLDivElement>) => {
-    // Inicializa el valor seleccionado con el primer país de las opciones
     const [selectedValue, setSelectedValue] = useState<OptionType>(options[0]);
-    const [isOpen, setIsOpen] = useState<boolean>(false); // Estado para manejar la visibilidad del dropdown
-    const hasError = error ? `${styles.row__error}` : '';
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const selectRef = useRef<HTMLDivElement>(null);
+    const hasError = error ? `${styles.row__error}` : '';
 
     const handleOptionSelect = (option: OptionType) => {
       setSelectedValue(option);
@@ -35,10 +35,14 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
       setIsOpen(!isOpen);
     };
 
-    // Cierra el dropdown si se hace clic fuera del componente
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node) &&
+          selectRef.current &&
+          !selectRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
         }
       };
@@ -53,12 +57,12 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
       <div className={styles.row} ref={ref}>
         <label className={`${styles.row__label} ${hasError}`}>{label}*</label>
         <div className={`${styles.row__container} ${hasError}`}>
-          {/* Contenedor de la opción seleccionada */}
           <div
             className={`${styles.row__select}`}
             tabIndex={0}
             onClick={toggleDropdown}
             aria-expanded={isOpen}
+            ref={selectRef}
           >
             <img
               className={`${styles.row__selectedImage}`}
@@ -66,6 +70,20 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
               alt={selectedValue.country}
             />
           </div>
+          {isOpen && (
+            <div className={`${styles.row__options}`} ref={dropdownRef}>
+              {options.map((element, index) => (
+                <div
+                  className={`${styles.row__option}`}
+                  key={index}
+                  onClick={() => handleOptionSelect(element)}
+                >
+                  <img className={`${styles.row__optionImage}`} src={element.imgURL} alt={element.country} />
+                  <span>{element.countryTag && `+${element.countryTag} ${element.country}`}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <FormInput
             label=""
             error={error}
@@ -75,21 +93,6 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             {...register}
           />
         </div>
-        {/* Contenedor de las opciones */}
-        {isOpen && (
-          <div className={`${styles.row__options}`} ref={dropdownRef}>
-            {options.map((element, index) => (
-              <div
-                className={`${styles.row__option}`}
-                key={index}
-                onClick={() => handleOptionSelect(element)}
-              >
-                <img className={`${styles.row__optionImage}`} src={element.imgURL} alt={element.country} />
-                <span>{element.countryTag && `+${element.countryTag} ${element.country}`}</span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     );
   },

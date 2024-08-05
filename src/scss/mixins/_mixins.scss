@@ -1,0 +1,144 @@
+@mixin logo_animation {
+  $duration: 3s;
+
+  @keyframes logo_spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  animation: logo_spin ease infinite $duration;
+  -webkit-animation: logo_spin ease infinite $duration;
+}
+
+@mixin link_bottom_animation {
+  $duration: 3s;
+
+  @keyframes my_underline {
+    0% {
+      border-image-width: 0px 0px 5px 0px;
+      border-image-source: linear-gradient(to right, transparent, transparent);
+      border-image-slice: 1 1;
+      border-image-repeat: none;
+    }
+    30% {
+      border-image-width: 0px 0px 5px 0px;
+      border-image-source: linear-gradient(
+        to left,
+        transparent,
+        var(--color-3) 100%,
+        transparent
+      );
+      border-image-slice: 1;
+      border-image-repeat: none;
+    }
+    70% {
+      border-image-width: 0px 0px 5px 0px;
+      border-image-source: linear-gradient(
+        to right,
+        transparent,
+        var(--color-3) 100%,
+        transparent
+      );
+      border-image-slice: 1;
+      border-image-repeat: none;
+    }
+    100% {
+      border-image-width: 0px 0px 5px 0px;
+      border-image-source: linear-gradient(to right, transparent, transparent);
+      border-image-slice: 1 1;
+      border-image-repeat: none;
+    }
+  }
+  animation: my_underline linear infinite $duration;
+  -webkit-animation: my_underline linear infinite $duration;
+  width: fit-content;
+}
+
+@mixin bg_animation {
+  $duration: 3s;
+
+  @keyframes bg_fill {
+    0% {
+      background-position-x: 50%;
+      background-position-y: 0px;
+    }
+    50% {
+      background-position-x: 50%;
+      background-position-y: 100%;
+    }
+    100% {
+      background-position-x: 50%;
+      background-position-y: 0px;
+    }
+  }
+  background-size: 400% 400%;
+  animation: bg_fill $duration ease infinite;
+  -webkit-animation: bg_fill $duration ease infinite;
+}
+
+@mixin border_animation {
+  $duration: 3s;
+
+  @keyframes border_bg {
+    0% {
+      border-image-width: 0px 0px 7px 0px;
+      border-image-source: linear-gradient(to right, transparent, transparent);
+      border-image-slice: 1 1;
+      border-image-repeat: none;
+      border-image-outset: 3px;
+    }
+    30% {
+      border-image-width: 0px 0px 7px 0px;
+      border-image-source: linear-gradient(
+        to left,
+        transparent,
+        var(--color-3) 100%,
+        transparent
+      );
+      border-image-slice: 1;
+      border-image-repeat: none;
+      border-image-outset: 3px;
+    }
+    70% {
+      border-image-width: 0px 0px 7px 0px;
+      border-image-source: linear-gradient(
+        to right,
+        transparent,
+        var(--color-3) 100%,
+        transparent
+      );
+      border-image-slice: 1;
+      border-image-repeat: none;
+      border-image-outset: 3px;
+    }
+    100% {
+      border-image-width: 0px 0px 7px 0px;
+      border-image-source: linear-gradient(to right, transparent, transparent);
+      border-image-slice: 1 1;
+      border-image-repeat: none;
+      border-image-outset: 3px;
+    }
+  }
+  animation: border_bg linear infinite $duration;
+  -webkit-animation: border_bg linear infinite $duration;
+  width: fit-content;
+}
+
+@mixin modal_bg_animation {
+  $duration: 0.3s;
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  animation: appear $duration ease-out forwards;
+  -webkit-animation: appear $duration ease-out forwards;
+}

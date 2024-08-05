@@ -1,0 +1,56 @@
+@import '../../scss/mixins/mixins';
+
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed; // Debe ser Fixed para que ocupe todo y no se mueva
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include modal_bg_animation;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 9rem;
+    height: auto;
+    position: relative;
+    top: 60%;
+    right: -28%;
+    z-index: 101;
+    box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__close {
+    width: 100%;
+    height: 100%;
+    position: absolute; // Debe ser Absoluto para que cierre
+    z-index: 100;
+    top: 0;
+    left: 0;
+  }
+}
