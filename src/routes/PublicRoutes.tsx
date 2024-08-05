@@ -6,7 +6,7 @@ export const PublicRoute = () => {
   console.log(authState);
 
   if (authState.logged) {
-    return <Navigate to={`/panel/${authState.user.role}`} />;
+    return <Navigate to={`/panel/${authState.user?.role}`} />;
   }
 
   return <Outlet />;
