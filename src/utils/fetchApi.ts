@@ -50,16 +50,19 @@ export const fetchApi = async <T>(
   const accessToken = requireToken ? localStorage.getItem('access_token_api') : null;
 
   try {
+    // xsrf token
+    const csrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!csrfResponse.ok) {
+      throw new Error(`Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}`);
+    }
+
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
-
-    const credentialsOptions = {
-      method,
-      headers,
-    };
-
-    await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, credentialsOptions);
 
     if (withCredentials) {
       const xcsrfCookie = getCookie('XSRF-TOKEN');
