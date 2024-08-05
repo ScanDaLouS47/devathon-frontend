@@ -23,5 +23,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "data/options.ts", "interfaces/**/*"]
+  "include": ["src"]
 }

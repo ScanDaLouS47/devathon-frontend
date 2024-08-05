@@ -38,6 +38,8 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
 
   const onLogout = () => {
     sessionStorage.removeItem('authState');
+    localStorage.removeItem('access_token_api');
+    localStorage.removeItem('sb-xyiqucxpwnvmembqwevm-auth-token'); // Supabase
     dispatch({ type: 'signOut' });
   };
 

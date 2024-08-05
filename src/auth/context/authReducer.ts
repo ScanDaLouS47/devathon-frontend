@@ -7,7 +7,7 @@ export const authReducer = (state: AuthReducerState, action: AuthReducerAction) 
     case 'signIn':
       return { logged: true, user: action.payload } as AuthReducerState;
     case 'signOut':
-      return { logged: false, user: { email: '', password: '' } } as AuthReducerState;
+      return { logged: false, user: { email: '', password: '', role: '' } } as AuthReducerState;
 
     default:
       return state;

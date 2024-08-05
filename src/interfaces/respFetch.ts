@@ -5,18 +5,18 @@ export interface User {
   name: string;
   lName: string;
   phone: string;
-  image_url?: null;
+  image_url?: string | null;
 }
 
 export interface Data {
   user: User;
   token: string;
-  refreshToken: string;
-  expires_at: number;
+  refreshToken?: string;
+  expires_at?: number;
 }
 
 export interface RespFetch {
   ok: boolean;
-  data: Data | undefined;
+  data: Data | unknown | undefined;
   msg: string;
 }

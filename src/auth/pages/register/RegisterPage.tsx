@@ -6,7 +6,7 @@ import { FormInput } from '../../../components/formInput/FormInput';
 import { registerSchema, RegisterType } from './registerSchema';
 import { FormInputPhone } from '../../../components/formInputPhone/FormInputPhone';
 import { client } from '../../../supabase/Client';
-import { options } from '../../../../data/options';
+import { options } from '../../../data/options';
 import { useState } from 'react';
 import { fetchApi } from '../../../utils/fetchApi';
 
@@ -55,7 +55,7 @@ export const RegisterPage = () => {
       console.log('ON SUPABASE', authData);
       console.log('SUP_ID', authData.user?.user_metadata.sub);
 
-      const resp = fetchApi(
+      const resp = await fetchApi(
         '/api/v1/create',
         'POST',
         '',

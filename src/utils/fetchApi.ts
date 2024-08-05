@@ -1,4 +1,4 @@
-import { RespFetch } from './../../interfaces/respFetch';
+// import { RespFetch } from '../interfaces/respFetch';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
@@ -26,11 +26,11 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * // Example of fetching data
  * const getUsers = await fetchApi('/users');
  *
- * // Example of posting data
- * const login = await fetchApi('/login', 'POST', null, { name: 'John Doe' });
+ * // Example of uploading data
+ * const login = await fetchApi('/login', 'POST', '1', { name: 'John Doe' });
  *
  * // Example of posting data without token on register
- * const newUser = await fetchApi('/api/v1/auth/create', 'POST', null, { email: 'user@example.com' }, false);
+ * const newUser = await fetchApi('/api/v1/auth/create', 'POST', '', { email: 'user@example.com' }, false);
  * ```
  */
 export const fetchApi = async <T>(
@@ -39,14 +39,32 @@ export const fetchApi = async <T>(
   id?: string,
   data?: T,
   requireToken: boolean = true,
-): Promise<RespFetch> => {
+  withCredentials: boolean = false,
+): Promise<unknown> => {
+  const getCookie = (name: string) => {
+    const cookieString = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
+    return cookieString ? decodeURIComponent(cookieString.split('=')[1]) : null;
+  };
+
   const apiBaseUrl = import.meta.env.VITE_API_URL;
-  const accessToken = requireToken ? localStorage.getItem('access_token') : null;
+  const accessToken = requireToken ? localStorage.getItem('access_token_api') : null;
 
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
+
+    const credentialsOptions = {
+      method,
+      headers,
+    };
+
+    await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, credentialsOptions);
+
+    if (withCredentials) {
+      const xcsrfCookie = getCookie('XSRF-TOKEN');
+      headers['XSRF-TOKEN'] = `${xcsrfCookie}`;
+    }
 
     if (requireToken && accessToken) {
       headers['Authorization'] = `Bearer ${accessToken}`;
@@ -59,7 +77,7 @@ export const fetchApi = async <T>(
     };
 
     const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
-    // const response = await fetch('http://127.0.0.1:8000/api/v1/create', fetchOptions);
+    // const response = await fetch(`http://127.0.0.1:8000/api/v1/login`, fetchOptions);
 
     if (!response.ok) {
       throw new Error(
@@ -67,17 +85,13 @@ export const fetchApi = async <T>(
       );
     }
 
+    console.log(response.json());
+
     return response.json();
   } catch (error) {
     if (error instanceof Error) {
       console.error('THROW ERROR', error.message);
     }
-
-    return {
-      ok: false,
-      data: undefined,
-      msg: error instanceof Error ? error.message : 'An unknown error occurred',
-    };
   }
 };
 
