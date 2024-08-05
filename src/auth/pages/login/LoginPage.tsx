@@ -23,6 +23,10 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: 'dirij75152@maxturns.com',
+      password: '123B456$',
+    }
   });
 
   const { onLogin } = useAuth();
@@ -57,6 +61,7 @@ export const LoginPage = () => {
           supPass,
         },
         false,
+        true
       );
       console.log('ON MY BACKEND', resp);
 
