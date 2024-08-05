@@ -1,7 +1,7 @@
 import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavLink /* useNavigate */ } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { loginSchema, LoginType } from './loginSchema';
 import { client } from '../../../supabase/Client';
@@ -27,8 +27,6 @@ export const LoginPage = () => {
 
   const { onLogin } = useAuth();
 
-  // const navigate = useNavigate();
-
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
@@ -37,7 +35,7 @@ export const LoginPage = () => {
         email,
         password,
       });
-      console.log('ON SUPABASE', data);
+      // console.log('ON SUPABASE', data);
 
       if (error) {
         throw new Error(error.message);
@@ -50,22 +48,21 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      const resp = fetchApi(
+      const resp = await fetchApi(
         '/api/v1/login',
         'POST',
         '',
         {
-          supPass,
           supEmail,
+          supPass,
         },
         false,
       );
       console.log('ON MY BACKEND', resp);
 
+      // localStorage.setItem("access_token_api", resp?.data.token as string);
       onLogin(supEmail, supPass, 'user'); // Acá iría todo lo de `resp.data`
-      // navigate('/panel/user/usr', {
-      //   replace: true,
-      // });
+      // onLogin(resp.user.email, supPass, resp.user.role); // Acá iría todo lo de `resp.data`
     } catch (error) {
       if (error instanceof Error) {
         setLoginError(error.message);
