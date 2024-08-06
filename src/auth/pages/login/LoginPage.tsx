@@ -50,8 +50,8 @@ export const LoginPage = () => {
         'POST',
         '',
         {
-          supEmail,
-          supPass,
+          email: supEmail,
+          password: supPass,
         },
         false,
         true,
