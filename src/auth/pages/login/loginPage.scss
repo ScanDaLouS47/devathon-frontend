@@ -1,8 +1,6 @@
-@use '../../../scss/variables/variables' as var;
-
 .login {
-  height: calc(100dvh - var.$header-height);
-  padding: 1em;
+  height: 80dvh;
+  padding: 0 1em;
   display: grid;
   place-items: center;
 
