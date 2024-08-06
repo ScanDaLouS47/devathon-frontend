@@ -1,4 +1,13 @@
-// import { RespFetch, Data } from '../interfaces/respFetch';
+type SendPost = {
+  id?: number;
+  email: string;
+  role?: string;
+  name?: string;
+  lName?: string;
+  phone?: string;
+  password?: string;
+  image_url?: string | null;
+};
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
@@ -33,17 +42,16 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * const newUser = await fetchApi('/api/v1/auth/create', 'POST', '', { email: 'user@example.com' }, false);
  * ```
  */
-export const fetchApi = async <T>(
-  path?: string,
+export const fetchApi = async (
+  path: string,
   method: HttpMethod = 'GET',
   id?: string,
-  data?: T,
+  data?: SendPost,
   requireToken: boolean = true,
-  withCredentials: boolean = false
-): Promise<unknown> => {
+  withCredentials: boolean = false,
+) => {
   const getCookie = (name: string) => {
     const cookieString = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
-    console.log(document.cookie, 'COOKIE STRING');
     return cookieString ? decodeURIComponent(cookieString.split('=')[1]) : null;
   };
 
@@ -55,25 +63,25 @@ export const fetchApi = async <T>(
     const csrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
       method: 'GET',
       credentials: 'include',
-    });    
+    });
 
     if (!csrfResponse.ok) {
       throw new Error(`Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}`);
     }
 
     const headers: HeadersInit = {
-      'Content-Type': 'application/json'            
+      'Content-Type': 'application/json',
+      credentials: 'include',
     };
 
     if (withCredentials) {
       const xcsrfCookie = getCookie('XSRF-TOKEN');
       headers['XSRF-TOKEN'] = `${xcsrfCookie}`;
-      headers['Credentials'] = `include`;
     }
 
     if (requireToken && accessToken) {
       headers['Authorization'] = `Bearer ${accessToken}`;
-    }    
+    }
 
     const fetchOptions: RequestInit = {
       method,
@@ -81,24 +89,13 @@ export const fetchApi = async <T>(
       ...(data ? { body: JSON.stringify(data) } : null),
     };
 
-    console.log(fetchOptions, 'FECTH OPTIONS');
-
-    
-    // const response = await fetch(`${apiBaseUrl}${path}${id ? `/${id}` : ''}`, {
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'XSRF-TOKEN': 'null' },      
-      credentials: 'include',
-      body: '{"email":"dirij75152@maxturns.com","password":"f6b9ee3f-67cd-4f61-a7ef-c82b0de85660"}'
-    });    
-    // const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
-    // const response = await fetch(`http://127.0.0.1:8000/api/v1/login`, fetchOptions);
+    const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
 
     if (!response.ok) {
       throw new Error(
         `ON FETCHING API: ${response.status} ${response.statusText} (${response.type.toLocaleUpperCase()})`,
       );
-    }            
+    }
 
     return response.json();
   } catch (error) {

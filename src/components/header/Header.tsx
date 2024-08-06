@@ -1,12 +1,12 @@
-import styles from './header.module.scss';
 import React, { useEffect, useRef, useState } from 'react';
-import Logo from '../icons/Logo';
-import UserIcon from '../icons/UserIcon';
-import SettingsIcon from '../icons/SettingsIcon';
-import LogOutIcon from '../icons/LogOutIcon';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/hook/useAuth';
 import { fetchApi } from '../../utils/fetchApi';
+import LogOutIcon from '../icons/LogOutIcon';
+import { LogoV2 } from '../icons/LogoV2';
+import SettingsIcon from '../icons/SettingsIcon';
+import { UserIconV2 } from '../icons/UserIconV2';
+import styles from './header.module.scss';
 
 export const Header = React.forwardRef(() => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -16,6 +16,8 @@ export const Header = React.forwardRef(() => {
   const navigate = useNavigate();
   const { authState, onLogout } = useAuth();
   const { logged } = authState;
+
+  const profileClass = logged ? styles.headerv2__profile : styles.headerv2__profile__hidden;
 
   const handleOptionSelect = (option: string) => {
     setIsModalVisible(false);
@@ -54,44 +56,40 @@ export const Header = React.forwardRef(() => {
   }, []);
 
   return (
-    <header className={styles.header}>
-      <section className={styles.header__bg}>
-        <div className={`${styles.header__container}`}>
-          <div className={`${styles.header__logo} ${logged == false && styles.noLogged}`}>
-            <Logo width="15" />
+    <>
+      <header className={styles.headerv2}>
+        <div className={`${styles.headerv2__container} wrapper`}>
+          <LogoV2 className={styles.headerv2__logo} />
+
+          <div
+            className={profileClass}
+            onClick={toggleModal}
+            aria-expanded={isModalVisible}
+            ref={profileRef}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          >
+            <UserIconV2 className={styles.headerv2__icon} />
+
+            {isModalVisible && (
+              <div className={styles.headerv2__modal} ref={modalRef}>
+                <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
+                  <SettingsIcon width="1.5" color="rgb(146, 146, 146)" />
+                  <span>Settings</span>
+                </div>
+                <div
+                  className={`${styles.headerv2__option} ${styles.headerv2__logout}`}
+                  onClick={() => handleOptionSelect('logout')}
+                >
+                  <LogOutIcon width="1.5" color="rgb(146, 146, 146)" />
+                  <span>Log Out</span>
+                </div>
+              </div>
+            )}
           </div>
-
-          {logged && (
-            <div
-              className={`${styles.header__profile} ${isHover ? styles.hovered : ''}`}
-              onClick={toggleModal}
-              aria-expanded={isModalVisible}
-              ref={profileRef}
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-            >
-              <UserIcon width="2.25" color="rgb(146, 146, 146)" />
-            </div>
-          )}
-
-          {isModalVisible && (
-            <div className={styles.header__profile__modal} ref={modalRef}>
-              <div className={styles.header__profile__option} onClick={() => handleOptionSelect('settings')}>
-                <SettingsIcon width="1.5" color="rgb(146, 146, 146)" />
-                <span>Settings</span>
-              </div>
-              <div
-                className={`${styles.header__profile__option} ${styles.logout}`}
-                onClick={() => handleOptionSelect('logout')}
-              >
-                <LogOutIcon width="1.5" color="rgb(146, 146, 146)" />
-                <span>Log Out</span>
-              </div>
-            </div>
-          )}
         </div>
-      </section>
-    </header>
+      </header>
+    </>
   );
 });
 

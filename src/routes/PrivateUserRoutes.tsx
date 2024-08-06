@@ -18,7 +18,7 @@ export const PrivateUserRoutes = () => {
   }, []);
 
   return (
-    <section>
+    <section className="wrapper private">
       <h2>ASIDE</h2>
       <Outlet />
     </section>

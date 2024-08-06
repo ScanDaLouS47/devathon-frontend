@@ -17,9 +17,9 @@ export const PrivateRoute = () => {
   }, [authState.user?.role]);
 
   return (
-    <section>
+    <div className="wrapper private">
       <Aside />
       <Outlet />
-    </section>
+    </div>
   );
 };

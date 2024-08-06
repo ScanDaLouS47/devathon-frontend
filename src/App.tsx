@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify';
 import './App.scss';
 import { AuthProvider } from './auth/context/AuthProvider';
 import Header from './components/header/Header';
@@ -38,6 +39,7 @@ export const App = () => {
     <AuthProvider>
       <Header />
       <AppRouter />
+      <ToastContainer position="top-right" autoClose={1500} />
     </AuthProvider>
   );
 };

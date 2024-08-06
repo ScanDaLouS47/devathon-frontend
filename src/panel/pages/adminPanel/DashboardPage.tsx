@@ -1,6 +1,6 @@
 export const DashboardPage = () => {
   return (
-    <div>
+    <div className="page">
       <h1>DashboardPage</h1>
     </div>
   );

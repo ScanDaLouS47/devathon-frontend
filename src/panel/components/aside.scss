@@ -1,0 +1,40 @@
+.aside {
+  background-color: #fff;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  padding: 2rem 0;
+  border-radius: 0.4rem;
+  @media screen and (max-width: 768px) {
+    padding: 1rem 0;
+    border-radius: 0;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0;
+    }
+  }
+  &__link {
+    padding: 0.5rem 1rem;
+    color: rgb(146, 146, 146);
+    font-weight: 600;
+    font-size: clamp(1rem, 2vw, 1rem);
+
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+    @media screen and (max-width: 768px) {
+      padding: 0.5rem;
+    }
+  }
+}
+.active {
+  color: var(--orange);
+}
