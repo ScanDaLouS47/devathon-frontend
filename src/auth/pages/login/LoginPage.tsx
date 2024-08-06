@@ -19,7 +19,7 @@ export const LoginPage = () => {
     defaultValues: {
       email: 'dirij75152@maxturns.com',
       password: '123B456$',
-    }
+    },
   });
 
   const { onLogin } = useAuth();
@@ -50,18 +50,19 @@ export const LoginPage = () => {
         'POST',
         '',
         {
-          supEmail,
-          supPass,
+          email: supEmail,
+          password: supPass,
         },
         false,
-        true
+        true,
       );
+
       console.log('ON MY BACKEND', resp);
 
       //USER DATA TEST
       const user = {
         email: 'pepe@pepe.com',
-        role: 'admin',
+        role: 'user',
       };
 
       onLogin(user);

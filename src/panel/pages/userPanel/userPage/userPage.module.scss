@@ -1,8 +1,7 @@
-@use '../../../../scss/variables/variables' as var;
 @use '../../../../scss/functions/functions' as func;
 
 .user {
-  height: calc(100dvh - var.$header-height);
+  height: 80dvh;
 
   &__bg {
     display: flex;

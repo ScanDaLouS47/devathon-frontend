@@ -1,11 +1,23 @@
 import { NavLink } from 'react-router-dom';
+import './aside.scss';
 
 export const Aside = () => {
   return (
-    <div>
-      <NavLink to="/panel/admin/dashboard">dashboard</NavLink>
-      <NavLink to="/panel/admin/reservations">reservation</NavLink>
-      <NavLink to="/panel/admin/list-reservations">list-reservations</NavLink>
-    </div>
+    <aside className="aside">
+      <nav className="aside__nav">
+        <NavLink
+          className={({ isActive }) => `aside__link ${isActive ? 'active' : ''}`}
+          to="/panel/admin/dashboard"
+        >
+          Dashboard
+        </NavLink>
+        <NavLink className="aside__link" to="/panel/admin/reservations">
+          Reservation
+        </NavLink>
+        <NavLink className="aside__link" to="/panel/admin/list-reservations">
+          Reservations
+        </NavLink>
+      </nav>
+    </aside>
   );
 };
