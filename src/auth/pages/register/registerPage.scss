@@ -1,7 +1,5 @@
-@use '../../../scss/variables/variables' as var;
-
 .register {
-  height: calc(100dvh - var.$header-height);
+  height: 80dvh;
   padding: 1em;
   display: grid;
   place-items: center;
