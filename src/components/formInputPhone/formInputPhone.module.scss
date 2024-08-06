@@ -96,6 +96,7 @@
     -moz-border-radius: 0 0.3125rem;
     -ms-border-radius: 0 0.3125rem;
     -o-border-radius: 0 0.3125rem;
+
     &:hover {
       background-color: rgb(223, 223, 223);
     }
@@ -103,6 +104,16 @@
     &:focus {
       background-color: var(--gray-color);
       outline: none;
+    }
+
+    &__down:hover {
+      border-bottom-left-radius: 0.3125rem;
+      border-bottom-right-radius: 0.3125rem;
+    }
+
+    &__up:hover {
+      border-top-left-radius: 0.3125rem;
+      border-top-right-radius: 0.3125rem;
     }
   }
 

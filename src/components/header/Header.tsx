@@ -51,7 +51,7 @@ export const Header = React.forwardRef(() => {
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -74,14 +74,14 @@ export const Header = React.forwardRef(() => {
             {isModalVisible && (
               <div className={styles.headerv2__modal} ref={modalRef}>
                 <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
-                  <SettingsIcon width="1.5" color="rgb(146, 146, 146)" />
+                  <SettingsIcon width="1.5" color="var(--opaque-gray)" />
                   <span>Settings</span>
                 </div>
                 <div
                   className={`${styles.headerv2__option} ${styles.headerv2__logout}`}
                   onClick={() => handleOptionSelect('logout')}
                 >
-                  <LogOutIcon width="1.5" color="rgb(146, 146, 146)" />
+                  <LogOutIcon width="1.5" color="var(--opaque-gray)" />
                   <span>Log Out</span>
                 </div>
               </div>
