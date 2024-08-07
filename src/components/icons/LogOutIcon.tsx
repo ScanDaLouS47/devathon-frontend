@@ -1,12 +1,10 @@
 /**
  *
  * @param {Object} props - Properties for rendering component
- * @param {string} props.width - Size of component
  *
  * @returns {JSX.Element} Elemento | Estructura HTML
  */
-
-const LogOutIcon = ({ width, color }: { width: string; color?: string }): JSX.Element => {
+const LogOutIcon = (props: React.SVGProps<SVGSVGElement>): JSX.Element => {
   return (
     <>
       <svg
@@ -14,7 +12,7 @@ const LogOutIcon = ({ width, color }: { width: string; color?: string }): JSX.El
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512.000000 512.000000"
         preserveAspectRatio="xMidYMid meet"
-        style={{ width: `${width}rem`, color: `${color}`, height: `auto` }}
+        {...props}
       >
         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
           <path

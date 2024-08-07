@@ -1,20 +1,18 @@
 /**
  *
  * @param {Object} props - Properties for rendering component
- * @param {string} props.width - Size of component
  *
  * @returns {JSX.Element} Elemento | Estructura HTML
  */
-
-const SettingsIcon = ({ width, color }: { width: string; color?: string }): JSX.Element => {
+const SettingsIcon = (props: React.SVGProps<SVGSVGElement>): JSX.Element => {
   return (
     <>
       <svg
         version="1.0"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ width: `${width}rem`, color: `${color}`, height: `auto` }}
         viewBox="0 0 512.000000 512.000000"
         preserveAspectRatio="xMidYMid meet"
+        {...props}
       >
         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
           <path

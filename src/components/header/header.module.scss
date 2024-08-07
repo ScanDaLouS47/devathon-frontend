@@ -64,13 +64,18 @@
     font-weight: 600;
     transition: all 0.3s ease;
     user-select: none;
-
+    
     span {
       color: var(--dark-gray);
     }
-
+    
     &:hover {
       background-color: var(--light-gray);
+    }
+    
+    &__icon {
+      width: 1.5rem;
+      color: var(--opaque-gray);
     }
   }
 
