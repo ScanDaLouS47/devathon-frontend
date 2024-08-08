@@ -67,14 +67,18 @@ export const Header = React.forwardRef(() => {
             {!isModalVisible && (
               <div className={styles.headerv2__modal} ref={modalRef}>
                 <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
-                  <SettingsIcon className={styles.headerv2__option__icon} />
+                  <SettingsIcon
+                    className={`${styles.headerv2__option__icon} ${styles.headerv2__option__icon__up}`}
+                  />
                   <span>Settings</span>
                 </div>
                 <div
                   className={`${styles.headerv2__option} ${styles.headerv2__logout}`}
                   onClick={() => handleOptionSelect('logout')}
                 >
-                  <LogOutIcon className={styles.headerv2__option__icon} />
+                  <LogOutIcon
+                    className={`${styles.headerv2__option__icon} ${styles.headerv2__option__icon__down}`}
+                  />
                   <span>Log Out</span>
                 </div>
               </div>

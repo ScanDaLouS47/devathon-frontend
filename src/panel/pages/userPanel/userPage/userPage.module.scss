@@ -11,7 +11,7 @@
     height: 100%;
     background: inherit;
     box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
-    background-color: white;
+    background-color: var(--white);
     border-radius: 0.3125rem;
     -webkit-border-radius: 0.3125rem;
     -moz-border-radius: 0.3125rem;
@@ -77,7 +77,7 @@
     }
 
     &.hovered::before {
-      border-color: var(--light-gray);
+      border-color: var(--hover-avt-opt);
     }
   }
 
@@ -89,7 +89,7 @@
     width: 100%;
     z-index: 3;
     box-shadow: 1px 1px func.pxToRem(7) func.pxToRem(3) rgba(0, 0, 0, 0.3);
-    background-color: white;
+    background-color: var(--white);
     border-radius: 0.3125rem;
     -webkit-border-radius: 0.3125rem;
     -moz-border-radius: 0.3125rem;
