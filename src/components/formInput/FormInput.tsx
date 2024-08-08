@@ -37,7 +37,11 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
               className="row__toggleButton"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
-              {showPassword ? <ShowPassword width="21" /> : <HidePassword width="21" />}
+              {showPassword ? (
+                <ShowPassword className="row__toggleButton__icon" />
+              ) : (
+                <HidePassword className="row__toggleButton__icon" />
+              )}
             </button>
           )}
 

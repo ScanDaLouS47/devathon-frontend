@@ -10,11 +10,13 @@
     justify-content: space-between;
     align-items: center;
   }
+
   &__logo {
     width: 15rem;
     border-radius: 0.4rem;
     color: var(--orange);
   }
+
   &__profile {
     background-color: transparent;
     padding: 0.5rem;
@@ -27,44 +29,45 @@
       background-color: var(--black);
     }
   }
+
   &__profile__hidden {
     display: none;
   }
+
   &__icon {
     width: 3rem;
     padding: 0.3em;
     border-radius: 50%;
-    color: var(--black);
-    background-color: var(--orange);
+    color: rgb(146, 146, 146);
+    background-color: #fff;
   }
-  &__modal {
-    border-radius: 0.3rem;
-    position: absolute;
-    bottom: -4rem;
-    right: 1rem;
-    background-color: var(--white);
-    color: var(--black);
-    font-weight: 600;
 
-    box-shadow: var(--box-shadow);
+  &__modal {
+    position: absolute;
+    bottom: -4.4rem;
+    right: 1rem;
+    background-color: #fff;
+
+    box-shadow: 1px 1px func.pxToRem(7) func.pxToRem(3) rgba(0, 0, 0, 0.3);
   }
+
   &__option {
     width: 100%;
     padding: 0.3em 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-
+    font-weight: 600;
     transition: all 0.3s ease;
     user-select: none;
+
+    span {
+      color: var(--dark-gray);
+    }
 
     &:hover {
       background-color: var(--light-gray);
     }
-  }
-  &__option__icon {
-    width: 1.2rem;
-    color: var(--black);
   }
   &__logout {
     &:hover {

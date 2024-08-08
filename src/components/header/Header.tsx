@@ -10,11 +10,11 @@ import styles from './header.module.scss';
 
 export const Header = React.forwardRef(() => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [isHover, setIsHover] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { authState, onLogout } = useAuth();
+  // ToDo: Apply visual changes when the user is authenticated or not (change space-between for center, for example)
   const { logged } = authState;
 
   const profileClass = logged ? styles.headerv2__profile : styles.headerv2__profile__hidden;
@@ -51,7 +51,7 @@ export const Header = React.forwardRef(() => {
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -61,14 +61,7 @@ export const Header = React.forwardRef(() => {
         <div className={`${styles.headerv2__container} wrapper`}>
           <LogoV2 className={styles.headerv2__logo} />
 
-          <div
-            className={profileClass}
-            onClick={toggleModal}
-            aria-expanded={isModalVisible}
-            ref={profileRef}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-          >
+          <div className={profileClass} onClick={toggleModal} aria-expanded={isModalVisible} ref={profileRef}>
             <UserIconV2 className={styles.headerv2__icon} />
 
             {isModalVisible && (

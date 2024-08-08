@@ -30,6 +30,11 @@
 
   &__toggleButton {
     margin-right: 0.5rem;
+
+    &__icon {
+      width: 1.1rem;
+      height: auto;
+    }
   }
 
   &__icon {
