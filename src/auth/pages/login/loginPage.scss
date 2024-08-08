@@ -12,9 +12,10 @@
     width: 100%;
     max-width: 33.125rem;
     padding: 2em;
-    background-color: #fff;
+
     border-radius: 0.3em;
-    box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
 
     display: flex;
     flex-direction: column;
@@ -42,8 +43,9 @@
     padding: 0.5em 1.3em;
     border-radius: 0.3em;
     font-weight: 600;
-    background-color: var(--black);
-    color: var(--orange);
+    background-color: var(--btn-bg) !important;
+    color: var(--btn-color) !important;
+
     cursor: pointer;
   }
 }
