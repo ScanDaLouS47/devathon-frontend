@@ -1,22 +1,24 @@
 import { NavLink } from 'react-router-dom';
+import { Link } from '../../interfaces/link.interface';
 import './aside.scss';
 
-export const Aside = () => {
+type AsideProps = {
+  links: Link[];
+};
+
+export const Aside = ({ links }: AsideProps) => {
   return (
     <aside className="aside">
       <nav className="aside__nav">
-        <NavLink
-          className={({ isActive }) => `aside__link ${isActive ? 'active' : ''}`}
-          to="/panel/admin/dashboard"
-        >
-          Dashboard
-        </NavLink>
-        <NavLink className="aside__link" to="/panel/admin/reservations">
-          Reservation
-        </NavLink>
-        <NavLink className="aside__link" to="/panel/admin/list-reservations">
-          Reservations
-        </NavLink>
+        {links.map((link) => (
+          <NavLink
+            key={link.name}
+            className={({ isActive }) => `aside__link ${isActive ? 'active' : ''}`}
+            to={link.path}
+          >
+            {link.name}
+          </NavLink>
+        ))}
       </nav>
     </aside>
   );
