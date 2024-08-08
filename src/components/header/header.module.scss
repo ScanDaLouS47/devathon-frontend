@@ -1,8 +1,6 @@
 @use '../../scss/functions/functions' as func;
-
 .headerv2 {
-  box-shadow: var(--box-shadow);
-
+  box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
   padding: 1rem;
 
   &__container {
@@ -22,11 +20,9 @@
     padding: 0.5rem;
     border-radius: 50%;
     position: relative;
-
     transition: all 0.3s ease;
-
     &:hover {
-      background-color: var(--black);
+      background-color: var(--light-gray);
     }
   }
 
@@ -38,17 +34,22 @@
     width: 3rem;
     padding: 0.3em;
     border-radius: 50%;
-    color: rgb(146, 146, 146);
+    color: var(--opaque-gray);
     background-color: #fff;
   }
 
   &__modal {
     position: absolute;
-    bottom: -4.4rem;
-    right: 1rem;
+    bottom: -3.7rem;
+    right: 2rem;
+    z-index: 3;
     background-color: #fff;
-
     box-shadow: 1px 1px func.pxToRem(7) func.pxToRem(3) rgba(0, 0, 0, 0.3);
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
   }
 
   &__option {
@@ -68,10 +69,23 @@
     &:hover {
       background-color: var(--light-gray);
     }
+
+    &__icon {
+      width: 1.5rem;
+      color: var(--opaque-gray);
+    }
   }
-  &__logout {
-    &:hover {
-      color: red;
+
+  @media (hover: hover) {
+    &__logout:hover {
+      border-bottom-left-radius: 0.3125rem;
+      border-bottom-right-radius: 0.3125rem;
+      span {
+        color: var(--logout);
+      }
+      svg {
+        fill: var(--logout);
+      }
     }
   }
 }

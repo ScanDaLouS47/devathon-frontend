@@ -48,10 +48,10 @@ export const Header = React.forwardRef(() => {
         setIsModalVisible(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mouseout', handleClickOutside);
 
     return () => {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mouseout', handleClickOutside);
     };
   }, []);
 
@@ -64,7 +64,7 @@ export const Header = React.forwardRef(() => {
           <div className={profileClass} onClick={toggleModal} aria-expanded={isModalVisible} ref={profileRef}>
             <UserIconV2 className={styles.headerv2__icon} />
 
-            {isModalVisible && (
+            {!isModalVisible && (
               <div className={styles.headerv2__modal} ref={modalRef}>
                 <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
                   <SettingsIcon className={styles.headerv2__option__icon} />

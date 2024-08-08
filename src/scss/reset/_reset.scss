@@ -16,14 +16,14 @@
 
 :root {
   /* Colores */
-  --black: #0e0e11;
-  --white: #f2f4f3;
-  --orange: #f7b152;
+  --black: rgb(14, 14, 17);
+  --white: rgb(243, 243, 243);
+  --semi-white: rgb(223, 223, 223);
 
-  --btn-bg: #0e0e11;
-  --btn-color: #f7b152;
+  --btn-bg: rgb(14, 14, 17);
+  --btn-color: rgb(247, 177, 82);
+
   --black: rgb(43, 43, 43);
-  --semi-white: rgb(243, 243, 243);
   --orange: rgb(245, 153, 48);
   --light-gray: rgb(211, 211, 211);
   --gray-color: rgb(183, 183, 183);
@@ -39,14 +39,15 @@
   --tipo-principal: 'Poppins', Helvetica, Arial, sans-serif;
   --tipo-secundaria: Verdana;
 }
+
 // @media (prefers-color-scheme: dark) {
 //   :root {
-//     --black: #f2f4f3;
-//     --white: #0e0e11;
+//     --black: rgb(243, 243, 243);
+//     --white: rgb(14, 14, 17);
 //     --box-shadow: 0 0 0.625rem rgba(255, 255, 255, 0.1);
 
-//     --btn-bg: #f7b152;
-//     --btn-color: #0e0e11;
+//     --btn-bg: rgb(247, 177, 82);
+//     --btn-color: rgb(14, 14, 17);
 //   }
 // }
 
