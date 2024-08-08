@@ -42,24 +42,24 @@
   --tipo-secundaria: Verdana;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --black: rgb(223, 223, 223);
-    --white: rgb(43, 43, 43);
-    --smoke-white: rgb(14, 14, 17);
-    --box-shadow: 0 0 0.625rem rgba(255, 255, 255, 0.1);
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --black: rgb(223, 223, 223);
+//     --white: rgb(43, 43, 43);
+//     --smoke-white: rgb(14, 14, 17);
+//     --box-shadow: 0 0 0.625rem rgba(255, 255, 255, 0.1);
     
-    --hover-avt-opt: rgb(250, 208, 141);
+//     --hover-avt-opt: rgb(250, 208, 141);
 
-    --btn-bg: rgb(247, 177, 82);
-    --btn-color: rgb(14, 14, 17);
+//     --btn-bg: rgb(247, 177, 82);
+//     --btn-color: rgb(14, 14, 17);
 
-    --orange: rgb(245, 153, 48);
-    --light-orange: rgb(247, 177, 82);
+//     --orange: rgb(245, 153, 48);
+//     --light-orange: rgb(247, 177, 82);
     
-    --opaque-gray: rgb(170, 170, 170);
-  }
-}
+//     --opaque-gray: rgb(170, 170, 170);
+//   }
+// }
 
 *,
 *::before,

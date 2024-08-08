@@ -22,6 +22,7 @@
     border-radius: 50%;
     position: relative;
     transition: all 0.3s ease;
+
     &:hover {
       background-color: var(--hover-avt-opt);
     }
@@ -51,6 +52,7 @@
     -moz-border-radius: 0.3125rem;
     -ms-border-radius: 0.3125rem;
     -o-border-radius: 0.3125rem;
+    overflow: hidden;
   }
 
   &__option {
@@ -97,6 +99,7 @@
       -moz-transition: all 0.3s ease;
       -ms-transition: all 0.3s ease;
       -o-transition: all 0.3s ease;
+
       span {
         color: var(--logout);
       }
