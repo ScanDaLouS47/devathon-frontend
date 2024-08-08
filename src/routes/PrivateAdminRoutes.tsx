@@ -9,7 +9,7 @@ const links: Link[] = [
   { path: '/panel/admin/list-reservations', name: 'Reservations' },
 ];
 
-export const PrivateRoute = () => {
+export const PrivateAdminRoute = () => {
   const { authState } = useAuth();
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export const PrivateRoute = () => {
       return;
     }
     if (authState.user?.role !== 'admin') navigate('/panel/user');
-  }, [authState.user?.role]);
+  }, [authState.logged, authState.user?.role, navigate]);
 
   return (
     <div className="wrapper private">
