@@ -1,0 +1,16 @@
+.event {
+  padding: 0.5rem;
+}
+
+.full,
+.available {
+  width: 100%;
+  color: #fff;
+}
+.full {
+  color: #222;
+  background-color: #b0b0b0;
+}
+.available {
+  background-color: #126912;
+}

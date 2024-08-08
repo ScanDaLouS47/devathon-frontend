@@ -74,7 +74,7 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             <div className={`${styles.row__options}`} ref={dropdownRef}>
               {options.map((element, index) => (
                 <div
-                  className={`${styles.row__option}`}
+                  className={`${styles.row__option}  ${index === 0 && styles.row__option__up} ${index === options.length - 1 && styles.row__option__down}`}
                   key={index}
                   onClick={() => handleOptionSelect(element)}
                 >

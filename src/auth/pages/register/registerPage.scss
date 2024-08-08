@@ -13,9 +13,9 @@
     width: 100%;
     max-width: 33.125rem;
     padding: 2em;
-    background-color: #fff;
     border-radius: 0.3em;
-    box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
     display: flex;
     flex-direction: column;
     row-gap: 1.5em;

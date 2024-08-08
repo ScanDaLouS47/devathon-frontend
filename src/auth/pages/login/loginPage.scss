@@ -12,14 +12,16 @@
     width: 100%;
     max-width: 33.125rem;
     padding: 2em;
-    background-color: #fff;
+
     border-radius: 0.3em;
-    box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
 
     display: flex;
     flex-direction: column;
     row-gap: 1.5em;
   }
+
   &__register {
     font-weight: 600;
     color: var(--orange);
@@ -29,6 +31,48 @@
     padding: 0.5em 0;
     display: flex;
     justify-content: space-between;
+  }
+
+  &__otherLogins {
+    width: 100%;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__labelLogins {
+    font-weight: 600;
+    color: var(--opaque-gray);
+  }
+
+  &__btn__google {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    // gap: 0.7rem;
+    // padding: 0.3125rem;
+
+    &Icon {
+      width: 1.3rem;
+      height: auto;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transition: all 0.2s ease;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+      }
+    }
   }
 }
 
@@ -42,8 +86,9 @@
     padding: 0.5em 1.3em;
     border-radius: 0.3em;
     font-weight: 600;
-    background-color: var(--black);
-    color: var(--orange);
+    background-color: var(--btn-bg) !important;
+    color: var(--btn-color) !important;
+
     cursor: pointer;
   }
 }

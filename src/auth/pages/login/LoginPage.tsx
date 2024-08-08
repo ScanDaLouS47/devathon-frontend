@@ -8,6 +8,7 @@ import { fetchApi } from '../../../utils/fetchApi';
 import { useAuth } from '../../hook/useAuth';
 import './loginPage.scss';
 import { loginSchema, LoginType } from './loginSchema';
+import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 
 export const LoginPage = () => {
   const {
@@ -134,9 +135,14 @@ export const LoginPage = () => {
             Sign In
           </button>
         </form>
-        <button className="form__btn" type="button" onClick={handleLoginGoogle}>
-          Google
-        </button>
+
+        <div className="login__otherLogins">
+          <span className="login__labelLogins">— O inicia sesión con —</span>
+          <button className="login__btn__google" type="button" onClick={handleLoginGoogle}>
+            <GoogleIcon className="login__btn__googleIcon" />
+          </button>
+        </div>
+
         <div className="login__btns">
           <NavLink className="login__register" to={'/auth/forgot-pass'}>
             Forgot Password?
