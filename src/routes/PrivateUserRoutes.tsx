@@ -22,7 +22,7 @@ export const PrivateUserRoutes = () => {
       return;
     }
     if (authState.user?.role !== 'user') navigate('/panel/admin');
-  }, [authState.user?.role]);
+  }, [authState.logged, authState.user?.role, navigate]);
 
   return (
     <section className="wrapper private">
