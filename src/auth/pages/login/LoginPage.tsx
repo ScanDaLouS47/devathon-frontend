@@ -63,7 +63,7 @@ export const LoginPage = () => {
       //USER DATA TEST
       const user = {
         email: 'pepe@pepe.com',
-        role: 'admin',
+        role: 'user',
       };
 
       onLogin(user);

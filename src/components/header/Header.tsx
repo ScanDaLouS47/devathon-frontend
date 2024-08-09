@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/hook/useAuth';
 import { fetchApi } from '../../utils/fetchApi';
 import LogOutIcon from '../icons/LogOutIcon';
-import { LogoV2 } from '../icons/LogoV2';
+// import { LogoV2 } from '../icons/LogoV2';
 import SettingsIcon from '../icons/SettingsIcon';
 import { UserIconV2 } from '../icons/UserIconV2';
 import styles from './header.module.scss';
