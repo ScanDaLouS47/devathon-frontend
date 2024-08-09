@@ -85,13 +85,14 @@
     align-items: center;
     gap: 0.3rem;
     padding: func.pxToRem(8);
-    transition: background-color 0.2s;
-    -webkit-transition: background-color 0.2s;
-    -moz-transition: background-color 0.2s;
-    -ms-transition: background-color 0.2s;
-    -o-transition: background-color 0.2s;
+    transition: background-color 0.3s ease;
+    -webkit-transition: background-color 0.3s ease;
+    -moz-transition: background-color 0.3s ease;
+    -ms-transition: background-color 0.3s ease;
+    -o-transition: background-color 0.3s ease;
     cursor: pointer;
     color: var(--opaque-gray);
+    font-weight: 600;
     border-radius: 0 0.3125rem;
     -webkit-border-radius: 0 0.3125rem;
     -moz-border-radius: 0 0.3125rem;
@@ -106,16 +107,6 @@
     &:focus {
       background-color: var(--gray-color);
       outline: none;
-    }
-
-    &__down:hover {
-      border-bottom-left-radius: 0.3125rem;
-      border-bottom-right-radius: 0.3125rem;
-    }
-
-    &__up:hover {
-      border-top-left-radius: 0.3125rem;
-      border-top-right-radius: 0.3125rem;
     }
   }
 

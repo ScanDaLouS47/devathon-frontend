@@ -8,6 +8,7 @@ import SettingsIcon from '../icons/SettingsIcon';
 import { UserIconV2 } from '../icons/UserIconV2';
 import styles from './header.module.scss';
 import Logo from '../icons/Logo';
+import { ThemeSwitcher } from '../themeSwitcher/ThemeSwitcher';
 
 export const Header = React.forwardRef(() => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -62,6 +63,8 @@ export const Header = React.forwardRef(() => {
         <div className={`${styles.headerv2__container} ${headerClass} wrapper`}>
           {/* <LogoV2 className={styles.headerv2__logo} /> */}
           <Logo className={styles.headerv2__logo} />
+
+          <ThemeSwitcher />
 
           <div className={profileClass} onClick={toggleModal} aria-expanded={isModalVisible} ref={profileRef}>
             <UserIconV2 className={styles.headerv2__icon} />
