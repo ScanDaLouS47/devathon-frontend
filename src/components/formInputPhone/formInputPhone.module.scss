@@ -1,0 +1,145 @@
+@use '../../scss/functions/functions' as func;
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.2rem;
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__container {
+    position: relative;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+  }
+
+  &__error {
+    border-color: var(--error);
+    color: var(--error);
+  }
+
+  &__select {
+    width: 15%;
+    outline: 0.125rem solid transparent;
+    margin: 0.3rem 0.5rem;
+    background-color: transparent;
+    color: var(--gray-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.125rem;
+
+    &::placeholder {
+      color: var(--gray-color);
+    }
+  }
+
+  &__selectedImage {
+    width: func.pxToRem(24);
+    max-width: func.pxToRem(24);
+    height: func.pxToRem(24);
+    max-height: func.pxToRem(24);
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 10%);
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__options {
+    position: absolute;
+    top: 3.5rem;
+    left: 1.5rem;
+    max-width: 9rem;
+    width: 100%;
+    z-index: 3;
+    box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
+    background-color: var(--white);
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+    overflow: hidden;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: func.pxToRem(8);
+    transition: background-color 0.3s ease;
+    -webkit-transition: background-color 0.3s ease;
+    -moz-transition: background-color 0.3s ease;
+    -ms-transition: background-color 0.3s ease;
+    -o-transition: background-color 0.3s ease;
+    cursor: pointer;
+    color: var(--opaque-gray);
+    font-weight: 600;
+    border-radius: 0 0.3125rem;
+    -webkit-border-radius: 0 0.3125rem;
+    -moz-border-radius: 0 0.3125rem;
+    -ms-border-radius: 0 0.3125rem;
+    -o-border-radius: 0 0.3125rem;
+
+    &:hover {
+      background-color: var(--hover-avt-opt);
+      color: var(--dark-gray);
+    }
+
+    &:focus {
+      background-color: var(--gray-color);
+      outline: none;
+    }
+  }
+
+  &__optionImage {
+    width: func.pxToRem(24);
+    height: func.pxToRem(24);
+    margin-right: func.pxToRem(8);
+    object-fit: cover;
+    border-radius: 10%;
+    -webkit-border-radius: 10%;
+    -moz-border-radius: 10%;
+    -ms-border-radius: 10%;
+    -o-border-radius: 10%;
+  }
+
+  &__icon {
+    color: var(--error);
+    width: 1rem;
+  }
+
+  &__message {
+    height: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+    color: var(--error);
+  }
+}
+
+@media (width <= 450px) {
+  .row {
+    &__options {
+      left: 0;
+    }
+  }
+}

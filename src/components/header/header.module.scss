@@ -1,0 +1,139 @@
+@use '../../scss/functions/functions' as func;
+.headerv2 {
+  box-shadow: var(--box-shadow);
+  padding: 1rem;
+  background-color: var(--white);
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__centered {
+    justify-content: center;
+  }
+
+  &__logo {
+    width: 16rem;
+    border-radius: 0.4rem;
+    color: var(--orange);
+  }
+
+  &__profile {
+    background-color: transparent;
+    padding: 0.5rem;
+    border-radius: 50%;
+    position: relative;
+
+    &:hover {
+      background-color: var(--hover-avt-opt);
+      transition: all 0.7s ease;
+      -webkit-transition: all 0.7s ease;
+      -moz-transition: all 0.7s ease;
+      -ms-transition: all 0.7s ease;
+      -o-transition: all 0.7s ease;
+    }
+  }
+
+  &__profile__hidden {
+    display: none;
+  }
+
+  &__icon {
+    width: 3rem;
+    padding: 0.3em;
+    border-radius: 50%;
+    color: var(--opaque-gray);
+    background-color: var(--white);
+  }
+
+  &__modal {
+    position: absolute;
+    bottom: -3.3rem;
+    right: 1.9rem;
+    z-index: 3;
+    background-color: var(--white);
+    box-shadow: 1px 1px func.pxToRem(7) func.pxToRem(3) rgba(0, 0, 0, 0.3);
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+    overflow: hidden;
+  }
+
+  &__option {
+    width: 100%;
+    padding: 0.3em 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    user-select: none;
+
+    span {
+      color: var(--opaque-gray);
+    }
+
+    &__icon {
+      width: 1.5rem;
+      color: var(--opaque-gray);
+    }
+  }
+
+  @media (hover: hover) {
+    &__option:hover {
+      background-color: var(--hover-avt-opt);
+      transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+
+      span {
+        color: var(--dark-gray);
+      }
+
+      .headerv2__option__icon {
+        fill: var(--dark-gray);
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    &__logout:hover {
+      transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+
+      span {
+        color: var(--logout);
+      }
+
+      .headerv2__option__icon {
+        fill: var(--logout);
+      }
+    }
+  }
+}
+
+@media (width <= 450px) {
+  .headerv2 {
+    &__logo {
+      width: 10rem;
+    }
+
+    &__option {
+      span {
+        font-size: 1.2rem;
+      }
+
+      &__icon {
+        width: 1.6rem;
+      }
+    }
+  }
+}

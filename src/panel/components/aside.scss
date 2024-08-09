@@ -1,0 +1,60 @@
+.aside {
+  background-color: var(--white);
+  box-shadow: var(--box-shadow);
+  padding: 2rem 0;
+  border-radius: 0.4rem;
+  @media screen and (max-width: 768px) {
+    padding: 1rem 0;
+    border-radius: 0;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0;
+    }
+  }
+
+  &__link {
+    padding: 0.5rem 1rem;
+    color: var(--orange);
+    font-weight: 600;
+    font-size: clamp(1rem, 2vw, 1rem);
+
+    &:hover {
+      background-color: var(--hover-avt-opt);
+      color: var(--dark-gray);
+      transition: all 0.7s ease;
+      -webkit-transition: all 0.7s ease;
+      -moz-transition: all 0.7s ease;
+      -ms-transition: all 0.7s ease;
+      -o-transition: all 0.7s ease;
+}
+    @media screen and (max-width: 768px) {
+      padding: 0.5rem;
+    }
+  }
+}
+
+.active {
+  color: var(--dark-gray);
+  background-color: var(--light-orange);
+}
+
+@media (width <= 450px) {
+  .aside {
+    &__link {
+      font-size: 1.1rem;
+      border-radius: 0.3125rem;
+      -webkit-border-radius: 0.3125rem;
+      -moz-border-radius: 0.3125rem;
+      -ms-border-radius: 0.3125rem;
+      -o-border-radius: 0.3125rem;
+}
+  }
+}

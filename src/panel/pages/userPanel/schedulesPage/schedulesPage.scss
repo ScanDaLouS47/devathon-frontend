@@ -1,0 +1,21 @@
+.schedulesPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.calendar {
+  width: 100%;
+  max-width: 60em;
+  background-color: var(--white);
+  padding: 1rem;
+  box-shadow: var(--box-shadow);
+  border-radius: 0.3125rem;
+  -webkit-border-radius: 0.3125rem;
+  -moz-border-radius: 0.3125rem;
+  -ms-border-radius: 0.3125rem;
+  -o-border-radius: 0.3125rem;
+}
+.fc-button-primary {
+  background: var(--btn-bg) !important; // ToDo: Esto se puede modificar?
+  color: var(--btn-color) !important;
+}

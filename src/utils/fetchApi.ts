@@ -1,0 +1,118 @@
+type SendPost = {
+  id?: number;
+  email: string;
+  role?: string;
+  name?: string;
+  lName?: string;
+  phone?: string;
+  password?: string;
+  image_url?: string | null;
+};
+
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+/**
+ * Function to perform an API request to a specified HTTP endpoint.
+ *
+ * @param path - The endpoint path of the API request.
+ *               For example, to request data from 'https://example.com/api/users',
+ *               pass 'users' as the path.
+ * @param method - The HTTP method for the request. It can be one of the following:
+ *                 'GET', 'POST', 'PUT', 'PATCH', or 'DELETE'. Defaults to 'GET'.
+ * @param id - An optional identifier to be appended to the endpoint URL.
+ *             If provided, it will be added as a path parameter.
+ *             For example, 'users/123'.
+ * @param data - The data payload to send with the request. This is used only
+ *               for methods like 'POST', 'PUT', and 'PATCH' that require a request body.
+ *               It will be converted to a JSON string and included in the request body.
+ * @param requireToken - A boolean indicating whether an access token is required for the request.
+ * @returns A promise that resolves to the JSON response from the API.
+ *
+ * @template T - The type of the data payload for requests with a body. This allows
+ *               the function to handle different types of request data.
+ *
+ * @example
+ * ```
+ * // Example of fetching data
+ * const getUsers = await fetchApi('/users');
+ *
+ * // Example of uploading data
+ * const login = await fetchApi('/login', 'POST', '1', { name: 'John Doe' });
+ *
+ * // Example of posting data without token on register
+ * const newUser = await fetchApi('/api/v1/auth/create', 'POST', '', { email: 'user@example.com' }, false);
+ * ```
+ */
+export const fetchApi = async (
+  path: string,
+  method: HttpMethod = 'GET',
+  id?: string,
+  data?: SendPost,
+  requireToken: boolean = true,
+  withCredentials: boolean = false,
+) => {
+  const getCookie = (name: string) => {
+    const cookieString = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
+    return cookieString ? decodeURIComponent(cookieString.split('=')[1]) : null;
+  };
+
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+  const accessToken = requireToken ? localStorage.getItem('access_token_api') : null;
+
+  try {
+    // xsrf token
+    const csrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!csrfResponse.ok) {
+      throw new Error(`Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}`);
+    }
+
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      credentials: 'include',
+    };
+
+    if (withCredentials) {
+      const xcsrfCookie = getCookie('XSRF-TOKEN');
+      headers['XSRF-TOKEN'] = `${xcsrfCookie}`;
+    }
+
+    if (requireToken && accessToken) {
+      headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    const fetchOptions: RequestInit = {
+      method,
+      headers,
+      ...(data ? { body: JSON.stringify(data) } : null),
+    };
+
+    const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
+
+    if (!response.ok) {
+      throw new Error(
+        `ON FETCHING API: ${response.status} ${response.statusText} (${response.type.toLocaleUpperCase()})`,
+      );
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('THROW ERROR', error.message);
+    }
+  }
+};
+
+/**
+ *
+ * VITE_API_URL + /api/v1/create => POST
+ * VITE_API_URL + /api/v1/login => POST
+ * VITE_API_URL + /api/v1/user/profile => GET (only for user)
+ * VITE_API_URL + /api/v1/user => GET (all users)
+ * VITE_API_URL + /api/v1/user/show/{id} => GET (only for admin betById)
+ * VITE_API_URL + /api/v1/logout => GET
+ * VITE_API_URL + /api/v1/user/update => PUT
+ *
+ */

@@ -1,1 +1,20 @@
 @use './scss/reset/reset';
+@use './scss/functions/functions' as func;
+
+.wrapper {
+  max-width: func.pxToRem(1400);
+  margin-left: auto;
+  margin-right: auto;
+}
+.private {
+  padding: 1rem;
+  height: calc(100vh - 6rem);
+
+  display: grid;
+  grid-template-columns: 10.625rem auto;
+  gap: 2rem;
+
+  @media screen and (max-width: 768px) {
+    display: initial;
+  }
+}

@@ -1,31 +1,45 @@
-import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import './App.scss';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { AuthProvider } from './auth/context/AuthProvider';
+import Header from './components/header/Header';
+import { AppRouter } from './routes/AppRouter';
+// import { useEffect } from 'react';
+// import { client } from './supabase/Client';
 
-function App() {
-  const [count, setCount] = useState(0);
+export const App = () => {
+  // useEffect(() => {
+  //   client.auth.onAuthStateChange((event, session) => {
+  // (!session) ? navigate('/') : navigate('/home');
+
+  // if (event === 'INITIAL_SESSION') {
+  //   // handle initial session
+  //   console.log(event);
+  // } else if (event === 'SIGNED_IN') {
+  //   // handle sign in event
+  //   console.log(event);
+  // } else if (event === 'SIGNED_OUT') {
+  //   // handle sign out event
+  //   console.log(event);
+  // } else if (event === 'PASSWORD_RECOVERY') {
+  //   // handle password recovery event
+  //   console.log(event);
+  // } else if (event === 'TOKEN_REFRESHED') {
+  //   // handle token refreshed event
+  //   console.log(event);
+  // } else if (event === 'USER_UPDATED') {
+  //   // handle user updated event
+  //   console.log(event);
+  // }
+
+  //     console.log(session, 'SESSION OBJECT');
+  //   });
+  // }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <AuthProvider>
+      <Header />
+      <AppRouter />
+      <ToastContainer position="top-right" autoClose={1500} />
+    </AuthProvider>
   );
-}
-
-export default App;
+};
