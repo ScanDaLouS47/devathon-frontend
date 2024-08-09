@@ -19,6 +19,7 @@
       gap: 0;
     }
   }
+
   &__link {
     padding: 0.5rem 1rem;
     color: var(--orange);
@@ -39,7 +40,21 @@
     }
   }
 }
+
 .active {
   color: var(--dark-gray);
   background-color: var(--light-orange);
+}
+
+@media (width <= 450px) {
+  .aside {
+    &__link {
+      font-size: 1.1rem;
+      border-radius: 0.3125rem;
+      -webkit-border-radius: 0.3125rem;
+      -moz-border-radius: 0.3125rem;
+      -ms-border-radius: 0.3125rem;
+      -o-border-radius: 0.3125rem;
+}
+  }
 }

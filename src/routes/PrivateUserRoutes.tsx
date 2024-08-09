@@ -6,7 +6,7 @@ import { Aside } from '../panel/components/Aside';
 
 const links: Link[] = [
   { path: '/panel/user/schedules', name: 'Schedules' },
-  { path: '/panel/user/my-reservations', name: 'My Reservations' },
+  { path: '/panel/user/my-reservations', name: 'Reservations' },
 ];
 
 export const PrivateUserRoutes = () => {

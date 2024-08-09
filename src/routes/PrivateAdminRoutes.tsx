@@ -5,8 +5,8 @@ import { Link } from '../interfaces/link.interface';
 import { Aside } from '../panel/components/Aside';
 const links: Link[] = [
   { path: '/panel/admin/dashboard', name: 'Dashboard' },
-  { path: '/panel/admin/reservations', name: 'Reservation' },
-  { path: '/panel/admin/list-reservations', name: 'Reservations' },
+  { path: '/panel/admin/reservations', name: 'Reserves' },
+  { path: '/panel/admin/list-reservations', name: 'History' },
 ];
 
 export const PrivateAdminRoute = () => {

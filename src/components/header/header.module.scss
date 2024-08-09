@@ -10,8 +10,12 @@
     align-items: center;
   }
 
+  &__centered {
+    justify-content: center;
+  }
+
   &__logo {
-    width: 15rem;
+    width: 16rem;
     border-radius: 0.4rem;
     color: var(--orange);
   }
@@ -105,6 +109,24 @@
       }
       .headerv2__option__icon {
         fill: var(--logout);
+      }
+    }
+  }
+}
+
+@media (width <= 450px) {
+  .headerv2 {
+    &__logo {
+      width: 10rem;
+    }
+
+    &__option {
+      span {
+        font-size: 1.2rem;
+      }
+
+      &__icon {
+        width: 1.6rem;
       }
     }
   }

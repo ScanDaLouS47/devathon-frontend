@@ -7,6 +7,7 @@ import { LogoV2 } from '../icons/LogoV2';
 import SettingsIcon from '../icons/SettingsIcon';
 import { UserIconV2 } from '../icons/UserIconV2';
 import styles from './header.module.scss';
+import Logo from '../icons/Logo';
 
 export const Header = React.forwardRef(() => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -14,10 +15,10 @@ export const Header = React.forwardRef(() => {
   const profileRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { authState, onLogout } = useAuth();
-  // ToDo: Apply visual changes when the user is authenticated or not (change space-between for center, for example)
   const { logged } = authState;
 
   const profileClass = logged ? styles.headerv2__profile : styles.headerv2__profile__hidden;
+  const headerClass = !logged ? styles.headerv2__centered : null;
 
   const handleOptionSelect = (option: string) => {
     setIsModalVisible(false);
@@ -48,18 +49,19 @@ export const Header = React.forwardRef(() => {
         setIsModalVisible(false);
       }
     };
-    document.addEventListener('mouseout', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mouseout', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
   return (
     <>
       <header className={styles.headerv2}>
-        <div className={`${styles.headerv2__container} wrapper`}>
-          <LogoV2 className={styles.headerv2__logo} />
+        <div className={`${styles.headerv2__container} ${headerClass} wrapper`}>
+          {/* <LogoV2 className={styles.headerv2__logo} /> */}
+          <Logo className={styles.headerv2__logo} />
 
           <div className={profileClass} onClick={toggleModal} aria-expanded={isModalVisible} ref={profileRef}>
             <UserIconV2 className={styles.headerv2__icon} />
