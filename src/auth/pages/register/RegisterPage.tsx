@@ -164,7 +164,7 @@ export const RegisterPage = () => {
           </button>
         </form>
         <div className="register__btns">
-          <span>Already have an account?</span>
+          <span>Have an account?</span>
           <NavLink className="register__register" to={'/auth/login'}>
             Sign in
           </NavLink>

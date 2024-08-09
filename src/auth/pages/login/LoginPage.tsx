@@ -137,7 +137,7 @@ export const LoginPage = () => {
         </form>
 
         <div className="login__otherLogins">
-          <span className="login__labelLogins">— O inicia sesión con —</span>
+          <span className="login__labelLogins">— Or sign in with —</span>
           <button className="login__btn__google" type="button" onClick={handleLoginGoogle}>
             <GoogleIcon className="login__btn__googleIcon" />
           </button>
@@ -148,7 +148,7 @@ export const LoginPage = () => {
             Forgot Password?
           </NavLink>
           <NavLink className="login__register" to={'/auth/register'}>
-            Create Account
+            Sign Up
           </NavLink>
         </div>
       </div>

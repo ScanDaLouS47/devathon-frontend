@@ -71,12 +71,13 @@
     width: 100%;
     z-index: 3;
     box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
-    background-color: white;
+    background-color: var(--white);
     border-radius: 0.3125rem;
     -webkit-border-radius: 0.3125rem;
     -moz-border-radius: 0.3125rem;
     -ms-border-radius: 0.3125rem;
     -o-border-radius: 0.3125rem;
+    overflow: hidden;
   }
 
   &__option {
@@ -98,7 +99,8 @@
     -o-border-radius: 0 0.3125rem;
 
     &:hover {
-      background-color: rgb(223, 223, 223);
+      background-color: var(--hover-avt-opt);
+      color: var(--dark-gray);
     }
 
     &:focus {

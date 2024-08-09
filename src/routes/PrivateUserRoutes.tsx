@@ -6,7 +6,7 @@ import { Aside } from '../panel/components/Aside';
 
 const links: Link[] = [
   { path: '/panel/user/schedules', name: 'Schedules' },
-  { path: '/panel/user/my-reservations', name: 'My Reservations' },
+  { path: '/panel/user/my-reservations', name: 'Reservations' },
 ];
 
 export const PrivateUserRoutes = () => {
@@ -22,7 +22,7 @@ export const PrivateUserRoutes = () => {
       return;
     }
     if (authState.user?.role !== 'user') navigate('/panel/admin');
-  }, [authState.user?.role]);
+  }, [authState.logged, authState.user?.role, navigate]);
 
   return (
     <section className="wrapper private">
