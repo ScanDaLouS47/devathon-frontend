@@ -16,10 +16,15 @@ type SelectProps = {
   options: OptionType[];
   children?: React.ReactNode;
   register: UseFormRegisterReturn;
+  placeholder?: string;
+  value?: string;
 };
 
 export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
-  ({ label, error, options, register }: SelectProps, ref: ForwardedRef<HTMLDivElement>) => {
+  (
+    { label, error, options, register, placeholder, value }: SelectProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
     const [selectedValue, setSelectedValue] = useState<OptionType>(options[0]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -73,11 +78,7 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
           {isOpen && (
             <div className={`${styles.row__options}`} ref={dropdownRef}>
               {options.map((element, index) => (
-                <div
-                  className={`${styles.row__option}  ${index === 0 && styles.row__option__up} ${index === options.length - 1 && styles.row__option__down}`}
-                  key={index}
-                  onClick={() => handleOptionSelect(element)}
-                >
+                <div className={styles.row__option} key={index} onClick={() => handleOptionSelect(element)}>
                   <img className={`${styles.row__optionImage}`} src={element.imgURL} alt={element.country} />
                   <span>{element.countryTag && `+${element.countryTag} ${element.country}`}</span>
                 </div>
@@ -89,8 +90,9 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             error={error}
             id="phone"
             type="text"
-            placeholder={`+${selectedValue.countryTag} 123 123 123`}
+            placeholder={`+${selectedValue.countryTag} ${placeholder ? placeholder : '123 123 123'}`}
             {...register}
+            value={value}
           />
         </div>
       </div>

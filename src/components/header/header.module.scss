@@ -2,8 +2,8 @@
 
 .headerv2 {
   box-shadow: var(--box-shadow);
-
   padding: 1rem;
+  background-color: var(--white);
 
   &__container {
     display: flex;
@@ -11,8 +11,12 @@
     align-items: center;
   }
 
+  &__centered {
+    justify-content: center;
+  }
+
   &__logo {
-    width: 15rem;
+    width: 16rem;
     border-radius: 0.4rem;
     color: var(--orange);
   }
@@ -23,10 +27,13 @@
     border-radius: 50%;
     position: relative;
 
-    transition: all 0.3s ease;
-
     &:hover {
-      background-color: var(--black);
+      background-color: var(--hover-avt-opt);
+      transition: all 0.7s ease;
+      -webkit-transition: all 0.7s ease;
+      -moz-transition: all 0.7s ease;
+      -ms-transition: all 0.7s ease;
+      -o-transition: all 0.7s ease;
     }
   }
 
@@ -38,17 +45,23 @@
     width: 3rem;
     padding: 0.3em;
     border-radius: 50%;
-    color: rgb(146, 146, 146);
-    background-color: #fff;
+    color: var(--opaque-gray);
+    background-color: var(--white);
   }
 
   &__modal {
     position: absolute;
-    bottom: -4.4rem;
-    right: 1rem;
-    background-color: #fff;
-
+    bottom: -3.3rem;
+    right: 1.9rem;
+    z-index: 3;
+    background-color: var(--white);
     box-shadow: 1px 1px func.pxToRem(7) func.pxToRem(3) rgba(0, 0, 0, 0.3);
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
+    overflow: hidden;
   }
 
   &__option {
@@ -58,20 +71,70 @@
     align-items: center;
     gap: 0.5rem;
     font-weight: 600;
-    transition: all 0.3s ease;
     user-select: none;
 
     span {
-      color: var(--dark-gray);
+      color: var(--opaque-gray);
     }
 
-    &:hover {
-      background-color: var(--light-gray);
+    &__icon {
+      width: 1.5rem;
+      color: var(--opaque-gray);
     }
   }
-  &__logout {
-    &:hover {
-      color: red;
+
+  @media (hover: hover) {
+    &__option:hover {
+      background-color: var(--hover-avt-opt);
+      transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+
+      span {
+        color: var(--dark-gray);
+      }
+
+      .headerv2__option__icon {
+        fill: var(--dark-gray);
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    &__logout:hover {
+      transition: all 0.3s ease;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+
+      span {
+        color: var(--logout);
+      }
+
+      .headerv2__option__icon {
+        fill: var(--logout);
+      }
+    }
+  }
+}
+
+@media (width <= 450px) {
+  .headerv2 {
+    &__logo {
+      width: 10rem;
+    }
+
+    &__option {
+      span {
+        font-size: 1.2rem;
+      }
+
+      &__icon {
+        width: 1.6rem;
+      }
     }
   }
 }

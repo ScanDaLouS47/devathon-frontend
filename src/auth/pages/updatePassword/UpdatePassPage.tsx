@@ -73,7 +73,7 @@ export const UpdatePassPage = () => {
           </button>
         </form>
         <div className="forgot__btns">
-          <span>Already have an account?</span>
+          <span>Have an account?</span>
           <NavLink className="forgot__register" to={'/auth/login'}>
             Sign in
           </NavLink>

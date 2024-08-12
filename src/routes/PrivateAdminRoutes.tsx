@@ -5,11 +5,11 @@ import { Link } from '../interfaces/link.interface';
 import { Aside } from '../panel/components/Aside';
 const links: Link[] = [
   { path: '/panel/admin/dashboard', name: 'Dashboard' },
-  { path: '/panel/admin/reservations', name: 'Reservation' },
-  { path: '/panel/admin/list-reservations', name: 'Reservations' },
+  { path: '/panel/admin/reservations', name: 'Reserves' },
+  { path: '/panel/admin/list-reservations', name: 'History' },
 ];
 
-export const PrivateRoute = () => {
+export const PrivateAdminRoute = () => {
   const { authState } = useAuth();
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export const PrivateRoute = () => {
       return;
     }
     if (authState.user?.role !== 'admin') navigate('/panel/user');
-  }, [authState.user?.role]);
+  }, [authState.logged, authState.user?.role, navigate]);
 
   return (
     <div className="wrapper private">

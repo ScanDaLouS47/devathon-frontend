@@ -5,7 +5,7 @@ import { ListReservationsPage } from '../panel/pages/adminPanel/ListReservations
 import { ReservationsPage } from '../panel/pages/adminPanel/ReservationsPage';
 import { MyReservations } from '../panel/pages/userPanel/myReservations/MyReservations';
 import { SchedulesPage } from '../panel/pages/userPanel/schedulesPage/SchedulesPage';
-import { PrivateRoute } from './PrivateRoutes';
+import { PrivateAdminRoute } from './PrivateAdminRoutes';
 import { PrivateUserRoutes } from './PrivateUserRoutes';
 import { PublicRoute } from './PublicRoutes';
 
@@ -17,7 +17,7 @@ export const AppRouter = () => {
           <Route path="*" element={<AuthRoutes />} />
         </Route>
 
-        <Route path="/panel/admin/*" element={<PrivateRoute />}>
+        <Route path="/panel/admin/*" element={<PrivateAdminRoute />}>
           <Route index path="dashboard" element={<DashboardPage />} />
           <Route path="reservations" element={<ReservationsPage />} />
           <Route path="list-reservations" element={<ListReservationsPage />} />

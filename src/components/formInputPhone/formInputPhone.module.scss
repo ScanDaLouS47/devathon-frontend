@@ -71,12 +71,13 @@
     width: 100%;
     z-index: 3;
     box-shadow: 1px 1px 7px 3px rgba(0, 0, 0, 0.3);
-    background-color: white;
+    background-color: var(--white);
     border-radius: 0.3125rem;
     -webkit-border-radius: 0.3125rem;
     -moz-border-radius: 0.3125rem;
     -ms-border-radius: 0.3125rem;
     -o-border-radius: 0.3125rem;
+    overflow: hidden;
   }
 
   &__option {
@@ -84,13 +85,14 @@
     align-items: center;
     gap: 0.3rem;
     padding: func.pxToRem(8);
-    transition: background-color 0.2s;
-    -webkit-transition: background-color 0.2s;
-    -moz-transition: background-color 0.2s;
-    -ms-transition: background-color 0.2s;
-    -o-transition: background-color 0.2s;
+    transition: background-color 0.3s ease;
+    -webkit-transition: background-color 0.3s ease;
+    -moz-transition: background-color 0.3s ease;
+    -ms-transition: background-color 0.3s ease;
+    -o-transition: background-color 0.3s ease;
     cursor: pointer;
     color: var(--opaque-gray);
+    font-weight: 600;
     border-radius: 0 0.3125rem;
     -webkit-border-radius: 0 0.3125rem;
     -moz-border-radius: 0 0.3125rem;
@@ -98,22 +100,13 @@
     -o-border-radius: 0 0.3125rem;
 
     &:hover {
-      background-color: rgb(223, 223, 223);
+      background-color: var(--hover-avt-opt);
+      color: var(--dark-gray);
     }
 
     &:focus {
       background-color: var(--gray-color);
       outline: none;
-    }
-
-    &__down:hover {
-      border-bottom-left-radius: 0.3125rem;
-      border-bottom-right-radius: 0.3125rem;
-    }
-
-    &__up:hover {
-      border-top-left-radius: 0.3125rem;
-      border-top-right-radius: 0.3125rem;
     }
   }
 

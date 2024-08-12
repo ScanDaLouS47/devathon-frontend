@@ -12,7 +12,7 @@ type SendPost = {
   image_url?: string | null;
 };
 
-type HttpMethod = 'GET' | 'POST';
+type HttpMethod = 'GET' | 'POST' | 'DELETE';
 
 export const fetchApiV2 = async (
   path: string,

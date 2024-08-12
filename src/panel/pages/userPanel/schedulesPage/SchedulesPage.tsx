@@ -278,7 +278,7 @@ const events = [
 export const SchedulesPage = () => {
   return (
     <div className="schedulesPage">
-      <h1>SchedulesPage</h1>
+      {/* <h1>SchedulesPage</h1> */}
       <div className="calendar">
         <FullCalendar
           plugins={[dayGridPlugin]}

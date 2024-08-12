@@ -2,12 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
+// import { fetchApi } from '../../../utils/fetchApi';
+import { toast } from 'react-toastify';
 import { useAuth } from '../../hook/useAuth';
 import './loginPage.scss';
 import { loginSchema, LoginType } from './loginSchema';
@@ -39,12 +40,28 @@ export const LoginPage = () => {
       // console.log('ON SUPABASE', data);
 
       if (error) {
+        // throw new Error(error.message);
         throw new ApiError(error.message);
+      }
+
+      if (!data.user || !data.session) {
+        throw new Error('No user or session data received');
       }
 
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
+      // const resp = await fetchApi(
+      //   '/api/v1/login',
+      //   'POST',
+      //   '',
+      //   {
+      //     email: supEmail,
+      //     password: supPass,
+      //   },
+      //   false,
+      //   true,
+      // );
       const resp = await fetchApiV2(
         '/api/v1/login',
         'POST',
@@ -56,7 +73,12 @@ export const LoginPage = () => {
       );
 
       if (resp.error) {
-        toast.update(toastInfo, { render: resp.message, type: 'error', isLoading: false, autoClose: 3000 });
+        toast.update(toastInfo, {
+          render: resp.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
         return;
       }
 
@@ -70,8 +92,13 @@ export const LoginPage = () => {
 
       onLogin(user);
     } catch (error) {
-      if (error instanceof ApiError) {
+      if (error instanceof Error) {
         toast.error(error.message);
+        setLoginError(error.message);
+        console.error('Login error:', error.message);
+      } else {
+        setLoginError('An unexpected error occurred');
+        console.error('Unexpected error:', error);
       }
     }
   };
@@ -135,7 +162,7 @@ export const LoginPage = () => {
         </form>
 
         <div className="login__otherLogins">
-          <span className="login__labelLogins">— O inicia sesión con —</span>
+          <span className="login__labelLogins">— Or sign in with —</span>
           <button className="login__btn__google" type="button" onClick={handleLoginGoogle}>
             <GoogleIcon className="login__btn__googleIcon" />
           </button>
@@ -146,7 +173,7 @@ export const LoginPage = () => {
             Forgot Password?
           </NavLink>
           <NavLink className="login__register" to={'/auth/register'}>
-            Create Account
+            Sign Up
           </NavLink>
         </div>
       </div>
