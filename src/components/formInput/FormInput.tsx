@@ -1,7 +1,7 @@
+import './formInput.scss';
 import React, { useState } from 'react';
 import { FieldError } from 'react-hook-form';
 import { WarningIcon } from '../icons/WarningIcon';
-import './formInput.scss';
 import HidePassword from '../icons/HidePassword';
 import ShowPassword from '../icons/ShowPassword';
 import UploadIcon from '../icons/UploadIcon';
@@ -16,7 +16,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = error ? 'row__error' : '';
 
     const [showPassword, setShowPassword] = useState(false);
-    const [imageSrc, setImageSrc] = useState<string | null>(null);
+    const [imageSrc, setImageSrc] = useState<string | undefined>('');
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
@@ -35,23 +35,27 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
+    const imgPreview = imageSrc ? imageSrc : 'https://robohash.org/user@mail.co.ea';
+
     return (
       <div className="row">
         {type === 'file' ? (
-          <div className="row__input--img">
-            {imageSrc && <img src={imageSrc} alt="Preview" className="row__image-preview" />}
-            <label htmlFor={inputProps.id}>
-              <UploadIcon className="row__input--icon" />
-              <input
-                ref={ref}
-                className="row__input"
-                autoComplete="off"
-                {...inputProps}
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </label>
+          <div className="row__input--flex">
+            <div className="row__input--imgContainer">
+              <img src={imgPreview} alt="Preview" className="row__image-preview" />
+              <label htmlFor={inputProps.id}>
+                <UploadIcon className="row__input--icon" />
+                <input
+                  ref={ref}
+                  className="row__input"
+                  autoComplete="off"
+                  {...inputProps}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </label>
+            </div>
           </div>
         ) : (
           <>

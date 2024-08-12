@@ -1,6 +1,6 @@
 .settings {
   height: 80dvh;
-  padding: 1em;
+  // padding: 1em;
   display: grid;
   place-items: center;
 
@@ -18,7 +18,7 @@
     box-shadow: var(--box-shadow);
     display: flex;
     flex-direction: column;
-    row-gap: 1.5em;
+    gap: 1.5em;
   }
 
   &__register {
@@ -37,7 +37,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  row-gap: 1.5em;
+  row-gap: 1.5rem;
 
   &__btn {
     width: 100%;

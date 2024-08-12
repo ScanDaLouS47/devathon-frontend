@@ -51,15 +51,17 @@ export const settingsSchema = z
       .trim(),
     file: z
       .instanceof(FileList)
-      .refine((files) => files.length > 0, {
-        message: 'File is not selected',
+      .optional()
+      .refine((files) => !files || files.length === 0 || files[0].size <= 5 * 1024 * 1024, {
+        message: 'The file must be at most 5MB',
       })
-      .refine((files) => files[0].size <= 5 * 1024 * 1024, {
-        message: 'The file must be at least 5MB',
-      })
-      .refine((files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type), {
-        message: 'The file must be JPEG, JPG or PNG',
-      }),
+      .refine(
+        (files) =>
+          !files || files.length === 0 || ['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type),
+        {
+          message: 'The file must be JPEG, JPG or PNG',
+        },
+      ),
   })
   .refine((data) => data.password === data.repeatPassword, {
     message: 'Passwords do not match',

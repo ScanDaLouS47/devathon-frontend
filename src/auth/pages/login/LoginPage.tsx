@@ -1,3 +1,4 @@
+import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -6,7 +7,6 @@ import { FormInput } from '../../../components/formInput/FormInput';
 import { client } from '../../../supabase/Client';
 import { fetchApi } from '../../../utils/fetchApi';
 import { useAuth } from '../../hook/useAuth';
-import './loginPage.scss';
 import { loginSchema, LoginType } from './loginSchema';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 
@@ -62,12 +62,12 @@ export const LoginPage = () => {
 
       //USER DATA TEST
       const user = {
-        name: "Jose",
-        lName: "Prueba",
-        email: 'pepe@mail.com',
-        phone: "+34123123123",
+        name: 'Test',
+        lName: 'Testing',
+        email: 'test@mail.com',
+        phone: '+34123123123',
         role: 'user',
-        image_url: 'None'
+        image_url: 'None',
       };
 
       onLogin(user);

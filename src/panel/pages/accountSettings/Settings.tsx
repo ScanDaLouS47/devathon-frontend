@@ -96,7 +96,6 @@ export const Settings = () => {
             id="name"
             type="text"
             placeholder={user?.name}
-            autoFocus
             {...register('name')}
           />
 
@@ -133,7 +132,7 @@ export const Settings = () => {
         </form>
         <div className={`${styles.settings__btns}`}>
           <NavLink className={`${styles.settings__register}`} to={'/auth/forgot-pass'}>
-            Change password
+            Change password?
           </NavLink>
         </div>
       </div>
