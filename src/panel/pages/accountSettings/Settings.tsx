@@ -96,6 +96,7 @@ export const Settings = () => {
             id="name"
             type="text"
             placeholder={user?.name}
+            value={user?.name}
             {...register('name')}
           />
 
@@ -105,6 +106,7 @@ export const Settings = () => {
             id="lastName"
             type="text"
             placeholder={user?.lName}
+            value={user?.lName}
             {...register('lastName')}
           />
 
@@ -114,6 +116,7 @@ export const Settings = () => {
             id="phoneN"
             type="text"
             placeholder={user?.phone}
+            value={user?.phone}
             {...register('phone')}
           />
 
@@ -123,6 +126,7 @@ export const Settings = () => {
             id="email"
             type="email"
             placeholder={user?.email}
+            value={user?.email}
             {...register('email')}
           />
 

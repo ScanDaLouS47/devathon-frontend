@@ -35,7 +35,18 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
-    const imgPreview = imageSrc ? imageSrc : 'https://robohash.org/user@mail.co.ea';
+    const randomChart = (chartLength: number) => {
+      const charts = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      const random = Math.floor(Math.random() * charts.length);
+      let result = '';
+
+      for (let i = 0; i < chartLength; i++) {
+        return (result += charts.charAt(random));
+      }
+    };
+
+    const changingImg = randomChart(3);
+    const imgPreview = imageSrc ? imageSrc : `https://robohash.org/user@m${changingImg}.co.ea`;
 
     return (
       <div className="row">
