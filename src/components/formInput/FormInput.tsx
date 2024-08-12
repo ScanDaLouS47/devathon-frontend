@@ -5,6 +5,7 @@ import { WarningIcon } from '../icons/WarningIcon';
 import HidePassword from '../icons/HidePassword';
 import ShowPassword from '../icons/ShowPassword';
 import UploadIcon from '../icons/UploadIcon';
+import EditingIcon from '../icons/EditingIcon';
 
 type InputProps = React.ComponentProps<'input'> & {
   label: string;
@@ -17,10 +18,15 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
 
     const [showPassword, setShowPassword] = useState(false);
     const [imageSrc, setImageSrc] = useState<string | undefined>('');
+    // const [isEnabled, setIsEnabled] = useState(true);
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
+
+    // const toggleEnable = () => {
+    //   setIsEnabled(!isEnabled);
+    // };
 
     const inputType = showPassword && type === 'password' ? 'text' : type;
 
@@ -90,6 +96,22 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                   )}
                 </button>
               )}
+
+              {/* {type === 'text' ||
+                (type === 'email' && (
+                  <button
+                    type="button"
+                    onClick={toggleEnable}
+                    className="row__toggleButton"
+                    aria-label={isEnabled ? 'Disable input' : 'Enable input'}
+                  >
+                    {isEnabled ? (
+                      <EditingIcon className="row__toggleButton__icon" />
+                    ) : (
+                      <EditingIcon className="row__toggleButton__icon" />
+                    )}
+                  </button>
+                ))} */}
 
               {error && <WarningIcon className="row__icon" />}
             </div>
