@@ -51,6 +51,8 @@ export const fetchApiV2 = async (
 
     const response = await fetch(`${apiBaseUrl}${path}`, fetchOptions);
 
+    console.log(response);
+
     if (!response.ok) {
       throw new ApiError(`Error to conect BD`);
     }
