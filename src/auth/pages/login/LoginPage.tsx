@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
+import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { client } from '../../../supabase/Client';
-import { fetchApi } from '../../../utils/fetchApi';
+import { ApiError } from '../../../utils/apiError';
+import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
 import './loginPage.scss';
 import { loginSchema, LoginType } from './loginSchema';
-import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 
 export const LoginPage = () => {
   const {
@@ -36,7 +37,7 @@ export const LoginPage = () => {
       // console.log('ON SUPABASE', data);
 
       if (error) {
-        throw new Error(error.message);
+        throw new ApiError(error.message);
       }
 
       if (!data.user || !data.session) {
@@ -46,7 +47,7 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      const resp = await fetchApi(
+      const resp = await fetchApiV2(
         '/api/v1/login',
         'POST',
         '',
@@ -58,6 +59,11 @@ export const LoginPage = () => {
         true,
       );
 
+      if (resp.error) {
+        toast.update(toastInfo, { render: resp.message, type: 'error', isLoading: false, autoClose: 3000 });
+        return;
+      }
+
       console.log('ON MY BACKEND', resp);
 
       //USER DATA TEST
@@ -68,12 +74,8 @@ export const LoginPage = () => {
 
       onLogin(user);
     } catch (error) {
-      if (error instanceof Error) {
-        setLoginError(error.message);
-        console.error('Login error:', error.message);
-      } else {
-        setLoginError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
+      if (error instanceof ApiError) {
+        toast.error(error.message);
       }
     }
   };
