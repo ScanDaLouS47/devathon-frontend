@@ -6,7 +6,6 @@ import { FormInput } from '../../../components/formInput/FormInput';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
-// import { fetchApi } from '../../../utils/fetchApi';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../hook/useAuth';
 import './loginPage.scss';
