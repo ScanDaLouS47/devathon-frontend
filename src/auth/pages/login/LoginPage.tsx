@@ -4,7 +4,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { client } from '../../../supabase/Client';
-import { fetchApi } from '../../../utils/fetchApi';
+import { ApiError } from '../../../utils/apiError';
+import { fetchApiV2 } from '../../../utils/fetchApiV2';
+import { toast } from 'react-toastify';
 import { useAuth } from '../../hook/useAuth';
 import './loginPage.scss';
 import { loginSchema, LoginType } from './loginSchema';
@@ -29,6 +31,8 @@ export const LoginPage = () => {
 
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
     try {
+      const toastInfo = toast.loading('Loading...');
+
       const { data, error } = await client.auth.signInWithPassword({
         email,
         password,
@@ -36,7 +40,7 @@ export const LoginPage = () => {
       // console.log('ON SUPABASE', data);
 
       if (error) {
-        throw new Error(error.message);
+        throw new ApiError(error.message);
       }
 
       if (!data.user || !data.session) {
@@ -46,17 +50,36 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      const resp = await fetchApi(
+      // const resp = await fetchApi(
+      //   '/api/v1/login',
+      //   'POST',
+      //   '',
+      //   {
+      //     email: supEmail,
+      //     password: supPass,
+      //   },
+      //   false,
+      //   true,
+      // );
+      const resp = await fetchApiV2(
         '/api/v1/login',
         'POST',
-        '',
         {
           email: supEmail,
           password: supPass,
         },
-        false,
         true,
       );
+
+      if (resp.error) {
+        toast.update(toastInfo, {
+          render: resp.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
+        return;
+      }
 
       console.log('ON MY BACKEND', resp);
 
@@ -69,6 +92,7 @@ export const LoginPage = () => {
       onLogin(user);
     } catch (error) {
       if (error instanceof Error) {
+        toast.error(error.message);
         setLoginError(error.message);
         console.error('Login error:', error.message);
       } else {
