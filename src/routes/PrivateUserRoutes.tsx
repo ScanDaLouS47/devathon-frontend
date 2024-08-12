@@ -11,10 +11,8 @@ const links: Link[] = [
 
 export const PrivateUserRoutes = () => {
   const { authState } = useAuth();
-  console.log(authState);
 
   const navigate = useNavigate();
-  console.log(authState);
 
   useEffect(() => {
     if (!authState.logged) {

@@ -50,7 +50,7 @@ export const ForgotPassPage = () => {
       <div className="forgot__container">
         <h1 className="forgot__title">Get Recovery Email</h1>
 
-        {forgotPassError && <span className="forgot__message--error">{forgotPassError}</span>}
+        {forgotPassError && <span className="error-message">{forgotPassError}</span>}
 
         <form className="form" onSubmit={handleSubmit(handleForgotPass)}>
           <FormInput

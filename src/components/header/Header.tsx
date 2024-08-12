@@ -16,7 +16,7 @@ export const Header = React.forwardRef(() => {
   const profileRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { authState, onLogout } = useAuth();
-  const { logged } = authState;
+  const { logged, user } = authState;
 
   const profileClass = logged ? styles.headerv2__profile : styles.headerv2__profile__hidden;
   const headerClass = !logged ? styles.headerv2__centered : null;
@@ -24,14 +24,13 @@ export const Header = React.forwardRef(() => {
   const handleOptionSelect = (option: string) => {
     setIsModalVisible(false);
     if (option === 'settings') {
-      navigate('/user/settings');
+      navigate(`/panel/${user?.role}/settings`);
     } else if (option === 'logout') {
       onLogout();
       navigate('/auth/login', {
         replace: true,
       });
-      const resp = fetchApi('/api/v1/logout');
-      console.log(resp);
+      fetchApi('/api/v1/logout');
     }
   };
 
@@ -72,6 +71,7 @@ export const Header = React.forwardRef(() => {
             {isModalVisible && (
               <div className={styles.headerv2__modal} ref={modalRef}>
                 <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
+                  {/* <NavLink to={'/panel/user/settings'}>Settings</NavLink> */}
                   <SettingsIcon className={styles.headerv2__option__icon} />
                   <span>Settings</span>
                 </div>

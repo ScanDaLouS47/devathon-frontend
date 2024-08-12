@@ -7,7 +7,7 @@ export type UserReducerType = {
   name?: string;
   lName?: string;
   phone?: string;
-  image_url?: string | null;
+  image_url?: string | undefined;
 };
 
 export type AuthReducerState = {

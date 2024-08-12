@@ -26,6 +26,50 @@
     &::placeholder {
       color: var(--gray-color);
     }
+
+    &--img {
+      background-color: var(--black);
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+      width: 13rem;
+      aspect-ratio: 1/1;
+      position: relative;
+      overflow: visible;
+
+      label {
+        position: absolute;
+        cursor: pointer;
+        background-color: var(--btn-bg);
+        padding: 8px;
+        top: 10rem;
+        left: 10rem;
+        overflow: hidden;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+
+        input {
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+      }
+    }
+
+    &--icon {
+      width: 1.5rem;
+      height: auto;
+      color: var(--btn-color);
+    }
   }
 
   &__toggleButton {

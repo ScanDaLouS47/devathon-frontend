@@ -1,5 +1,5 @@
-.forgot {
-  height: 100dvh;
+.settings {
+  height: 80dvh;
   padding: 1em;
   display: grid;
   place-items: center;
@@ -31,18 +31,6 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-  }
-
-  &__message {
-    height: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    line-height: 1rem;
-    color: var(--orange);
-
-    &--error {
-      color: var(--error);
-    }
   }
 }
 

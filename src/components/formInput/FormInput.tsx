@@ -4,6 +4,7 @@ import { WarningIcon } from '../icons/WarningIcon';
 import './formInput.scss';
 import HidePassword from '../icons/HidePassword';
 import ShowPassword from '../icons/ShowPassword';
+import UploadIcon from '../icons/UploadIcon';
 
 type InputProps = React.ComponentProps<'input'> & {
   label: string;
@@ -15,6 +16,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = error ? 'row__error' : '';
 
     const [showPassword, setShowPassword] = useState(false);
+    const [imageSrc, setImageSrc] = useState<string | null>(null);
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
@@ -22,31 +24,63 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
 
     const inputType = showPassword && type === 'password' ? 'text' : type;
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageSrc(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
     return (
       <div className="row">
-        <label className={`row__label ${hasError}`} htmlFor={inputProps.id}>
-          {label && `${label}*`}
-        </label>
-        <div className={`row__container ${hasError}`}>
-          <input ref={ref} className="row__input" autoComplete="off" {...inputProps} type={inputType} />
+        {type === 'file' ? (
+          <div className="row__input--img">
+            {imageSrc && <img src={imageSrc} alt="Preview" className="row__image-preview" />}
+            <label htmlFor={inputProps.id}>
+              <UploadIcon className="row__input--icon" />
+              <input
+                ref={ref}
+                className="row__input"
+                autoComplete="off"
+                {...inputProps}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </label>
+          </div>
+        ) : (
+          <>
+            <label className={`row__label ${hasError}`} htmlFor={inputProps.id}>
+              {label && `${label}*`}
+            </label>
+            <div className={`row__container ${hasError}`}>
+              <input ref={ref} className="row__input" autoComplete="off" {...inputProps} type={inputType} />
 
-          {type === 'password' && (
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="row__toggleButton"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? (
-                <ShowPassword className="row__toggleButton__icon" />
-              ) : (
-                <HidePassword className="row__toggleButton__icon" />
+              {type === 'password' && (
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="row__toggleButton"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <ShowPassword className="row__toggleButton__icon" />
+                  ) : (
+                    <HidePassword className="row__toggleButton__icon" />
+                  )}
+                </button>
               )}
-            </button>
-          )}
 
-          {error && <WarningIcon className="row__icon" />}
-        </div>
+              {error && <WarningIcon className="row__icon" />}
+            </div>
+          </>
+        )}
+
         <span className="row__message">{error?.message}</span>
       </div>
     );

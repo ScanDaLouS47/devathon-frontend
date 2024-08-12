@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
   const onLogin = (user: UserReducerType) => {
-    console.log(user);
     localStorage.setItem('userData', JSON.stringify(user));
     dispatch({ type: 'signIn', payload: user });
   };
@@ -35,7 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     dispatch({ type: 'signOut' });
   };
 
-  console.log({ authState });
+  // console.log({ authState });
 
   return <AuthContext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthContext.Provider>;
 };

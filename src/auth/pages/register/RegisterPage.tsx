@@ -52,8 +52,8 @@ export const RegisterPage = () => {
           },
         },
       });
-      console.log('ON SUPABASE', authData);
-      console.log('SUP_ID', authData.user?.user_metadata.sub);
+      // console.log('ON SUPABASE', authData);
+      // console.log('SUP_ID', authData.user?.user_metadata.sub);
 
       const resp = await fetchApi(
         '/api/v1/create',

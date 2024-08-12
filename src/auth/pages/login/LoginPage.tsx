@@ -62,8 +62,12 @@ export const LoginPage = () => {
 
       //USER DATA TEST
       const user = {
-        email: 'pepe@pepe.com',
+        name: "Jose",
+        lName: "Prueba",
+        email: 'pepe@mail.com',
+        phone: "+34123123123",
         role: 'user',
+        image_url: 'None'
       };
 
       onLogin(user);
