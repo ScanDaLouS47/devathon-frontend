@@ -29,12 +29,12 @@
     &:hover {
       background-color: var(--hover-avt-opt);
       color: var(--dark-gray);
-      transition: all 0.5s ease;
-      -webkit-transition: all 0.5s ease;
-      -moz-transition: all 0.5s ease;
-      -ms-transition: all 0.5s ease;
-      -o-transition: all 0.5s ease;
-    }
+      transition: all 0.7s ease;
+      -webkit-transition: all 0.7s ease;
+      -moz-transition: all 0.7s ease;
+      -ms-transition: all 0.7s ease;
+      -o-transition: all 0.7s ease;
+}
     @media screen and (max-width: 768px) {
       padding: 0.5rem;
     }

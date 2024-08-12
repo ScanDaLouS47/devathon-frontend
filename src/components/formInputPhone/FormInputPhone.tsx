@@ -73,11 +73,7 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
           {isOpen && (
             <div className={`${styles.row__options}`} ref={dropdownRef}>
               {options.map((element, index) => (
-                <div
-                  className={`${styles.row__option}  ${index === 0 && styles.row__option__up} ${index === options.length - 1 && styles.row__option__down}`}
-                  key={index}
-                  onClick={() => handleOptionSelect(element)}
-                >
+                <div className={styles.row__option} key={index} onClick={() => handleOptionSelect(element)}>
                   <img className={`${styles.row__optionImage}`} src={element.imgURL} alt={element.country} />
                   <span>{element.countryTag && `+${element.countryTag} ${element.country}`}</span>
                 </div>
