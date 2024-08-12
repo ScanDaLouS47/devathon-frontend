@@ -79,6 +79,9 @@ export const Header = React.forwardRef(() => {
                   className={`${styles.headerv2__option} ${styles.headerv2__logout}`}
                   onClick={() => handleOptionSelect('logout')}
                 >
+                  {/* <LogOutIcon
+                    className={`${styles.headerv2__option__icon} ${styles.headerv2__option__icon__down}`}
+                  /> */}
                   <LogOutIcon className={styles.headerv2__option__icon} />
                   <span>Log Out</span>
                 </div>

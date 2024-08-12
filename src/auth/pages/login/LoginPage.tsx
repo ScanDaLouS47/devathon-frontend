@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { client } from '../../../supabase/Client';
@@ -30,6 +31,8 @@ export const LoginPage = () => {
 
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
     try {
+      const toastInfo = toast.loading('Loading...');
+
       const { data, error } = await client.auth.signInWithPassword({
         email,
         password,
@@ -47,15 +50,24 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
+      // const resp = await fetchApi(
+      //   '/api/v1/login',
+      //   'POST',
+      //   '',
+      //   {
+      //     email: supEmail,
+      //     password: supPass,
+      //   },
+      //   false,
+      //   true,
+      // );
       const resp = await fetchApiV2(
         '/api/v1/login',
         'POST',
-        '',
         {
           email: supEmail,
           password: supPass,
         },
-        false,
         true,
       );
 
@@ -74,8 +86,13 @@ export const LoginPage = () => {
 
       onLogin(user);
     } catch (error) {
-      if (error instanceof ApiError) {
+      if (error instanceof Error) {
         toast.error(error.message);
+        setLoginError(error.message);
+        console.error('Login error:', error.message);
+      } else {
+        setLoginError('An unexpected error occurred');
+        console.error('Unexpected error:', error);
       }
     }
   };
