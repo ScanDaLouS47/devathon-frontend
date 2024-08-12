@@ -17,18 +17,18 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = error ? 'row__error' : '';
 
     const [showPassword, setShowPassword] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(false);
     const [imageSrc, setImageSrc] = useState<string | undefined>('');
-    // const [isEnabled, setIsEnabled] = useState(true);
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
 
-    // const toggleEnable = () => {
-    //   setIsEnabled(!isEnabled);
-    // };
-
     const inputType = showPassword && type === 'password' ? 'text' : type;
+
+    const toggleEnable = () => {
+      setIsEnabled(!isEnabled);
+    };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -80,7 +80,14 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
               {label && `${label}*`}
             </label>
             <div className={`row__container ${hasError}`}>
-              <input ref={ref} className="row__input" autoComplete="off" {...inputProps} type={inputType} />
+              <input
+                ref={ref}
+                className="row__input"
+                autoComplete="off"
+                {...inputProps}
+                type={inputType}
+                disabled={!isEnabled}
+              />
 
               {type === 'password' && (
                 <button
@@ -97,21 +104,20 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </button>
               )}
 
-              {/* {type === 'text' ||
-                (type === 'email' && (
-                  <button
-                    type="button"
-                    onClick={toggleEnable}
-                    className="row__toggleButton"
-                    aria-label={isEnabled ? 'Disable input' : 'Enable input'}
-                  >
-                    {isEnabled ? (
-                      <EditingIcon className="row__toggleButton__icon" />
-                    ) : (
-                      <EditingIcon className="row__toggleButton__icon" />
-                    )}
-                  </button>
-                ))} */}
+              {type === 'text' || type === 'email' ? (
+                <button
+                  type="button"
+                  onClick={toggleEnable}
+                  className="row__toggleButton"
+                  aria-label={isEnabled ? 'Disable input' : 'Enable input'}
+                >
+                  {isEnabled ? (
+                    <EditingIcon className="row__toggleButton__icon" />
+                  ) : (
+                    <EditingIcon className="row__toggleButton__icon" />
+                  )}
+                </button>
+              ) : null}
 
               {error && <WarningIcon className="row__icon" />}
             </div>

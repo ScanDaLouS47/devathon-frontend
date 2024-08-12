@@ -64,7 +64,7 @@ export const LoginPage = () => {
       const user = {
         name: 'Test',
         lName: 'Testing',
-        email: 'test@mail.com',
+        email: 'dirij75152@maxturns.com',
         phone: '+34123123123',
         role: 'user',
         image_url: 'None',
