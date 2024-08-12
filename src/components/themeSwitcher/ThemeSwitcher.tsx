@@ -10,7 +10,7 @@ export const ThemeSwitcher: React.FC = () => {
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const newTheme = theme === 'system' ? (prefersColorScheme ? 'dark' : 'light') : theme;
     document.body.setAttribute('data-theme', newTheme);
-    setCurrentTheme(newTheme);
+    setCurrentTheme(newTheme)
     localStorage.setItem('theme', theme);
   };
 
