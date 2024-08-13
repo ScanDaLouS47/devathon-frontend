@@ -1,6 +1,5 @@
-.changePassword {
+.didForget {
   height: 80dvh;
-  // padding: 1em;
   display: grid;
   place-items: center;
 
@@ -13,12 +12,16 @@
     width: 100%;
     max-width: 33.125rem;
     padding: 2em;
-    border-radius: 0.3em;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
     display: flex;
     flex-direction: column;
-    gap: 1.5em;
+    row-gap: 1.5em;
+    border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    -ms-border-radius: 0.3em;
+    -o-border-radius: 0.3em;
   }
 
   &__register {
@@ -29,15 +32,27 @@
   &__btns {
     padding: 0.5em 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
+  }
+
+  &__message {
+    height: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+    color: var(--orange);
+
+    &--error {
+      color: var(--error);
+    }
   }
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem;
+  row-gap: 1.5em;
 
   &__btn {
     width: 100%;

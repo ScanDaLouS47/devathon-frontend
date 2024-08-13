@@ -10,6 +10,7 @@ import { PrivateUserRoutes } from './PrivateUserRoutes';
 import { PublicRoute } from './PublicRoutes';
 import { Settings } from '../panel/pages/accountSettings/settings/Settings';
 import { ChangePassword } from '../panel/pages/accountSettings/changePassword/ChangePassword';
+import { DidForgetPass } from '../panel/pages/accountSettings/didForgetPassword/DidForgetPass';
 
 export const AppRouter = () => {
   return (
@@ -26,6 +27,7 @@ export const AppRouter = () => {
 
           <Route path="settings" element={<Settings />} />
           <Route path="settings/change-password" element={<ChangePassword />} />
+          <Route path="settings/did-forget" element={<DidForgetPass />} />
 
           <Route path="*" element={<Navigate to="/panel/admin/dashboard" replace />} />
         </Route>
@@ -36,6 +38,7 @@ export const AppRouter = () => {
 
           <Route path="settings" element={<Settings />} />
           <Route path="settings/change-password" element={<ChangePassword />} />
+          <Route path="settings/did-forget" element={<DidForgetPass />} />
 
           <Route path="*" element={<Navigate to="/panel/user/schedules" replace />} />
         </Route>

@@ -121,11 +121,12 @@ export const Settings = () => {
           </button>
         </form>
         <div className={`${styles.settings__btns}`}>
+          <span>Change Password?</span>
           <NavLink
             className={`${styles.settings__register}`}
             to={`/panel/${user?.role}/settings/change-password`}
           >
-            Change password?
+            Let's go
           </NavLink>
         </div>
       </div>

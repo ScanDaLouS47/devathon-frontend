@@ -1,17 +1,14 @@
 import styles from './changePassword.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../../components/formInput/FormInput';
 import { changePasswordSchema, ChangePasswordType } from './changePasswordSchema';
-// import { client } from '../../../supabase/Client';
+import { client } from '../../../../supabase/Client';
 import { useState } from 'react';
-import { fetchApi } from '../../../../utils/fetchApi';
 import { useAuth } from '../../../../auth/hook/useAuth';
 
 export const ChangePassword = () => {
-  // ToDo: change password on Supabase
-
   const {
     register,
     handleSubmit,
@@ -20,29 +17,35 @@ export const ChangePassword = () => {
     resolver: zodResolver(changePasswordSchema),
     mode: 'onChange',
   });
-
   const [changePasswordError, setChangePasswordError] = useState<string | null>(null);
-
   const { authState } = useAuth();
   const { user } = authState;
+  const navigate = useNavigate();
 
-  const handleRegister: SubmitHandler<ChangePasswordType> = async (data) => {
+  const handleUpdatePassword: SubmitHandler<ChangePasswordType> = async (data) => {
     try {
-      const resp = await fetchApi(
-        '/api/v1/user/',
-        'POST',
-        '',
-        {
-          email: user?.email,
-          password: data.password,
-        },
-        true,
-        true,
-      );
-      console.log('ON MY BACKEND', resp);
-      if (!resp) {
-        throw new Error('Bad request');
+      const {
+        data: { user },
+      } = await client.auth.getUser();
+
+      const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
+        email: user?.email || '',
+        password: data.oldPassword,
+      });
+      console.log(signInData.user?.id);
+
+      if (signInError) {
+        throw new Error('Incorrect credential');
       }
+
+      const resp = await client.auth.updateUser({ password: data.password });
+
+      console.log('ON SUPABASE', resp);
+      if (!resp) {
+        throw new Error(resp);
+      }
+
+      navigate(`/panel/${user?.role}`);
     } catch (error) {
       if (error instanceof Error) {
         setChangePasswordError(error.message);
@@ -61,24 +64,23 @@ export const ChangePassword = () => {
 
         {changePasswordError && <div className="error-message">{changePasswordError}</div>}
 
-        <form className="form" onSubmit={handleSubmit(handleRegister)}>
+        <form className="form" onSubmit={handleSubmit(handleUpdatePassword)}>
           <FormInput
             label="Old Password"
-            error={errors['password']}
+            error={errors['oldPassword']}
             id="old-password"
             type="password"
             placeholder="****************"
-            {...register('password')}
+            {...register('oldPassword')}
           />
 
           <FormInput
             label="New Password"
-            error={errors['repeatPassword']}
+            error={errors['password']}
             id="new-password"
             type="password"
             placeholder="****************"
-            notEnabled
-            {...register('repeatPassword')}
+            {...register('password')}
           />
 
           <FormInput
@@ -87,7 +89,6 @@ export const ChangePassword = () => {
             id="repeat-new-password"
             type="password"
             placeholder="****************"
-            notEnabled
             {...register('repeatPassword')}
           />
 
@@ -97,7 +98,13 @@ export const ChangePassword = () => {
         </form>
         <div className={`${styles.changePassword__btns}`}>
           <NavLink className={`${styles.changePassword__register}`} to={`/panel/${user?.role}/settings`}>
-            Return
+            Go back
+          </NavLink>
+          <NavLink
+            className={`${styles.changePassword__register}`}
+            to={`/panel/${user?.role}/settings/did-forget`}
+          >
+            Did you forget?
           </NavLink>
         </div>
       </div>

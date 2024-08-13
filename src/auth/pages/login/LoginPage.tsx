@@ -10,6 +10,21 @@ import { useAuth } from '../../hook/useAuth';
 import { loginSchema, LoginType } from './loginSchema';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 
+/*
+    ** ADMIN **
+    defaultValues: {
+      email: 'dirij75152@maxturns.com',
+      password: '123456Aa#',
+    },
+
+    ** USER **
+    defaultValues: {
+      email: 'fogoho4949@givehit.com',
+      password: '123456Aa#',
+    },
+
+*/
+
 export const LoginPage = () => {
   const {
     register,
@@ -18,8 +33,8 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'dirij75152@maxturns.com',
-      password: '123B456$',
+      email: 'fogoho4949@givehit.com',
+      password: '123456Aa#',
     },
   });
 
@@ -33,7 +48,7 @@ export const LoginPage = () => {
         email,
         password,
       });
-      // console.log('ON SUPABASE', data);
+      sessionStorage.setItem('sub', data.user?.user_metadata.sub);
 
       if (error) {
         throw new Error(error.message);

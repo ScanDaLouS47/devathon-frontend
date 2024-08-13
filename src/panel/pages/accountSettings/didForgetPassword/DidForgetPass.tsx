@@ -1,13 +1,14 @@
-import './forgotPassPage.scss';
+import styles from './didForgetPass.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { forgotPassSchema, ForgotPassType } from './forgotPassSchema';
-import { client } from '../../../supabase/Client';
+import { forgotPassSchema, ForgotPassType } from './didForgetPassSchema';
+import { client } from '../../../../supabase/Client';
 import { useState } from 'react';
-import { FormInput } from '../../../components/formInput/FormInput';
+import { FormInput } from '../../../../components/formInput/FormInput';
+import { useAuth } from '../../../../auth/hook/useAuth';
 
-export const ForgotPassPage = () => {
+export const DidForgetPass = () => {
   const {
     register,
     handleSubmit,
@@ -17,8 +18,10 @@ export const ForgotPassPage = () => {
     mode: 'onChange',
   });
 
-  const [forgotPassError, setForgotPassError] = useState<string | null>(null);
+  const [didForgetPassError, setDidForgetPassError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { authState } = useAuth();
+  const { user } = authState;
 
   const handleForgotPass: SubmitHandler<ForgotPassType> = async (data) => {
     try {
@@ -36,20 +39,20 @@ export const ForgotPassPage = () => {
       if (error instanceof Error) {
         console.error('Launched error:', error.message);
       } else {
-        setForgotPassError('An unexpected error occurred*');
+        setDidForgetPassError('An unexpected error occurred*');
         console.error('Unexpected error:', error);
       }
     }
   };
 
   return (
-    <div className="forgot wrapper">
-      <div className="forgot__container">
-        <h1 className="forgot__title">Get Recovery Email</h1>
+    <div className={`${styles.didForget}`}>
+      <div className={`${styles.didForget__container}`}>
+        <h1 className={`${styles.didForget__title}`}>Get Recovery Email</h1>
 
-        {forgotPassError && <span className="error-message">{forgotPassError}</span>}
+        {didForgetPassError && <span className="error-message">{didForgetPassError}</span>}
 
-        <form className="form" onSubmit={handleSubmit(handleForgotPass)}>
+        <form className={`${styles.form}`} onSubmit={handleSubmit(handleForgotPass)}>
           <FormInput
             label="Contact Email"
             error={errors['contactEmail']}
@@ -59,17 +62,16 @@ export const ForgotPassPage = () => {
             {...register('contactEmail')}
           />
 
-          <button className="form__btn" type="submit">
+          <button className={`${styles.form__btn}`} type="submit">
             Send
           </button>
         </form>
-        <div className="forgot__btns">
-          <span>Have an account?</span>
-          <NavLink className="forgot__register" to={'/auth/login'}>
-            Sign in
+        <div className={`${styles.didForget__btns}`}>
+          <NavLink className={`${styles.didForget__register}`} to={`/panel/${user?.role}/settings`}>
+            Go back
           </NavLink>
         </div>
-        {successMessage && <span className="forgot__message">{successMessage}</span>}
+        {successMessage && <span className={`${styles.didForget__message}`}>{successMessage}</span>}
       </div>
     </div>
   );
