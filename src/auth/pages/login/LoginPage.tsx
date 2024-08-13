@@ -20,9 +20,8 @@ import { GoogleIcon } from '../../../components/icons/GoogleIcon';
     ** USER **
     defaultValues: {
       email: 'fogoho4949@givehit.com',
-      password: '123456Aa#',
+      password: 'asdf123Aa#',
     },
-
 */
 
 export const LoginPage = () => {
@@ -131,7 +130,7 @@ export const LoginPage = () => {
       <div className="login__container">
         <h1 className="login__title">Welcome Back</h1>
 
-        {loginError && <div className="error-message">{loginError}</div>}
+        {loginError && <div className="error__message">{loginError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleLogin)}>
           <FormInput

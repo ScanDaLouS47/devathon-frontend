@@ -23,7 +23,7 @@ export const RegisterPage = () => {
 
     password
 
-    image_url
+    image
    */
 
   const {
@@ -65,8 +65,7 @@ export const RegisterPage = () => {
           email: data.email,
           phone: data.phone,
           password: authData.user?.user_metadata.sub,
-          // password: '123456Aa#',
-          image_url: 'None',
+          image: 'None',
         },
         false,
       );
@@ -101,7 +100,7 @@ export const RegisterPage = () => {
       <div className="register__container">
         <h1 className="register__title">Sign Up</h1>
 
-        {registerError && <div className="error-message">{registerError}</div>}
+        {registerError && <div className="error__message">{registerError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleRegister)}>
           <FormInput

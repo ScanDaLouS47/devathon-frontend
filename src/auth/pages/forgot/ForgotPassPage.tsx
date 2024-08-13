@@ -31,10 +31,11 @@ export const ForgotPassPage = () => {
         throw new Error(error.message);
       }
 
-      setSuccessMessage('A recovery link has been sent to your email*');
+      setSuccessMessage('We have send an email*');
     } catch (error) {
       if (error instanceof Error) {
         console.error('Launched error:', error.message);
+        setForgotPassError(`${error.message}*`);
       } else {
         setForgotPassError('An unexpected error occurred*');
         console.error('Unexpected error:', error);
@@ -47,7 +48,7 @@ export const ForgotPassPage = () => {
       <div className="forgot__container">
         <h1 className="forgot__title">Get Recovery Email</h1>
 
-        {forgotPassError && <span className="error-message">{forgotPassError}</span>}
+        {forgotPassError && <span className="error__message">{forgotPassError}</span>}
 
         <form className="form" onSubmit={handleSubmit(handleForgotPass)}>
           <FormInput

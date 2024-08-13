@@ -1,5 +1,5 @@
 .login {
-  height: 80dvh;
+  // height: 80dvh;
   padding: 0 1em;
   display: grid;
   place-items: center;
@@ -94,6 +94,6 @@
   }
 }
 
-.error-message {
+.error__message {
   color: var(--error);
 }

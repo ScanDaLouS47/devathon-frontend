@@ -1,5 +1,5 @@
 .settings {
-  height: 80dvh;
+  // height: 80dvh;
   // padding: 1em;
   display: grid;
   place-items: center;
@@ -11,7 +11,8 @@
 
   &__container {
     width: 100%;
-    max-width: 33.125rem;
+    // max-width: 33.125rem;
+    max-width:66.125rem;
     padding: 2em;
     border-radius: 0.3em;
     background-color: var(--white);
@@ -48,8 +49,22 @@
     color: var(--btn-color);
     cursor: pointer;
   }
+
+  &__columns {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 1;
+    gap: 1rem;
+  }
 }
 
-.error-message {
+.error__message {
   color: var(--error);
 }

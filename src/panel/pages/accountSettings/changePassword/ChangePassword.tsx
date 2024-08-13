@@ -62,7 +62,7 @@ export const ChangePassword = () => {
       <div className={`${styles.changePassword__container}`}>
         <h1 className={`${styles.changePassword__title}`}>Change Password</h1>
 
-        {changePasswordError && <div className="error-message">{changePasswordError}</div>}
+        {changePasswordError && <div className={`${styles.error__message}`}>{changePasswordError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleUpdatePassword)}>
           <FormInput

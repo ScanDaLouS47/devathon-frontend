@@ -37,6 +37,8 @@ export const Settings = () => {
   });
 
   const [settingsError, setSettingsError] = useState<string | null>(null);
+  const prefix = user?.phone?.slice(0, 3);
+  const withoutPrefix = user?.phone?.slice(3);
 
   const handleUpdate: SubmitHandler<SettingsType> = async (data) => {
     try {
@@ -45,7 +47,7 @@ export const Settings = () => {
       formData.append('name', data.name);
       formData.append('lName', data.lastName);
       formData.append('email', data.email);
-      formData.append('phone', data.phone);
+      formData.append('phone', `${prefix}${data.phone}`);
       if (data.file && data.file.length > 0) {
         formData.append('image', data.file[0]);
       } else {
@@ -71,9 +73,9 @@ export const Settings = () => {
       <div className={`${styles.settings__container}`}>
         <h1 className={`${styles.settings__title}`}>Account Settings</h1>
 
-        {settingsError && <div className="error-message">{settingsError}</div>}
+        {settingsError && <div className={`${styles.error__message}`}>{settingsError}</div>}
 
-        <form className="form" onSubmit={handleSubmit(handleUpdate)}>
+        {/* <form className="form" onSubmit={handleSubmit(handleUpdate)}>
           <FormInput label="" error={errors['file']} id="image-url" type="file" {...register('file')} />
 
           <FormInput
@@ -119,6 +121,59 @@ export const Settings = () => {
           <button className={`${styles.form__btn}`} type="submit">
             Modify
           </button>
+        </form> */}
+        <form className={`${styles.form}`} onSubmit={handleSubmit(handleUpdate)}>
+          <div className={`${styles.form__columns}`}>
+            <div className={`${styles.form__column}`}>
+              <FormInput
+                label="Name"
+                error={errors['name']}
+                id="name"
+                type="text"
+                defaultValue={user?.name}
+                notEnabled
+                {...register('name')}
+              />
+
+              <FormInput
+                label="Last Name"
+                error={errors['lastName']}
+                id="lastName"
+                type="text"
+                defaultValue={user?.lName}
+                notEnabled
+                {...register('lastName')}
+              />
+
+              <FormInput
+                label="Phone Number"
+                error={errors['phone']}
+                id="phoneN"
+                type="text"
+                defaultValue={withoutPrefix}
+                notEnabled
+                {...register('phone')}
+              />
+
+              <FormInput
+                label="Email Address"
+                error={errors['email']}
+                id="email"
+                type="email"
+                defaultValue={user?.email}
+                notEnabled
+                {...register('email')}
+              />
+            </div>
+
+            <div className={`${styles.form__column}`}>
+              <FormInput label="" error={errors['file']} id="image-url" type="file" {...register('file')} />
+
+              <button className={`${styles.form__btn}`} type="submit">
+                Modify
+              </button>
+            </div>
+          </div>
         </form>
         <div className={`${styles.settings__btns}`}>
           <span>Change Password?</span>

@@ -47,7 +47,7 @@ export const UpdatePassPage = () => {
       <div className="forgot__container">
         <h1 className="forgot__title">Reset Your Password</h1>
 
-        {updatePassError && <span className="error-message">{updatePassError}</span>}
+        {updatePassError && <span className="error__message">{updatePassError}</span>}
 
         <form className="form" onSubmit={handleSubmit(handleUpdatePass)}>
           <FormInput

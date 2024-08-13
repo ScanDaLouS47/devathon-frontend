@@ -34,10 +34,11 @@ export const DidForgetPass = () => {
         throw new Error(error.message);
       }
 
-      setSuccessMessage('A recovery link has been sent to your email*');
+      setSuccessMessage('We have send an email*');
     } catch (error) {
       if (error instanceof Error) {
         console.error('Launched error:', error.message);
+        setDidForgetPassError(`${error.message}*`);
       } else {
         setDidForgetPassError('An unexpected error occurred*');
         console.error('Unexpected error:', error);
@@ -50,7 +51,7 @@ export const DidForgetPass = () => {
       <div className={`${styles.didForget__container}`}>
         <h1 className={`${styles.didForget__title}`}>Get Recovery Email</h1>
 
-        {didForgetPassError && <span className="error-message">{didForgetPassError}</span>}
+        {didForgetPassError && <span className={`${styles.error__message}`}>{didForgetPassError}</span>}
 
         <form className={`${styles.form}`} onSubmit={handleSubmit(handleForgotPass)}>
           <FormInput

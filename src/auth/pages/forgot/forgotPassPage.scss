@@ -1,5 +1,5 @@
 .forgot {
-  height: 80dvh;
+  // height: 80dvh;
   padding: 1em;
   display: grid;
   place-items: center;
@@ -43,6 +43,7 @@
     font-weight: 600;
     line-height: 1rem;
     color: var(--orange);
+    text-align: center;
 
     &--error {
       color: var(--error);
@@ -66,6 +67,6 @@
   }
 }
 
-.error-message {
+.error__message {
   color: var(--error);
 }

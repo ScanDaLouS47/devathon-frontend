@@ -1,5 +1,5 @@
 .register {
-  height: 80dvh;
+  // height: 80dvh;
   padding: 1em;
   display: grid;
   place-items: center;
@@ -50,6 +50,6 @@
   }
 }
 
-.error-message {
+.error__message {
   color: var(--error);
 }
