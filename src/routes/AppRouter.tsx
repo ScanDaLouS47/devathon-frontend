@@ -8,7 +8,8 @@ import { SchedulesPage } from '../panel/pages/userPanel/schedulesPage/SchedulesP
 import { PrivateAdminRoute } from './PrivateAdminRoutes';
 import { PrivateUserRoutes } from './PrivateUserRoutes';
 import { PublicRoute } from './PublicRoutes';
-import { Settings } from '../panel/pages/accountSettings/Settings';
+import { Settings } from '../panel/pages/accountSettings/settings/Settings';
+import { ChangePassword } from '../panel/pages/accountSettings/changePassword/ChangePassword';
 
 export const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ export const AppRouter = () => {
           <Route path="list-reservations" element={<ListReservationsPage />} />
 
           <Route path="settings" element={<Settings />} />
+          <Route path="settings/change-password" element={<ChangePassword />} />
 
           <Route path="*" element={<Navigate to="/panel/admin/dashboard" replace />} />
         </Route>
@@ -33,6 +35,7 @@ export const AppRouter = () => {
           <Route path="my-reservations" element={<MyReservations />} />
 
           <Route path="settings" element={<Settings />} />
+          <Route path="settings/change-password" element={<ChangePassword />} />
 
           <Route path="*" element={<Navigate to="/panel/user/schedules" replace />} />
         </Route>

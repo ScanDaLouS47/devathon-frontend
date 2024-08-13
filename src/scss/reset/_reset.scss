@@ -38,7 +38,7 @@
   --error: rgb(237, 74, 74);
   --logout: rgb(204, 63, 63);
 
-  --box-shadow: 0 0 0.625rem rgb(0, 0, 0, 10%);
+  --box-shadow: 0 0 0.625rem rgb(0, 0, 0, 0.1);
   --shadow: rgba(70, 70, 70, 0.7);
 
   /* Tipografía */
@@ -53,11 +53,13 @@
     --white: rgb(43, 43, 43);
     --smoke-white: rgb(14, 14, 17);
     --box-shadow: 0 0 0.625rem rgba(255, 255, 255, 0.1);
+    --box-shadow-contrast: 0 0 0.625rem rgba(0, 0, 0, 0.1);
 
     --hover-avt-opt: rgb(250, 208, 141);
 
     --btn-bg: rgb(247, 177, 82);
     --btn-color: rgb(14, 14, 17);
+    --img-bg: rgb(250, 208, 141);
 
     --theme-bg: rgb(68, 68, 68);
 
@@ -74,11 +76,13 @@
   --white: rgb(43, 43, 43);
   --smoke-white: rgb(14, 14, 17);
   --box-shadow: 0 0 0.625rem rgba(255, 255, 255, 0.1);
+  --box-shadow-contrast: 0 0 0.625rem rgba(0, 0, 0, 0.1);
 
   --hover-avt-opt: rgb(250, 208, 141);
 
   --btn-bg: rgb(247, 177, 82);
   --btn-color: rgb(14, 14, 17);
+  --img-bg: rgb(223, 223, 223);
 
   --theme-bg: rgb(68, 68, 68);
 
@@ -93,6 +97,8 @@
   --black: rgb(14, 14, 17);
   --white: rgb(250, 250, 250);
   --smoke-white: rgb(223, 223, 223);
+  --box-shadow: 0 0 0.625rem rgb(0, 0, 0, 0.1);
+  --box-shadow-contrast: 0 0 0.625rem rgba(255, 255, 255, 0.1);
 
   --hover-avt-opt: rgb(223, 223, 223);
   --dark-gray: rgb(73, 73, 73);

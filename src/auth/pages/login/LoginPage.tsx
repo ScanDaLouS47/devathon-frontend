@@ -60,17 +60,19 @@ export const LoginPage = () => {
 
       console.log('ON MY BACKEND', resp);
 
-      //USER DATA TEST
-      const user = {
-        name: 'Test',
-        lName: 'Testing',
-        email: 'dirij75152@maxturns.com',
-        phone: '+34123123123',
-        role: 'user',
-        image_url: 'None',
-      };
+      localStorage.setItem('access_token_api', resp.data.token);
 
-      onLogin(user);
+      //USER DATA TEST
+      // const user = {
+      //   name: 'Test',
+      //   lName: 'Testing',
+      //   email: 'dirij75152@maxturns.com',
+      //   phone: '+34123123123',
+      //   role: 'user',
+      //   image_url: 'None',
+      // };
+
+      onLogin(resp.data.user);
     } catch (error) {
       if (error instanceof Error) {
         setLoginError(error.message);

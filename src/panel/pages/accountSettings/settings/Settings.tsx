@@ -2,12 +2,12 @@ import styles from './settings.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { FormInput } from '../../../components/formInput/FormInput';
-import { settingsSchema, SettingsType } from './settingsSchema';
+import { FormInput } from '../../../../components/formInput/FormInput';
+import { createSettingsSchema, SettingsType } from './settingsSchema';
 // import { client } from '../../../supabase/Client';
 import { useState } from 'react';
-import { fetchApi } from '../../../utils/fetchApi';
-import { useAuth } from '../../../auth/hook/useAuth';
+import { fetchApi } from '../../../../utils/fetchApi';
+import { useAuth } from '../../../../auth/hook/useAuth';
 
 export const Settings = () => {
   // PUT a /api/v1/user/
@@ -20,10 +20,12 @@ export const Settings = () => {
 
     phone
 
-    password
-
-    image_url
+    image
    */
+
+  const { authState } = useAuth();
+  const { user } = authState;
+  const settingsSchema = createSettingsSchema(user);
 
   const {
     register,
@@ -34,40 +36,31 @@ export const Settings = () => {
     mode: 'onChange',
   });
 
-  const [settingsError, setRegisterError] = useState<string | null>(null);
+  const [settingsError, setSettingsError] = useState<string | null>(null);
 
-  const { authState } = useAuth();
-  const { user } = authState;
-
-  const phonePrefix = user?.phone?.includes('+') ? user?.phone?.slice(0, 3) : user?.phone;
-
-  const handleRegister: SubmitHandler<SettingsType> = async (data) => {
+  const handleUpdate: SubmitHandler<SettingsType> = async (data) => {
     try {
-      const resp = await fetchApi(
-        '/api/v1/user/',
-        'POST',
-        '',
-        {
-          name: data.name,
-          lName: data.lastName,
-          email: data.email,
-          phone: phonePrefix + data.phone,
-          image_url: 'None',
-        },
-        true,
-        true,
-      );
-      console.log('ON MY BACKEND', resp);
-
-      if (!resp) {
-        throw new Error('Bad request');
+      const formData = new FormData();
+      formData.append('_method', 'PUT');
+      formData.append('name', data.name);
+      formData.append('lName', data.lastName);
+      formData.append('email', data.email);
+      formData.append('phone', data.phone);
+      if (data.file && data.file.length > 0) {
+        formData.append('image', data.file[0]);
+      } else {
+        formData.append('image', 'None');
       }
+
+      const resp = await fetchApi('/api/v1/user/', 'POST', '', formData, true, true);
+
+      console.log('ON MY BACKEND', resp);
     } catch (error) {
       if (error instanceof Error) {
-        setRegisterError(error.message);
+        setSettingsError(error.message);
         console.error('Updating error:', error.message);
       } else {
-        setRegisterError('An unexpected error occurred');
+        setSettingsError('An unexpected error occurred');
         console.error('Unexpected error:', error);
       }
     }
@@ -80,23 +73,16 @@ export const Settings = () => {
 
         {settingsError && <div className="error-message">{settingsError}</div>}
 
-        <form className="form" onSubmit={handleSubmit(handleRegister)}>
-          <FormInput
-            label=""
-            error={errors['file']}
-            id="image-url"
-            type="file"
-            placeholder={user?.image_url}
-            {...register('file')}
-          />
+        <form className="form" onSubmit={handleSubmit(handleUpdate)}>
+          <FormInput label="" error={errors['file']} id="image-url" type="file" {...register('file')} />
 
           <FormInput
             label="Name"
             error={errors['name']}
             id="name"
             type="text"
-            placeholder={user?.name}
-            value={user?.name}
+            defaultValue={user?.name}
+            notEnabled
             {...register('name')}
           />
 
@@ -105,8 +91,8 @@ export const Settings = () => {
             error={errors['lastName']}
             id="lastName"
             type="text"
-            placeholder={user?.lName}
-            value={user?.lName}
+            defaultValue={user?.lName}
+            notEnabled
             {...register('lastName')}
           />
 
@@ -115,8 +101,8 @@ export const Settings = () => {
             error={errors['phone']}
             id="phoneN"
             type="text"
-            placeholder={user?.phone}
-            value={user?.phone}
+            defaultValue={user?.phone}
+            notEnabled
             {...register('phone')}
           />
 
@@ -125,8 +111,8 @@ export const Settings = () => {
             error={errors['email']}
             id="email"
             type="email"
-            placeholder={user?.email}
-            value={user?.email}
+            defaultValue={user?.email}
+            notEnabled
             {...register('email')}
           />
 
@@ -135,7 +121,10 @@ export const Settings = () => {
           </button>
         </form>
         <div className={`${styles.settings__btns}`}>
-          <NavLink className={`${styles.settings__register}`} to={'/auth/forgot-pass'}>
+          <NavLink
+            className={`${styles.settings__register}`}
+            to={`/panel/${user?.role}/settings/change-password`}
+          >
             Change password?
           </NavLink>
         </div>

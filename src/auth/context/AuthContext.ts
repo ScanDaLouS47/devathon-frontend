@@ -12,7 +12,7 @@ export type UserReducerType = {
 
 export type AuthReducerState = {
   logged: boolean;
-  user: UserReducerType | null;
+  user: UserReducerType | undefined;
 };
 
 type AuthContextType = {
@@ -22,7 +22,7 @@ type AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType>({
-  authState: { logged: false, user: null },
+  authState: { logged: false, user: undefined },
   onLogin: () => null,
   onLogout: () => null,
 });

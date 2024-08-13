@@ -6,32 +6,29 @@ import HidePassword from '../icons/HidePassword';
 import ShowPassword from '../icons/ShowPassword';
 import UploadIcon from '../icons/UploadIcon';
 import EditingIcon from '../icons/EditingIcon';
+import { useAuth } from '../../auth/hook/useAuth';
 
 type InputProps = React.ComponentProps<'input'> & {
   label: string;
   error: FieldError | undefined;
+  notEnabled?: boolean;
 };
 
 export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, type, ...inputProps }, ref) => {
+  ({ label, error, type, notEnabled = false, ...inputProps }, ref) => {
     const hasError = error ? 'row__error' : '';
-
     const [showPassword, setShowPassword] = useState(false);
-    const [isEnabled, setIsEnabled] = useState(false);
-    const [imageSrc, setImageSrc] = useState<string | undefined>('');
-
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
-
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
     const inputType = showPassword && type === 'password' ? 'text' : type;
-
-    const toggleEnable = () => {
-      setIsEnabled(!isEnabled);
-    };
+    const [isEnabled, setIsEnabled] = useState(!notEnabled);
+    const toggleEnable = () => setIsEnabled(!isEnabled);
+    const { authState } = useAuth();
+    const { user } = authState;
+    const [imageSrc, setImageSrc] = useState<string | undefined>(user?.image_url);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
+
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -50,18 +47,17 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
         return (result += charts.charAt(random));
       }
     };
-
     const changingImg = randomChart(3);
     const imgPreview = imageSrc ? imageSrc : `https://robohash.org/user@m${changingImg}.co.ea`;
 
     return (
       <div className="row">
         {type === 'file' ? (
-          <div className="row__input--flex">
-            <div className="row__input--imgContainer">
-              <img src={imgPreview} alt="Preview" className="row__image-preview" />
-              <label htmlFor={inputProps.id}>
-                <UploadIcon className="row__input--icon" />
+          <div className="row__input__file">
+            <div className="row__input__file--imgContainer">
+              <img src={imgPreview} alt="Preview" className="row__input__file--imgPreview" />
+              <label htmlFor={inputProps.id} className="row__input__file--imgLabel">
+                <UploadIcon className="row__input__file--icon" />
                 <input
                   ref={ref}
                   className="row__input"
@@ -104,7 +100,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </button>
               )}
 
-              {type === 'text' || type === 'email' ? (
+              {notEnabled && (type === 'text' || type === 'email') ? (
                 <button
                   type="button"
                   onClick={toggleEnable}

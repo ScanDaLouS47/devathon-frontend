@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Link } from '../../interfaces/link.interface';
-import './aside.scss';
+import styles from './aside.module.scss';
 
 type AsideProps = {
   links: Link[];
@@ -8,12 +8,12 @@ type AsideProps = {
 
 export const Aside = ({ links }: AsideProps) => {
   return (
-    <aside className="aside">
-      <nav className="aside__nav">
+    <aside className={`${styles.aside}`}>
+      <nav className={`${styles.aside__nav}`}>
         {links.map((link) => (
           <NavLink
             key={link.name}
-            className={({ isActive }) => `aside__link ${isActive ? 'active' : ''}`}
+            className={({ isActive }) => `${styles.aside__link} ${isActive ? `${styles.active}` : ''}`}
             to={link.path}
           >
             {link.name}

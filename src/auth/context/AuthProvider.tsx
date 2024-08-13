@@ -8,8 +8,11 @@ type AuthProviderType = {
 
 const initialState: AuthReducerState = {
   logged: false,
-  user: null,
+  user: undefined,
 };
+
+// ToDo: Refactorizar el localStorage de userData. No puede mandarse como JSON.stringify()
+
 const init = (): AuthReducerState => {
   const userString = localStorage.getItem('userData');
   const userData = userString ? JSON.parse(userString) : null;
