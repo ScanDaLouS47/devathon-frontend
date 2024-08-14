@@ -37,17 +37,17 @@ type HttpMethod = 'GET' | 'POST' | 'DELETE';
  *
  * @example
  * ```
- * // Example of fetching data
- * const getUsers = await fetchApi('/users');
+ * // Example of fetching user profile data
+ * const getUserProfile = await fetchApi('/profile', 'GET', '', undefined, true, true);
  *
  * // Example of uploading data with token and credentials
- * const login = await fetchApi('/login', 'POST', '1', { name: 'John Doe' }, true, true);
+ * const login = await fetchApi('/upload', 'POST', '', formData, true, true);
  *
  * // Example of posting data without token and credentials on register
- * const newUser = await fetchApi('/api/v1/auth/create', 'POST', '', { email: 'user@example.com' }, false, false);
+ * const newUser = await fetchApi('/create', 'POST', '', { name: 'John Doe', email: 'user@example.com', ... }, false, false);
  *
- * // Example of posting login data with credentials on login
- * const newUser = await fetchApi('/api/v1/auth/create', 'POST', '', { email: 'user@example.com' }, false, true);
+ * // Example of posting data with credentials on login
+ * const newUser = await fetchApi('/login', 'POST', '', { email: 'user@example.com' }, false, true);
  * ```
  */
 export const fetchApi = async (
