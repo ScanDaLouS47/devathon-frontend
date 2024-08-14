@@ -35,7 +35,7 @@
       -moz-transition: all 0.7s ease;
       -ms-transition: all 0.7s ease;
       -o-transition: all 0.7s ease;
-}
+    }
     @media screen and (max-width: 768px) {
       padding: 0.5rem;
     }
@@ -49,6 +49,8 @@
 
 @media (width <= 450px) {
   .aside {
+    height: unset;
+
     &__link {
       font-size: 1.1rem;
       border-radius: 0.3125rem;
@@ -56,6 +58,6 @@
       -moz-border-radius: 0.3125rem;
       -ms-border-radius: 0.3125rem;
       -o-border-radius: 0.3125rem;
-}
+    }
   }
 }

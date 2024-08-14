@@ -11,7 +11,7 @@
   &__container {
     width: 100%;
     max-width: 33.125rem;
-    padding: 2em;
+    padding: 1.9em;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
     display: flex;
@@ -42,9 +42,7 @@
     font-weight: 600;
     line-height: 1rem;
     color: var(--orange);
-    text-align: center
-
-    &--error {
+    text-align: center &--error {
       color: var(--error);
     }
   }
