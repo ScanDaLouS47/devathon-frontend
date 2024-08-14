@@ -1,5 +1,4 @@
 .settings {
-  // height: 80dvh;
   // padding: 1em;
   display: grid;
   place-items: center;
@@ -12,8 +11,8 @@
   &__container {
     width: 100%;
     // max-width: 33.125rem;
-    max-width:66.125rem;
-    padding: 2em;
+    max-width: 66.125rem;
+    padding: 1.9em;
     border-radius: 0.3em;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
@@ -63,8 +62,63 @@
     flex: 1;
     gap: 1rem;
   }
+
+  &__enableContainer {
+    position: relative;
+    overflow: visible;
+  }
+
+  &__enableBtn {
+    position: absolute;
+    cursor: pointer;
+    background-color: var(--btn-bg);
+    padding: 8px;
+    left: 29rem;
+    overflow: hidden;
+    box-shadow: var(--box-shadow-contrast);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+
+  &__enableBtnIcon {
+    width: 1.5rem;
+    height: auto;
+    color: var(--btn-color);
+  }
 }
 
 .error__message {
   color: var(--error);
+}
+
+@media (width <= 450px) {
+  .settings {
+    padding: 1em;
+
+    &__container {
+      max-width: 33.125rem;
+    }
+  }
+
+  .form {
+    &__columns {
+      flex-direction: column;
+    }
+
+    &__enableBtn {
+      left: 11.8rem;
+      bottom: -2rem;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+.active {
+  background-color: var(--btn-active-bg);
 }
