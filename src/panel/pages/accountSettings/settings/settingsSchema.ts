@@ -33,8 +33,11 @@ export const createSettingsSchema = (user: UserReducerType | undefined) =>
       .trim()
       .default(user?.email || ''),
     file: z
-      .instanceof(FileList)
+      .any()
       .optional()
+      .refine((files) => files instanceof FileList || files === undefined, {
+        message: 'No file uploaded',
+      })
       .refine((files) => !files || files.length === 0 || files[0].size <= 5 * 1024 * 1024, {
         message: 'The file must be at most 5MB',
       })

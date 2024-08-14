@@ -4,14 +4,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { FormInput } from '../../../../components/formInput/FormInput';
 import { createSettingsSchema, SettingsType } from './settingsSchema';
-// import { client } from '../../../supabase/Client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchApi } from '../../../../utils/fetchApi';
 import { useAuth } from '../../../../auth/hook/useAuth';
+import EditingIcon from '../../../../components/icons/EditingIcon';
 
 export const Settings = () => {
-  // PUT a /api/v1/user/
+  // POST a /api/v1/user/
   /**
+    _method: PUT
+
     name
 
     lName
@@ -23,40 +25,80 @@ export const Settings = () => {
     image
    */
 
-  const { authState } = useAuth();
+  // GET a /api/v1/user/profile
+
+  const { authState, updateUser } = useAuth();
   const { user } = authState;
   const settingsSchema = createSettingsSchema(user);
+  const [settingsError, setSettingsError] = useState<string | null>(null);
+  const prefix = user?.phone?.slice(0, 3);
+  const phoneWithoutPrefix = user?.phone?.slice(3);
+  const [isEnable, setIsEnable] = useState(false);
+  const enabledClass = isEnable ? `${styles.form__enableBtn} ${styles.active}` : `${styles.form__enableBtn}`;
+  const toggleEnable = () => setIsEnable(!isEnable);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setFocus,
+    reset,
+    formState: { errors /* , isDirty */ },
   } = useForm<SettingsType>({
     resolver: zodResolver(settingsSchema),
     mode: 'onChange',
   });
 
-  const [settingsError, setSettingsError] = useState<string | null>(null);
-  const prefix = user?.phone?.slice(0, 3);
-  const withoutPrefix = user?.phone?.slice(3);
+  useEffect(() => setFocus('name'), [isEnable, setFocus]);
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user?.name || '',
+        lastName: user?.lName || '',
+        email: user?.email || '',
+        phone: phoneWithoutPrefix || '',
+        // ToDo: Fix response with backend. Return file is needed
+        // Realmente no hay ningún archivo pre-cargado, hay
+        // solo una preview de la img que se expone a través
+        // de un string (URL), y es necesario de un File o
+        // FileList. Debería recibir del backend el archivo
+        // que se le envió para poder resolver el problema.
+        // Por este motivo `isDirty` no se puede utilizar
+        file: user?.image_url,
+      });
+    }
+  }, [user, phoneWithoutPrefix, reset]);
 
   const handleUpdate: SubmitHandler<SettingsType> = async (data) => {
     try {
+      // if (!isDirty) {
+      //   setSettingsError('Please, modify at least one input');
+      //   return;
+      // }
+
       const formData = new FormData();
       formData.append('_method', 'PUT');
       formData.append('name', data.name);
       formData.append('lName', data.lastName);
       formData.append('email', data.email);
       formData.append('phone', `${prefix}${data.phone}`);
-      if (data.file && data.file.length > 0) {
-        formData.append('image', data.file[0]);
-      } else {
-        formData.append('image', 'None');
-      }
+      data.file && data.file.length > 0
+        ? formData.append('image', data.file[0])
+        : formData.append('image', 'None');
 
       const resp = await fetchApi('/api/v1/user/', 'POST', '', formData, true, true);
 
       console.log('ON MY BACKEND', resp);
+
+      const updUser = await fetchApi('/api/v1/user/profile', 'GET', '', undefined, true, true);
+
+      updateUser({
+        ...user,
+        name: updUser.data.name,
+        lName: updUser.data.lName,
+        email: updUser.data.email,
+        phone: updUser.data.phone,
+        image_url: updUser.data.image_url,
+      });
     } catch (error) {
       if (error instanceof Error) {
         setSettingsError(error.message);
@@ -74,64 +116,20 @@ export const Settings = () => {
         <h1 className={`${styles.settings__title}`}>Account Settings</h1>
 
         {settingsError && <div className={`${styles.error__message}`}>{settingsError}</div>}
-
-        {/* <form className="form" onSubmit={handleSubmit(handleUpdate)}>
-          <FormInput label="" error={errors['file']} id="image-url" type="file" {...register('file')} />
-
-          <FormInput
-            label="Name"
-            error={errors['name']}
-            id="name"
-            type="text"
-            defaultValue={user?.name}
-            notEnabled
-            {...register('name')}
-          />
-
-          <FormInput
-            label="Last Name"
-            error={errors['lastName']}
-            id="lastName"
-            type="text"
-            defaultValue={user?.lName}
-            notEnabled
-            {...register('lastName')}
-          />
-
-          <FormInput
-            label="Phone Number"
-            error={errors['phone']}
-            id="phoneN"
-            type="text"
-            defaultValue={user?.phone}
-            notEnabled
-            {...register('phone')}
-          />
-
-          <FormInput
-            label="Email Address"
-            error={errors['email']}
-            id="email"
-            type="email"
-            defaultValue={user?.email}
-            notEnabled
-            {...register('email')}
-          />
-
-          <button className={`${styles.form__btn}`} type="submit">
-            Modify
-          </button>
-        </form> */}
         <form className={`${styles.form}`} onSubmit={handleSubmit(handleUpdate)}>
           <div className={`${styles.form__columns}`}>
             <div className={`${styles.form__column}`}>
+              <div className={`${styles.form__enableContainer}`}>
+                <button className={enabledClass} type="button" onClick={toggleEnable}>
+                  <EditingIcon className={`${styles.form__enableBtnIcon}`} />
+                </button>
+              </div>
               <FormInput
                 label="Name"
                 error={errors['name']}
                 id="name"
                 type="text"
-                defaultValue={user?.name}
-                notEnabled
+                enabled={!isEnable}
                 {...register('name')}
               />
 
@@ -140,8 +138,7 @@ export const Settings = () => {
                 error={errors['lastName']}
                 id="lastName"
                 type="text"
-                defaultValue={user?.lName}
-                notEnabled
+                enabled={!isEnable}
                 {...register('lastName')}
               />
 
@@ -150,8 +147,7 @@ export const Settings = () => {
                 error={errors['phone']}
                 id="phoneN"
                 type="text"
-                defaultValue={withoutPrefix}
-                notEnabled
+                enabled={!isEnable}
                 {...register('phone')}
               />
 
@@ -160,8 +156,7 @@ export const Settings = () => {
                 error={errors['email']}
                 id="email"
                 type="email"
-                defaultValue={user?.email}
-                notEnabled
+                enabled={!isEnable}
                 {...register('email')}
               />
             </div>

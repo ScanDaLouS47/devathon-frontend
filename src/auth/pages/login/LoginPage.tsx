@@ -33,7 +33,7 @@ export const LoginPage = () => {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: 'fogoho4949@givehit.com',
-      password: '123456Aa#',
+      password: 'asdf123Aa#',
     },
   });
 

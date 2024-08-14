@@ -1,6 +1,6 @@
 import './formInput.scss';
 import React, { useState } from 'react';
-import { FieldError } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { WarningIcon } from '../icons/WarningIcon';
 import HidePassword from '../icons/HidePassword';
 import ShowPassword from '../icons/ShowPassword';
@@ -10,17 +10,17 @@ import { useAuth } from '../../auth/hook/useAuth';
 
 type InputProps = React.ComponentProps<'input'> & {
   label: string;
-  error: FieldError | undefined;
-  notEnabled?: boolean;
+  error: FieldError | Merge<FieldError, FieldErrorsImpl<Record<string, undefined>>> | undefined;
+  enabled?: boolean;
 };
 
 export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, type, notEnabled = false, ...inputProps }, ref) => {
+  ({ label, error, type, enabled = false, ...inputProps }, ref) => {
     const hasError = error ? 'row__error' : '';
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
     const inputType = showPassword && type === 'password' ? 'text' : type;
-    const [isEnabled, setIsEnabled] = useState(!notEnabled);
+    const [isEnabled, setIsEnabled] = useState(!enabled);
     const toggleEnable = () => setIsEnabled(!isEnabled);
     const { authState } = useAuth();
     const { user } = authState;
@@ -44,9 +44,12 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
       let result = '';
 
       for (let i = 0; i < chartLength; i++) {
-        return (result += charts.charAt(random));
+        result += charts.charAt(random);
       }
+
+      return result;
     };
+
     const changingImg = randomChart(3);
     const imgPreview = imageSrc ? imageSrc : `https://robohash.org/user@m${changingImg}.co.ea`;
 
@@ -82,7 +85,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 autoComplete="off"
                 {...inputProps}
                 type={inputType}
-                disabled={!isEnabled}
+                disabled={enabled} // Modify `enabled` with `!isEnable` to use an enabling button for each input
               />
 
               {type === 'password' && (
@@ -100,7 +103,8 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </button>
               )}
 
-              {notEnabled && (type === 'text' || type === 'email') ? (
+              {/* Uncomment this part out if you want to use an enabling button for each input */}
+              {/* {enabled && (type === 'text' || type === 'email') ? (
                 <button
                   type="button"
                   onClick={toggleEnable}
@@ -113,14 +117,14 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                     <EditingIcon className="row__toggleButton__icon" />
                   )}
                 </button>
-              ) : null}
+              ) : null} */}
 
               {error && <WarningIcon className="row__icon" />}
             </div>
           </>
         )}
 
-        <span className="row__message">{error?.message}</span>
+        <span className="row__message">{error?.message as string}</span>
       </div>
     );
   },

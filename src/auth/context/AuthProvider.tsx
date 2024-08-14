@@ -11,8 +11,6 @@ const initialState: AuthReducerState = {
   user: undefined,
 };
 
-// ToDo: Refactorizar el localStorage de userData. No puede mandarse como JSON.stringify()
-
 const init = (): AuthReducerState => {
   const userString = localStorage.getItem('userData');
   const userData = userString ? JSON.parse(userString) : null;
@@ -37,7 +35,16 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     dispatch({ type: 'signOut' });
   };
 
+  const updateUser = (updatedUser: UserReducerType) => {
+    localStorage.setItem('userData', JSON.stringify(updatedUser));
+    dispatch({ type: 'updateUser', updatedPayload: updatedUser });
+  };
+
   // console.log({ authState });
 
-  return <AuthContext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ authState, onLogin, onLogout, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
