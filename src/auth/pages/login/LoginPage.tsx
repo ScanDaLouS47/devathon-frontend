@@ -1,3 +1,4 @@
+import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -8,9 +9,22 @@ import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../hook/useAuth';
-import './loginPage.scss';
 import { loginSchema, LoginType } from './loginSchema';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
+
+/*
+    ** ADMIN **
+    defaultValues: {
+      email: 'dirij75152@maxturns.com',
+      password: '123456Aa#',
+    },
+
+    ** USER **
+    defaultValues: {
+      email: 'fogoho4949@givehit.com',
+      password: 'asdf123Aa#',
+    },
+*/
 
 export const LoginPage = () => {
   const {
@@ -20,8 +34,8 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'dirij75152@maxturns.com',
-      password: '123B456$',
+      email: 'fogoho4949@givehit.com',
+      password: 'asdf123Aa#',
     },
   });
 
@@ -37,7 +51,7 @@ export const LoginPage = () => {
         email,
         password,
       });
-      // console.log('ON SUPABASE', data);
+      sessionStorage.setItem('sub', data.user?.user_metadata.sub);
 
       if (error) {
         throw new ApiError(error.message);
@@ -83,13 +97,19 @@ export const LoginPage = () => {
 
       console.log('ON MY BACKEND', resp);
 
-      //USER DATA TEST
-      const user = {
-        email: 'pepe@pepe.com',
-        role: 'user',
-      };
+      localStorage.setItem('access_token_api', resp.data.token);
 
-      onLogin(user);
+      //USER DATA TEST
+      // const user = {
+      //   name: 'Test',
+      //   lName: 'Testing',
+      //   email: 'dirij75152@maxturns.com',
+      //   phone: '+34123123123',
+      //   role: 'user',
+      //   image_url: 'None',
+      // };
+
+      onLogin(resp.data.user);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -134,7 +154,7 @@ export const LoginPage = () => {
       <div className="login__container">
         <h1 className="login__title">Welcome Back</h1>
 
-        {loginError && <div className="error-message">{loginError}</div>}
+        {loginError && <div className="error__message">{loginError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleLogin)}>
           <FormInput

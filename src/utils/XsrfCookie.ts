@@ -39,7 +39,7 @@ class XsrfCookie {
   }
 
   public static showCookie(): XsrfCookie | Error | undefined {
-    console.log('CSRF Token:', XsrfCookie.xsrfCookie);
+    // console.log('CSRF Token:', XsrfCookie.xsrfCookie);
     return XsrfCookie.xsrfCookie;
   }
 }

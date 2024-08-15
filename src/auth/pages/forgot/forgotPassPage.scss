@@ -1,5 +1,5 @@
 .forgot {
-  height: 100dvh;
+  // height: 80dvh;
   padding: 1em;
   display: grid;
   place-items: center;
@@ -12,13 +12,17 @@
   &__container {
     width: 100%;
     max-width: 33.125rem;
-    padding: 2em;
-    border-radius: 0.3em;
+    padding: 1.9em;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
     display: flex;
     flex-direction: column;
     row-gap: 1.5em;
+    border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    -ms-border-radius: 0.3em;
+    -o-border-radius: 0.3em;
   }
 
   &__register {
@@ -39,6 +43,7 @@
     font-weight: 600;
     line-height: 1rem;
     color: var(--orange);
+    text-align: center;
 
     &--error {
       color: var(--error);
@@ -56,8 +61,12 @@
     padding: 0.5em 1.3em;
     border-radius: 0.3em;
     font-weight: 600;
-    background-color: var(--black);
-    color: var(--orange);
+    background-color: var(--btn-bg);
+    color: var(--btn-color);
     cursor: pointer;
   }
+}
+
+.error__message {
+  color: var(--error);
 }
