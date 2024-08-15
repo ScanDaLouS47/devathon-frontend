@@ -8,8 +8,9 @@ type AuthProviderType = {
 
 const initialState: AuthReducerState = {
   logged: false,
-  user: null,
+  user: undefined,
 };
+
 const init = (): AuthReducerState => {
   const userString = localStorage.getItem('userData');
   const userData = userString ? JSON.parse(userString) : null;
@@ -23,7 +24,6 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
   const onLogin = (user: UserReducerType) => {
-    console.log(user);
     localStorage.setItem('userData', JSON.stringify(user));
     dispatch({ type: 'signIn', payload: user });
   };
@@ -35,7 +35,16 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     dispatch({ type: 'signOut' });
   };
 
-  console.log({ authState });
+  const updateUser = (updatedUser: UserReducerType) => {
+    localStorage.setItem('userData', JSON.stringify(updatedUser));
+    dispatch({ type: 'updateUser', updatedPayload: updatedUser });
+  };
 
-  return <AuthContext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthContext.Provider>;
+  // console.log({ authState });
+
+  return (
+    <AuthContext.Provider value={{ authState, onLogin, onLogout, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

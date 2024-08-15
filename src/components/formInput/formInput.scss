@@ -23,13 +23,78 @@
     outline: 0.125rem solid transparent;
     padding: 0.75rem 0;
     background-color: transparent;
+
     &::placeholder {
       color: var(--gray-color);
+    }
+
+    &__file {
+      display: flex;
+      justify-content: center;
+
+      &--imgContainer {
+        background-color: var(--black);
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        border: 0.125rem solid var(--gray-color);
+        width: 13rem;
+        aspect-ratio: 1/1;
+        position: relative;
+        overflow: visible;
+      }
+
+      &--imgPreview {
+        width: 100%;
+        height: 100%;
+        background-color: var(--img-bg);
+        object-fit: cover;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+      }
+
+      &--imgLabel {
+        position: absolute;
+        cursor: pointer;
+        background-color: var(--btn-bg);
+        padding: 8px;
+        top: 10rem;
+        left: 10rem;
+        overflow: hidden;
+        box-shadow: var(--box-shadow-contrast);
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+
+        input {
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+      }
+
+      &--icon {
+        width: 1.5rem;
+        height: auto;
+        color: var(--btn-color);
+      }
     }
   }
 
   &__toggleButton {
     margin-right: 0.5rem;
+    cursor: pointer;
 
     &__icon {
       width: 1.1rem;

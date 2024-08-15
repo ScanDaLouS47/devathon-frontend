@@ -1,4 +1,5 @@
 @use '../../scss/functions/functions' as func;
+
 .headerv2 {
   box-shadow: var(--box-shadow);
   padding: 1rem;
@@ -15,7 +16,7 @@
   }
 
   &__logo {
-    width: 16rem;
+    width: 15rem;
     border-radius: 0.4rem;
     color: var(--orange);
   }
