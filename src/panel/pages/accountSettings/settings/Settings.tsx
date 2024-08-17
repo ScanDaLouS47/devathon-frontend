@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { fetchApi } from '../../../../utils/fetchApi';
 import { useAuth } from '../../../../auth/hook/useAuth';
 import EditingIcon from '../../../../components/icons/EditingIcon';
+import { FormInputFileImgPreview } from '../../../../components/formInputImgFile/FormInputFileImgPreview';
 
 export const Settings = () => {
   // POST a /api/v1/user/
@@ -34,7 +35,7 @@ export const Settings = () => {
   const prefix = user?.phone?.slice(0, 3);
   const phoneWithoutPrefix = user?.phone?.slice(3);
   const [isEnable, setIsEnable] = useState(false);
-  const enabledClass = isEnable ? `${styles.form__enableBtn} ${styles.active}` : `${styles.form__enableBtn}`;
+  const enabledClass = isEnable ? `${styles.form__enableBtn}` : `${styles.form__enableBtn} ${styles.active}`;
   const toggleEnable = () => setIsEnable(!isEnable);
 
   const {
@@ -129,7 +130,7 @@ export const Settings = () => {
                 error={errors['name']}
                 id="name"
                 type="text"
-                enabled={!isEnable}
+                disabled={!isEnable}
                 {...register('name')}
               />
 
@@ -138,7 +139,7 @@ export const Settings = () => {
                 error={errors['lastName']}
                 id="lastName"
                 type="text"
-                enabled={!isEnable}
+                disabled={!isEnable}
                 {...register('lastName')}
               />
 
@@ -147,7 +148,7 @@ export const Settings = () => {
                 error={errors['phone']}
                 id="phoneN"
                 type="text"
-                enabled={!isEnable}
+                disabled={!isEnable}
                 {...register('phone')}
               />
 
@@ -156,14 +157,18 @@ export const Settings = () => {
                 error={errors['email']}
                 id="email"
                 type="email"
-                enabled={!isEnable}
+                disabled={!isEnable}
                 {...register('email')}
               />
             </div>
 
             <div className={`${styles.form__column}`}>
-              <FormInput label="" error={errors['file']} id="image-url" type="file" {...register('file')} />
-
+              <FormInputFileImgPreview
+                error={errors['file']}
+                id="image-url"
+                type="file"
+                {...register('file')}
+              />
               <button className={`${styles.form__btn}`} type="submit">
                 Modify
               </button>
