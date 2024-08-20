@@ -5,8 +5,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { FormInput } from '../../../../components/formInput/FormInput';
 import { changePasswordSchema, ChangePasswordType } from './changePasswordSchema';
 import { client } from '../../../../supabase/Client';
-import { useState } from 'react';
 import { useAuth } from '../../../../auth/hook/useAuth';
+import { ApiError } from '../../../../utils/apiError';
+import { toast } from 'react-toastify';
 
 export const ChangePassword = () => {
   const {
@@ -17,12 +18,12 @@ export const ChangePassword = () => {
     resolver: zodResolver(changePasswordSchema),
     mode: 'onChange',
   });
-  const [changePasswordError, setChangePasswordError] = useState<string | null>(null);
   const { authState } = useAuth();
   const { user } = authState;
   const navigate = useNavigate();
 
   const handleUpdatePassword: SubmitHandler<ChangePasswordType> = async (data) => {
+    const toastInfo = toast.loading('Loading...');
     try {
       const {
         data: { user },
@@ -32,27 +33,28 @@ export const ChangePassword = () => {
         email: user?.email || '',
         password: data.oldPassword,
       });
-      console.log(signInData.user?.id);
 
       if (signInError) {
-        throw new Error('Incorrect credential');
+        throw new ApiError(`Incorrect credentials ${signInData}`);
       }
 
       const resp = await client.auth.updateUser({ password: data.password });
 
-      console.log('ON SUPABASE', resp);
       if (!resp) {
-        throw new Error(resp);
+        throw new ApiError('Threw error updating password');
       }
 
+      let renderMsg;
+      if (resp.error === null) {
+        renderMsg = 'Your password has been successfully updated';
+      }
+
+      toast.update(toastInfo, { render: renderMsg, type: 'success', isLoading: false, autoClose: 1500 });
       navigate(`/panel/${user?.role}`);
     } catch (error) {
-      if (error instanceof Error) {
-        setChangePasswordError(error.message);
+      if (error instanceof ApiError) {
+        toast.error(error.message, { autoClose: 3000 });
         console.error('Updating error:', error.message);
-      } else {
-        setChangePasswordError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
       }
     }
   };
@@ -61,8 +63,6 @@ export const ChangePassword = () => {
     <div className={`${styles.changePassword}`}>
       <div className={`${styles.changePassword__container}`}>
         <h1 className={`${styles.changePassword__title}`}>Change Password</h1>
-
-        {changePasswordError && <div className={`${styles.error__message}`}>{changePasswordError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleUpdatePassword)}>
           <FormInput

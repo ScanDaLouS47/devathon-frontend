@@ -4,9 +4,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { forgotPassSchema, ForgotPassType } from './didForgetPassSchema';
 import { client } from '../../../../supabase/Client';
-import { useState } from 'react';
 import { FormInput } from '../../../../components/formInput/FormInput';
 import { useAuth } from '../../../../auth/hook/useAuth';
+import { ApiError } from '../../../../utils/apiError';
+import { toast } from 'react-toastify';
 
 export const DidForgetPass = () => {
   const {
@@ -18,30 +19,30 @@ export const DidForgetPass = () => {
     mode: 'onChange',
   });
 
-  const [didForgetPassError, setDidForgetPassError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const { authState } = useAuth();
   const { user } = authState;
 
   const handleForgotPass: SubmitHandler<ForgotPassType> = async (data) => {
+    const toastInfo = toast.loading('Loading...');
     try {
-      console.log('Form submitted:', data);
       const { error } = await client.auth.resetPasswordForEmail(data.contactEmail, {
         redirectTo: 'http://localhost:5173/auth/forgot-pass/update-password',
       });
 
       if (error) {
-        throw new Error(error.message);
+        throw new ApiError(error.message);
       }
 
-      setSuccessMessage('We have send an email*');
+      let renderMsg;
+      if (error === null) {
+        renderMsg = 'We have send an email';
+      }
+
+      toast.update(toastInfo, { render: renderMsg, type: 'warning', isLoading: false, autoClose: 1500 });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Launched error:', error.message);
-        setDidForgetPassError(`${error.message}*`);
-      } else {
-        setDidForgetPassError('An unexpected error occurred*');
-        console.error('Unexpected error:', error);
+      if (error instanceof ApiError) {
+        toast.error(error.message, { autoClose: 3000 });
+        console.error('Did forget password error', error.message);
       }
     }
   };
@@ -50,8 +51,6 @@ export const DidForgetPass = () => {
     <div className={`${styles.didForget}`}>
       <div className={`${styles.didForget__container}`}>
         <h1 className={`${styles.didForget__title}`}>Get Recovery Email</h1>
-
-        {didForgetPassError && <span className={`${styles.error__message}`}>{didForgetPassError}</span>}
 
         <form className={`${styles.form}`} onSubmit={handleSubmit(handleForgotPass)}>
           <FormInput
@@ -72,7 +71,6 @@ export const DidForgetPass = () => {
             Go back
           </NavLink>
         </div>
-        {successMessage && <span className={`${styles.didForget__message}`}>{successMessage}</span>}
       </div>
     </div>
   );
