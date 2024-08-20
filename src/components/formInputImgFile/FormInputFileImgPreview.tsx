@@ -1,8 +1,8 @@
-import styles from './formInputImgPreview.module.scss';
 import React, { useState } from 'react';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
-import UploadIcon from '../icons/UploadIcon';
 import { useAuth } from '../../auth/hook/useAuth';
+import UploadIcon from '../icons/UploadIcon';
+import styles from './formInputImgPreview.module.scss';
 
 type InputProps = React.ComponentProps<'input'> & {
   error: FieldError | Merge<FieldError, FieldErrorsImpl<Record<string, undefined>>> | undefined;

@@ -11,10 +11,11 @@ type InputProps = React.ComponentProps<'input'> & {
 };
 
 export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, type, ...inputProps }, ref) => {
+  ({ label, error, ...inputProps }, ref) => {
     const hasError = error ? 'row__error' : '';
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
+     const inputType = showPassword && inputProps.type === 'password' ? 'text' : inputProps.type;
 
     return (
       <div className="row">
@@ -22,9 +23,9 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
           {label && `${label}*`}
         </label>
         <div className={`row__container ${hasError}`}>
-          <input ref={ref} className="row__input" autoComplete="off" {...inputProps} type={type} />
+          <input ref={ref} className="row__input" autoComplete="off" {...inputProps} type={inputType} />
 
-          {type === 'password' && (
+          {inputProps.type === 'password' && (
             <button
               type="button"
               onClick={togglePasswordVisibility}

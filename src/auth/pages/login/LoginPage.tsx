@@ -1,18 +1,18 @@
 import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
+import { GoogleIcon } from '../../../components/icons/GoogleIcon';
+import { IRespLogin } from '../../../interfaces';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
-import { toast } from 'react-toastify';
 import { useAuth } from '../../hook/useAuth';
 import { loginSchema, LoginType } from './loginSchema';
-import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 
-/*
+/**
     ** ADMIN **
     defaultValues: {
       email: 'dirij75152@maxturns.com',
@@ -24,6 +24,10 @@ import { GoogleIcon } from '../../../components/icons/GoogleIcon';
       email: 'fogoho4949@givehit.com',
       password: 'asdf123Aa#',
     },
+    defaultValues: {
+      email: 'magiseb409@polatrix.com',
+      password: '123456Aa#',
+    },
 */
 
 export const LoginPage = () => {
@@ -34,14 +38,12 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'fogoho4949@givehit.com',
-      password: 'asdf123Aa#',
+      email: 'magiseb409@polatrix.com',
+      password: '123456Aa#',
     },
   });
 
   const { onLogin } = useAuth();
-
-  const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
     try {
@@ -75,49 +77,26 @@ export const LoginPage = () => {
       //   false,
       //   true,
       // );
-      const resp = await fetchApiV2(
-        '/api/v1/login',
-        'POST',
-        {
-          email: supEmail,
-          password: supPass,
-        },
-        true,
-      );
+      const resp = await fetchApiV2<IRespLogin>('/api/v1/login', 'POST', {
+        email: supEmail,
+        password: supPass,
+      });
 
-      if (resp.error) {
-        toast.update(toastInfo, {
-          render: resp.message,
-          type: 'error',
-          isLoading: false,
-          autoClose: 3000,
-        });
-        return;
+      if (!resp.ok) {
+        throw new ApiError('Login Error');
       }
 
       console.log('ON MY BACKEND', resp);
 
-      localStorage.setItem('access_token_api', resp.data.token);
-
-      //USER DATA TEST
-      // const user = {
-      //   name: 'Test',
-      //   lName: 'Testing',
-      //   email: 'dirij75152@maxturns.com',
-      //   phone: '+34123123123',
-      //   role: 'user',
-      //   image_url: 'None',
-      // };
-
-      onLogin(resp.data.user);
+      if (resp.data) {
+        localStorage.setItem('access_token_api', resp.data.token);
+        onLogin(resp.data.user);
+        toast.update(toastInfo, { render: resp.msg, type: 'success', isLoading: false, autoClose: 1500 });
+      }
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-        setLoginError(error.message);
+      if (error instanceof ApiError) {
+        toast.error(error.message, { autoClose: 3000 });
         console.error('Login error:', error.message);
-      } else {
-        setLoginError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
       }
     }
   };
@@ -138,13 +117,11 @@ export const LoginPage = () => {
       if (!data) {
         throw new Error('No user or session data received');
       }
+
+      // onLogin(data.data.user);
     } catch (error) {
       if (error instanceof Error) {
-        setLoginError(error.message);
         console.error('Google login error:', error.message);
-      } else {
-        setLoginError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
       }
     }
   };
@@ -153,8 +130,6 @@ export const LoginPage = () => {
     <div className="login wrapper">
       <div className="login__container">
         <h1 className="login__title">Welcome Back</h1>
-
-        {loginError && <div className="error__message">{loginError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleLogin)}>
           <FormInput
