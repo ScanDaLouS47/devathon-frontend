@@ -1,0 +1,35 @@
+.select {
+  position: relative;
+}
+.select__select {
+  background-color: var(--white);
+
+  width: 100%;
+
+  padding: 0.5em 2.5em;
+
+  border: none;
+  appearance: none;
+  outline: 0.0625rem solid var(--btn-bg);
+  border-radius: 0.3em;
+}
+
+.select__select:focus {
+  outline: none;
+  outline: 0.1875rem solid var(--btn-bg);
+}
+
+.select__arrow {
+  position: absolute;
+  width: 1.3em;
+  top: 0.6em;
+  right: 0.5em;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+.select__select:focus + .select__arrow {
+  transform: rotate(180deg);
+}
+.select__select:not(:focus) + .select__arrow {
+  transform: rotate(0);
+}

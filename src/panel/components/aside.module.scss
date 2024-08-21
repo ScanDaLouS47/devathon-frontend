@@ -1,10 +1,9 @@
 .aside {
-  height: 81.5dvh;
   background-color: var(--white);
   box-shadow: var(--box-shadow);
   padding: 2rem 0;
   border-radius: 0.4rem;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 820px) {
     padding: 1rem 0;
     border-radius: 0;
   }
@@ -14,7 +13,7 @@
     flex-direction: column;
     gap: 1rem;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 820px) {
       flex-direction: row;
       justify-content: center;
       gap: 0;
@@ -36,7 +35,7 @@
       -ms-transition: all 0.7s ease;
       -o-transition: all 0.7s ease;
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 820px) {
       padding: 0.5rem;
     }
   }

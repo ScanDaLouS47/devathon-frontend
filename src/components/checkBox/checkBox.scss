@@ -1,0 +1,15 @@
+.checkBox {
+  background-color: green;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  &__lavel {
+  }
+  &__input {
+    width: 1em;
+    appearance: auto;
+  }
+}
+.error {
+  color: rebeccapurple;
+}
