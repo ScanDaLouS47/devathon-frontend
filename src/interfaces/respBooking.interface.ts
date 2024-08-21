@@ -1,15 +1,20 @@
 export interface IRespBooking {
-  ok:   boolean;
-  data: Data;
-  msg:  string;
+  ok: boolean;
+  data: BookingData[];
+  msg: string;
 }
 
-export interface Data {
-  id:              number;
+export interface BookingData {
+  id: number;
   reservationDate: Date;
-  tables:          number[];
-  persons:         number;
+  tables: number[];
+  persons: number;
   additional_info: null;
-  allergens:       string;
-  shift:           string;
+  allergens: Allergens;
+  shift: string;
+}
+
+export enum Allergens {
+  Alergicos = 'alergicos',
+  NoAlergicos = 'no alergicos',
 }

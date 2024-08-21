@@ -1,4 +1,4 @@
-import './forgotPassPage.scss';
+import styles from './forgotPassPage.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
@@ -26,27 +26,27 @@ export const ForgotPassPage = () => {
       });
 
       let renderMsg;
-      if (error === null) {
-        renderMsg = 'We have send an email';
-      } else {
+      if (error) {
         throw new ApiError(error.message);
+      } else {
+        renderMsg = 'We have send an email';
       }
 
       toast.update(toastInfo, { render: renderMsg, type: 'warning', isLoading: false, autoClose: 1500 });
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
         console.error('Forgot password error:', error.message);
       }
     }
   };
 
   return (
-    <div className="forgot wrapper">
-      <div className="forgot__container">
-        <h1 className="forgot__title">Get Recovery Email</h1>
+    <div className={`${styles.forgot} wrapper`}>
+      <div className={styles.forgot__container}>
+        <h1 className={styles.forgot__title}>Get Recovery Email</h1>
 
-        <form className="form" onSubmit={handleSubmit(handleForgotPass)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleForgotPass)}>
           <FormInput
             label="Contact Email"
             error={errors['contactEmail']}
@@ -56,13 +56,13 @@ export const ForgotPassPage = () => {
             {...register('contactEmail')}
           />
 
-          <button className="form__btn" type="submit">
+          <button className={styles.form__btn} type="submit">
             Send
           </button>
         </form>
-        <div className="forgot__btns">
+        <div className={styles.forgot__btns}>
           <span>Have an account?</span>
-          <NavLink className="forgot__register" to={'/auth/login'}>
+          <NavLink className={styles.forgot__register} to={'/auth/login'}>
             Sign in
           </NavLink>
         </div>

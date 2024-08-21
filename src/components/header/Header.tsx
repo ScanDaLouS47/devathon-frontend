@@ -10,6 +10,7 @@ import Logo from '../icons/Logo';
 import { ThemeSwitcher } from '../themeSwitcher/ThemeSwitcher';
 import { IRespLogout } from '../../interfaces/respLogout.interface';
 import { toast } from 'react-toastify';
+import { ApiError } from '../../utils/apiError';
 
 export const Header = React.forwardRef(() => {
   // GET a /api/v1/logout
@@ -28,14 +29,25 @@ export const Header = React.forwardRef(() => {
     if (option === 'settings') {
       navigate(`/panel/${user?.role}/settings`);
     } else if (option === 'logout') {
-      const logoutResp = await fetchApi<IRespLogout>('/api/v1/logout', 'GET', '', null, true, true);
-      console.log('ON LOGOUT', logoutResp);
-      toast.update(toast.loading('Loading...'), {
-        render: logoutResp.msg,
-        type: 'info',
-        isLoading: false,
-        autoClose: 1500,
-      });
+      const toastInfo = toast.loading('Loadint...');
+      try {
+        const logoutResp = await fetchApi<IRespLogout>('/api/v1/logout', 'GET', '', null, true, true);
+        if (!logoutResp.ok) {
+          throw new ApiError(logoutResp.msg);
+        }
+        console.log('ON MY BACKEND', logoutResp);
+        toast.update(toastInfo, { render: logoutResp.msg, type: 'info', isLoading: false, autoClose: 1500 });
+      } catch (error) {
+        if (error instanceof ApiError) {
+          toast.update(toastInfo, {
+            render: error.message,
+            type: 'error',
+            isLoading: false,
+            autoClose: 1500,
+          });
+          console.error('Logout error:', error.message);
+        }
+      }
       onLogout();
       navigate('/auth/login', {
         replace: true,
