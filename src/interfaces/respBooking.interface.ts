@@ -10,6 +10,11 @@ export interface BookingData {
   tables: number[];
   persons: number;
   additional_info: null;
-  allergens: string;
+  allergens: Allergens;
   shift: string;
+}
+
+export enum Allergens {
+  Alergicos = 'alergicos',
+  NoAlergicos = 'no alergicos',
 }
