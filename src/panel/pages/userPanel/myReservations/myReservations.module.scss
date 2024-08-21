@@ -55,7 +55,17 @@
   color: var(--error);
 }
 
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: red;
-  -webkit-filter: red;
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(70%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  -webkit-filter: invert(70%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.table {
+  margin: .5rem;
+  width: 100%;
+
+  &__tr {
+    padding: .3125rem;
+    text-align: center;
+  }
 }
