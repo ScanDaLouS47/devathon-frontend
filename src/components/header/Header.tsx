@@ -34,6 +34,7 @@ export const Header = React.forwardRef(() => {
         if (!logoutResp.ok) {
           throw new ApiError(logoutResp.msg);
         }
+        console.log('ON MY BACKEND', logoutResp);
         toast.update(toast.loading('Loading...'), {
           render: logoutResp.msg,
           type: 'info',
