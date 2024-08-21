@@ -29,21 +29,22 @@ export const Header = React.forwardRef(() => {
     if (option === 'settings') {
       navigate(`/panel/${user?.role}/settings`);
     } else if (option === 'logout') {
+      const toastInfo = toast.loading('Loadint...');
       try {
         const logoutResp = await fetchApi<IRespLogout>('/api/v1/logout', 'GET', '', null, true, true);
         if (!logoutResp.ok) {
           throw new ApiError(logoutResp.msg);
         }
         console.log('ON MY BACKEND', logoutResp);
-        toast.update(toast.loading('Loading...'), {
-          render: logoutResp.msg,
-          type: 'info',
-          isLoading: false,
-          autoClose: 1500,
-        });
+        toast.update(toastInfo, { render: logoutResp.msg, type: 'info', isLoading: false, autoClose: 1500 });
       } catch (error) {
         if (error instanceof ApiError) {
-          toast.error(error.message, { autoClose: 3000 });
+          toast.update(toastInfo, {
+            render: error.message,
+            type: 'error',
+            isLoading: false,
+            autoClose: 1500,
+          });
           console.error('Logout error:', error.message);
         }
       }

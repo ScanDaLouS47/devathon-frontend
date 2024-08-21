@@ -1,4 +1,4 @@
-import './loginPage.scss';
+import styles from './loginPage.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
@@ -55,7 +55,7 @@ export const LoginPage = () => {
       }
 
       if (!data.user || !data.session) {
-        throw new Error('No user or session data received');
+        throw new ApiError('No user or session data received');
       }
 
       const supPass = data.user.user_metadata.sub;
@@ -96,7 +96,7 @@ export const LoginPage = () => {
       }
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
         console.error('Login error:', error);
       }
     }
@@ -128,11 +128,11 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="login wrapper">
-      <div className="login__container">
-        <h1 className="login__title">Welcome Back</h1>
+    <div className={`${styles.login} wrapper`}>
+      <div className={styles.login__container}>
+        <h1 className={styles.login__title}>Welcome Back</h1>
 
-        <form className="form" onSubmit={handleSubmit(handleLogin)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleLogin)}>
           <FormInput
             label="Email Address"
             error={errors['email']}
@@ -151,23 +151,23 @@ export const LoginPage = () => {
             {...register('password')}
           />
 
-          <button className="form__btn" type="submit">
+          <button className={styles.form__btn} type="submit">
             Sign In
           </button>
         </form>
 
-        <div className="login__otherLogins">
-          <span className="login__labelLogins">— Or sign in with —</span>
-          <button className="login__btn__google" type="button" onClick={handleLoginGoogle}>
-            <GoogleIcon className="login__btn__googleIcon" />
+        <div className={styles.login__otherLogins}>
+          <span className={styles.login__labelLogins}>— Or sign in with —</span>
+          <button className={styles.login__btn__google} type="button" onClick={handleLoginGoogle}>
+            <GoogleIcon className={styles.login__btn__googleIcon} />
           </button>
         </div>
 
-        <div className="login__btns">
-          <NavLink className="login__register" to={'/auth/forgot-pass'}>
+        <div className={styles.login__btns}>
+          <NavLink className={styles.login__register} to={'/auth/forgot-pass'}>
             Forgot Password?
           </NavLink>
-          <NavLink className="login__register" to={'/auth/register'}>
+          <NavLink className={styles.login__register} to={'/auth/register'}>
             Sign Up
           </NavLink>
         </div>
