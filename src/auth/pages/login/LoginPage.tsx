@@ -11,6 +11,7 @@ import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
 import { loginSchema, LoginType } from './loginSchema';
+// import { fetchApi } from '../../../utils/fetchApi';
 
 /**
     ** ADMIN **
@@ -21,12 +22,8 @@ import { loginSchema, LoginType } from './loginSchema';
 
     ** USER **
     defaultValues: {
-      email: 'fogoho4949@givehit.com',
-      password: 'asdf123Aa#',
-    },
-    defaultValues: {
-      email: 'magiseb409@polatrix.com',
-      password: '123456Aa#',
+      email: 'vohac64895@iteradev.com',
+      password: 'Aa1234~~',
     },
 */
 
@@ -38,22 +35,20 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'magiseb409@polatrix.com',
-      password: '123456Aa#',
+      email: 'vohac64895@iteradev.com',
+      password: 'Aa1234~~',
     },
   });
 
   const { onLogin } = useAuth();
 
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
+    const toastInfo = toast.loading('Loading...');
     try {
-      const toastInfo = toast.loading('Loading...');
-
       const { data, error } = await client.auth.signInWithPassword({
         email,
         password,
       });
-      sessionStorage.setItem('sub', data.user?.user_metadata.sub);
 
       if (error) {
         throw new ApiError(error.message);
@@ -66,24 +61,30 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      // const resp = await fetchApi(
+      // const resp = await fetchApi<IRespLogin>(
       //   '/api/v1/login',
       //   'POST',
-      //   '',
+      //   '', // id
       //   {
       //     email: supEmail,
       //     password: supPass,
       //   },
-      //   false,
-      //   true,
+      //   false, // Token
+      //   true, // Credentials
       // );
-      const resp = await fetchApiV2<IRespLogin>('/api/v1/login', 'POST', {
-        email: supEmail,
-        password: supPass,
-      });
+      const resp = await fetchApiV2<IRespLogin>(
+        '/api/v1/login',
+        'POST',
+        {
+          email: supEmail,
+          password: supPass,
+        },
+        false,
+        true,
+      );
 
       if (!resp.ok) {
-        throw new ApiError('Login Error');
+        throw new ApiError(resp.msg);
       }
 
       console.log('ON MY BACKEND', resp);
@@ -96,7 +97,7 @@ export const LoginPage = () => {
     } catch (error) {
       if (error instanceof ApiError) {
         toast.error(error.message, { autoClose: 3000 });
-        console.error('Login error:', error.message);
+        console.error('Login error:', error);
       }
     }
   };
