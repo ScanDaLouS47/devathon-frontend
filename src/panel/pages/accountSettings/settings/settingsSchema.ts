@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { UserReducerType } from '../../../../auth/context/AuthContext';
+import { IUser } from '../../../../interfaces/user.interface';
 
-export const createSettingsSchema = (user: UserReducerType | undefined) =>
+export const createSettingsSchema = (user: IUser | null) =>
   z.object({
     name: z
       .string()

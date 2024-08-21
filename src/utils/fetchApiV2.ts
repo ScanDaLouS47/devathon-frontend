@@ -2,77 +2,72 @@ import { ApiError } from './apiError';
 import { getCookie } from './getCookie';
 
 type SendPost = {
+  _method?: string;
   id?: number;
-  email: string;
+  email: string | undefined;
   role?: string;
   name?: string;
   lName?: string;
   phone?: string;
   password?: string;
-  image_url?: string | null;
+  image_url?: string | null | File;
 };
 
 type HttpMethod = 'GET' | 'POST' | 'DELETE';
 
-export const fetchApiV2 = async (
+export const fetchApiV2 = async <T>(
   path: string,
   method: HttpMethod = 'GET',
-  data?: SendPost,
-  withCredentials: boolean = false,
-) => {
+  data?: SendPost | FormData | null,
+  isRequiredToken: boolean = false,
+  isWithCredentials: boolean = false,
+): Promise<T> => {
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   try {
     // xsrf token
-    const csrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
+    const xsrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
       method: 'GET',
       credentials: 'include',
     });
 
-    if (!csrfResponse.ok) {
-      throw new ApiError(`Error to conect BD`);
+    if (!xsrfResponse.ok) {
+      throw new ApiError(`Error with credentials`);
     }
 
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
       credentials: 'include',
     };
 
-    if (withCredentials) {
-      const xcsrfCookie = getCookie('XSRF-TOKEN');
-      headers['XSRF-TOKEN'] = `${xcsrfCookie}`;
+    if (!(data instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    if (isWithCredentials) {
+      const xsrfCookie = getCookie('XSRF-TOKEN');
+      headers['XSRF-TOKEN'] = `${xsrfCookie}`;
+    }
+
+    if (isRequiredToken) {
+      const accessToken = localStorage.getItem('access_token_api');
+      headers['Authorization'] = 'Bearer' + ' ' + accessToken;
     }
 
     const fetchOptions: RequestInit = {
-      method,
-      headers,
-      body: data ? JSON.stringify(data) : undefined,
+      method: method,
+      headers: headers,
+      ...(data ? { body: data instanceof FormData ? data : JSON.stringify(data) } : null),
     };
 
     const response = await fetch(`${apiBaseUrl}${path}`, fetchOptions);
 
-    console.log(response);
-
     if (!response.ok) {
-      throw new ApiError(`Error to conect BD`);
+      throw new ApiError(`Error to connect`);
     }
 
-    return response.json();
+    const responseData: T = await response.json();
+    return responseData;
   } catch (error) {
-    if (error instanceof ApiError) {
-      return { error: true, message: error.message };
-    }
+    return { data: null, msg: (error as ApiError).message, ok: false } as T;
   }
 };
-
-/**
- *
- * VITE_API_URL + /api/v1/create => POST
- * VITE_API_URL + /api/v1/login => POST
- * VITE_API_URL + /api/v1/user/profile => GET (only for user)
- * VITE_API_URL + /api/v1/user => GET (all users)
- * VITE_API_URL + /api/v1/user/show/{id} => GET (only for admin betById)
- * VITE_API_URL + /api/v1/logout => GET
- * VITE_API_URL + /api/v1/user/update => PUT
- *
- */

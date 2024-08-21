@@ -1,3 +1,5 @@
+import { ApiError } from './apiError';
+
 type SendPost = {
   _method?: string;
   id?: number;
@@ -7,7 +9,7 @@ type SendPost = {
   lName?: string;
   phone?: string;
   password?: string;
-  image?: string | null | File;
+  image_url?: string | null | File;
 };
 
 type HttpMethod = 'GET' | 'POST' | 'DELETE';
@@ -36,28 +38,32 @@ type HttpMethod = 'GET' | 'POST' | 'DELETE';
  *               the function to handle different types of request data. If you need, also work with `FormData`.
  *
  * @example
+ *
  * ```
- * // Example of fetching user profile data
- * const getUserProfile = await fetchApi('/profile', 'GET', '', undefined, true, true);
+ * // Example of posting data without token and credentials on register
+ * const newUser = await fetchApi('/create', 'POST', { name: 'John Doe', email: 'user@example.com', ... }, false, false);
+ *
+ * // Example of posting data with credentials only on login
+ * const login = await fetchApi('/login', 'POST', '', { email: 'user@example.com' }, false, true);
  *
  * // Example of uploading data with token and credentials
- * const login = await fetchApi('/upload', 'POST', '', formData, true, true);
+ * const upload = await fetchApi('/upload', 'POST', '', formData, true, true);
  *
- * // Example of posting data without token and credentials on register
- * const newUser = await fetchApi('/create', 'POST', '', { name: 'John Doe', email: 'user@example.com', ... }, false, false);
+ * // Example of fetching user profile data
+ * const getUserProfile = await fetchApi('/profile', 'GET', '', null, true, true);
  *
- * // Example of posting data with credentials on login
- * const newUser = await fetchApi('/login', 'POST', '', { email: 'user@example.com' }, false, true);
+ * // Example of fetching user logout
+ * const logout = await fetchApi('/logout', 'GET', '', null, true, true);
  * ```
  */
-export const fetchApi = async (
+export const fetchApi = async <T>(
   path: string,
   method: HttpMethod = 'GET',
-  id?: string,
-  data?: SendPost | FormData,
-  isRequiredToken?: boolean,
-  isWithCredentials?: boolean,
-) => {
+  id: string = '',
+  data: SendPost | FormData | null,
+  isRequiredToken: boolean = false,
+  isWithCredentials: boolean = false,
+): Promise<T> => {
   const getCookie = (name: string) => {
     const cookieString = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
     return cookieString ? decodeURIComponent(cookieString.split('=')[1]) : null;
@@ -67,13 +73,13 @@ export const fetchApi = async (
 
   try {
     // xsrf token
-    const csrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
+    const xsrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
       method: 'GET',
       credentials: 'include',
     });
 
-    if (!csrfResponse.ok) {
-      throw new Error(`Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}`);
+    if (!xsrfResponse.ok) {
+      throw new Error(`Failed to fetch XSRF token: ${xsrfResponse.status} ${xsrfResponse.statusText}`);
     }
 
     const headers: HeadersInit = {
@@ -85,8 +91,8 @@ export const fetchApi = async (
     }
 
     if (isWithCredentials) {
-      const xcsrfCookie = getCookie('XSRF-TOKEN');
-      headers['XSRF-TOKEN'] = `${xcsrfCookie}`;
+      const xsrfCookie = getCookie('XSRF-TOKEN');
+      headers['XSRF-TOKEN'] = `${xsrfCookie}`;
     }
 
     if (isRequiredToken) {
@@ -103,13 +109,16 @@ export const fetchApi = async (
     const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
 
     if (!response.ok) {
-      throw new Error(`ON FETCHING API: ${response.status} ${response.statusText}`);
+      throw new ApiError(`ON FETCHING API: ${response.status} ${response.statusText}`);
     }
 
-    return response.json();
+    const responseData: T = await response.json();
+    return responseData;
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof ApiError) {
       console.error('THROW ERROR', error);
+      throw error;
     }
+    return { data: null, msg: (error as ApiError).message, ok: false } as T;
   }
 };
