@@ -20,9 +20,6 @@ export const Header = React.forwardRef(() => {
   const { authState, onLogout } = useAuth();
   const { logged, user } = authState;
 
-  const profileClass = logged ? styles.headerv2__profile : styles.headerv2__profile__hidden;
-  const headerClass = !logged ? styles.headerv2__centered : null;
-
   const handleOptionSelect = async (option: string) => {
     setIsModalVisible(false);
     if (option === 'settings') {
@@ -65,33 +62,42 @@ export const Header = React.forwardRef(() => {
     };
   }, []);
 
+  console.log(logged);
+
   return (
     <>
       <header className={styles.headerv2}>
-        <div className={`${styles.headerv2__container} ${headerClass} wrapper`}>
+        <div className={`${styles.headerv2__container} wrapper`}>
           <Logo className={styles.headerv2__logo} />
 
           <ThemeSwitcher />
 
-          <div className={profileClass} onClick={toggleModal} aria-expanded={isModalVisible} ref={profileRef}>
-            <UserIconV2 className={styles.headerv2__icon} />
+          {logged && (
+            <div
+              className={styles.headerv2__profile}
+              onClick={toggleModal}
+              aria-expanded={isModalVisible}
+              ref={profileRef}
+            >
+              <UserIconV2 className={styles.headerv2__icon} />
 
-            {isModalVisible && (
-              <div className={styles.headerv2__modal} ref={modalRef}>
-                <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
-                  <SettingsIcon className={styles.headerv2__option__icon} />
-                  <span>Settings</span>
+              {isModalVisible && (
+                <div className={styles.headerv2__modal} ref={modalRef}>
+                  <div className={styles.headerv2__option} onClick={() => handleOptionSelect('settings')}>
+                    <SettingsIcon className={styles.headerv2__option__icon} />
+                    <span>Settings</span>
+                  </div>
+                  <div
+                    className={`${styles.headerv2__option} ${styles.headerv2__logout}`}
+                    onClick={() => handleOptionSelect('logout')}
+                  >
+                    <LogOutIcon className={styles.headerv2__option__icon} />
+                    <span>Log Out</span>
+                  </div>
                 </div>
-                <div
-                  className={`${styles.headerv2__option} ${styles.headerv2__logout}`}
-                  onClick={() => handleOptionSelect('logout')}
-                >
-                  <LogOutIcon className={styles.headerv2__option__icon} />
-                  <span>Log Out</span>
-                </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </header>
     </>
