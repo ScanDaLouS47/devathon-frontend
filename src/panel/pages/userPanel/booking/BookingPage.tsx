@@ -7,10 +7,7 @@ import { AppDispatch } from '../../../../app/store';
 import { CheckBox } from '../../../../components/checkBox/CheckBox';
 import { getMessageData, getPoepleData } from '../../../../features/bookins/bookinsSlice';
 import { createBooking } from '../../../../features/bookins/bookinsThunk';
-import { formatDateTime } from '../../../../utils/formatDateTime';
-import { ArrowLeftIcon } from '../../../components/icons/ArrowLeftIcon';
-import { CalendarIcon } from '../../../components/icons/CalendarIcon';
-import { PeopleIcon } from '../../../components/icons/PeopleIcon';
+import { ArrowLeftIcon, CalendarIcon, PeopleIcon } from '../../../components/icons';
 import { useBooking } from '../../../hooks/useBooking';
 import './bookingPage.scss';
 import { BookingSchema, createBookingSchema } from './bookingSchema';
@@ -19,14 +16,14 @@ export const BookingPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const people = useSelector(getPoepleData);
+  const persons = useSelector(getPoepleData);
   const message = useSelector(getMessageData);
-  const { booking } = useBooking(id!);
+  const { booking, dateBookingFormat } = useBooking(id!);
 
   const bookingSchema = createBookingSchema({
-    persons: people,
+    persons,
     reservationDate: booking?.start || '',
-    shift_id: id!,
+    shift_id: booking?.title.slice(6) || '',
   });
   const {
     register,
@@ -35,8 +32,6 @@ export const BookingPage = () => {
   } = useForm<BookingSchema>({
     resolver: zodResolver(bookingSchema),
   });
-  if (!booking) return;
-  const { formattedDate, timePart } = formatDateTime(booking.start);
 
   const onBack = () => {
     navigate(-1);
@@ -47,6 +42,7 @@ export const BookingPage = () => {
     await dispatch(createBooking(data));
 
     toast.update(toastInfo, { render: message, type: 'success', isLoading: false, autoClose: 1500 });
+    navigate(-1);
   };
 
   return (
@@ -60,17 +56,17 @@ export const BookingPage = () => {
       <div className="booking__content">
         <span className="booking__info">
           <CalendarIcon className="booking__icon" />
-          {formattedDate} - {timePart}
+          {dateBookingFormat.date} - {dateBookingFormat.timeDate}
         </span>
 
         <span className="booking__info">
           <PeopleIcon className="booking__icon" />
-          People:{people}
+          {persons}
         </span>
 
         <form onSubmit={handleSubmit(onHandleSubmit)} className="form">
           <div>
-            <label htmlFor="specialRequest">Enter a special request</label>
+            <label htmlFor="specialRequest">Enter a special request:</label>
             <textarea className="form__area" id="special-request" {...register('additional_info')}></textarea>
           </div>
           <CheckBox
