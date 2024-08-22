@@ -1,12 +1,10 @@
-import { Booking } from '../interfaces/booking.interface';
-
-export const events: Booking[] = [
+export const events = [
   // 7 de agosto
   {
     id: '1',
-    title: 'Turno-1',
-    start: '2024-08-07T08:00:00',
-    end: '2024-08-07T10:00:00',
+    title: 'PACOOOO',
+    start: '2024-08-01 12:30:00',
+    end: '2024-08-05 14:30:00',
     status: 'full',
   },
   {

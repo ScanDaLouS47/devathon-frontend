@@ -3,7 +3,8 @@
 }
 
 .full,
-.available {
+.available,
+.expired {
   width: 100%;
   color: #fff;
 }
@@ -13,4 +14,8 @@
 .available {
   color: #000;
   background-color: #12b176;
+}
+.expired {
+  background-color: pink;
+  color: #fff;
 }
