@@ -9,8 +9,9 @@ import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
-import './loginPage.scss';
+import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
+// import { fetchApi } from '../../../utils/fetchApi';
 
 /**
     ** ADMIN **
@@ -21,12 +22,8 @@ import { loginSchema, LoginType } from './loginSchema';
 
     ** USER **
     defaultValues: {
-      email: 'fogoho4949@givehit.com',
-      password: 'asdf123Aa#',
-    },
-    defaultValues: {
-      email: 'magiseb409@polatrix.com',
-      password: '123456Aa#',
+      email: 'vohac64895@iteradev.com',
+      password: 'Aa1234~~',
     },
 */
 
@@ -52,37 +49,42 @@ export const LoginPage = () => {
         email,
         password,
       });
-      sessionStorage.setItem('sub', data.user?.user_metadata.sub);
 
       if (error) {
         throw new ApiError(error.message);
       }
 
       if (!data.user || !data.session) {
-        throw new Error('No user or session data received');
+        throw new ApiError('No user or session data received');
       }
 
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      // const resp = await fetchApi(
+      // const resp = await fetchApi<IRespLogin>(
       //   '/api/v1/login',
       //   'POST',
-      //   '',
+      //   '', // id
       //   {
       //     email: supEmail,
       //     password: supPass,
       //   },
-      //   false,
-      //   true,
+      //   false, // Token
+      //   true, // Credentials
       // );
-      const resp = await fetchApiV2<IRespLogin>('/api/v1/login', 'POST', {
-        email: supEmail,
-        password: supPass,
-      });
+      const resp = await fetchApiV2<IRespLogin>(
+        '/api/v1/login',
+        'POST',
+        {
+          email: supEmail,
+          password: supPass,
+        },
+        false,
+        true,
+      );
 
       if (!resp.ok) {
-        throw new ApiError('Login Error');
+        throw new ApiError(resp.msg);
       }
 
       console.log('ON MY BACKEND', resp);
@@ -94,13 +96,8 @@ export const LoginPage = () => {
       }
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.update(toastInfo, {
-          render: error.message,
-          type: 'error',
-          isLoading: false,
-          autoClose: 1500,
-        });
-        console.error('Login error:', error.message);
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
+        console.error('Login error:', error);
       }
     }
   };
@@ -131,11 +128,11 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="login wrapper">
-      <div className="login__container">
-        <h1 className="login__title">Welcome Back</h1>
+    <div className={`${styles.login} wrapper`}>
+      <div className={styles.login__container}>
+        <h1 className={styles.login__title}>Welcome Back</h1>
 
-        <form className="form" onSubmit={handleSubmit(handleLogin)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleLogin)}>
           <FormInput
             label="Email Address"
             error={errors['email']}
@@ -154,23 +151,23 @@ export const LoginPage = () => {
             {...register('password')}
           />
 
-          <button className="form__btn" type="submit">
+          <button className={styles.form__btn} type="submit">
             Sign In
           </button>
         </form>
 
-        <div className="login__otherLogins">
-          <span className="login__labelLogins">— Or sign in with —</span>
-          <button className="login__btn__google" type="button" onClick={handleLoginGoogle}>
-            <GoogleIcon className="login__btn__googleIcon" />
+        <div className={styles.login__otherLogins}>
+          <span className={styles.login__labelLogins}>— Or sign in with —</span>
+          <button className={styles.login__btn__google} type="button" onClick={handleLoginGoogle}>
+            <GoogleIcon className={styles.login__btn__googleIcon} />
           </button>
         </div>
 
-        <div className="login__btns">
-          <NavLink className="login__register" to={'/auth/forgot-pass'}>
+        <div className={styles.login__btns}>
+          <NavLink className={styles.login__register} to={'/auth/forgot-pass'}>
             Forgot Password?
           </NavLink>
-          <NavLink className="login__register" to={'/auth/register'}>
+          <NavLink className={styles.login__register} to={'/auth/register'}>
             Sign Up
           </NavLink>
         </div>

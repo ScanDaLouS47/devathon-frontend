@@ -1,5 +1,5 @@
 .login {
-  height: calc(100dvh - 6.5em);
+  height: calc(100dvh - 6.5rem);
   padding: 1em;
   display: grid;
   place-items: center;
@@ -8,6 +8,7 @@
     font-size: clamp(1.5rem, 6vw, 2rem);
     font-weight: 600;
   }
+
   &__container {
     width: 100%;
     max-width: 33.125rem;

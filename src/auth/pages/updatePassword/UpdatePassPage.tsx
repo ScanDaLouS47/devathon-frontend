@@ -1,4 +1,4 @@
-import './updatePassPage.scss';
+import styles from './updatePassPage.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -26,28 +26,28 @@ export const UpdatePassPage = () => {
       const { error } = await client.auth.updateUser({ password: data.newPassword });
 
       let renderMsg;
-      if (error === null) {
-        renderMsg = 'Your password has been successfully updated';
-      } else {
+      if (error) {
         throw new ApiError(error.message);
+      } else {
+        renderMsg = 'Your password has been successfully updated';
       }
 
       toast.update(toastInfo, { render: renderMsg, type: 'success', isLoading: false, autoClose: 1500 });
       navigate('/auth/login');
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
         console.error('Update password error:', error.message);
       }
     }
   };
 
   return (
-    <div className="forgot wrapper">
-      <div className="forgot__container">
-        <h1 className="forgot__title">Reset Your Password</h1>
+    <div className={`${styles.forgot} wrapper`}>
+      <div className={styles.forgot__container}>
+        <h1 className={styles.forgot__title}>Reset Your Password</h1>
 
-        <form className="form" onSubmit={handleSubmit(handleUpdatePass)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleUpdatePass)}>
           <FormInput
             label="Create New Password"
             error={errors['newPassword']}
@@ -66,13 +66,13 @@ export const UpdatePassPage = () => {
             {...register('repeatNewPassword')}
           />
 
-          <button className="form__btn" type="submit">
+          <button className={styles.form__btn} type="submit">
             Send
           </button>
         </form>
-        <div className="forgot__btns">
+        <div className={styles.forgot__btns}>
           <span>Have an account?</span>
-          <NavLink className="forgot__register" to={'/auth/login'}>
+          <NavLink className={styles.forgot__register} to={'/auth/login'}>
             Sign in
           </NavLink>
         </div>
