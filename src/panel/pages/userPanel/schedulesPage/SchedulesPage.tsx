@@ -15,10 +15,12 @@ import './schedulesPage.scss';
 export const SchedulesPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const bookings = useSelector(getBookingsData);
+  const bookingsEvents = useSelector(getBookingsData);
 
   const handleEventClick = (info: EventClickArg) => {
-    if (info.event._def.extendedProps.status === 'full') return;
+    const eventStatus = info.event._def.extendedProps.status;
+
+    if (eventStatus === 'full' || eventStatus === 'expired') return;
     navigate(`/panel/user/new-booking/${info.event._def.publicId}`);
     dispatch(setPeople(4));
   };
@@ -61,9 +63,15 @@ export const SchedulesPage = () => {
       </header>
       <div className="calendar">
         <FullCalendar
+          weekends={true}
           plugins={[dayGridPlugin]}
+          hiddenDays={[0]}
           displayEventTime={false}
-          events={bookings}
+          initialView="dayGridMonth"
+          events={bookingsEvents}
+          eventDidMount={(info) => {
+            info.event.setEnd(info.event.start);
+          }}
           eventContent={EventContent}
           eventClick={handleEventClick}
         />
