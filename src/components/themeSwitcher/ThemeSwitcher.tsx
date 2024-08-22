@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import styles from './themeSwitcher.module.scss';
-import ThemeLight from '../icons/ThemeLight';
 import ThemeDark from '../icons/ThemeDark';
+import ThemeLight from '../icons/ThemeLight';
+import styles from './themeSwitcher.module.scss';
 
 export const ThemeSwitcher: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark' | 'system'>('system');
@@ -10,7 +10,7 @@ export const ThemeSwitcher: React.FC = () => {
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const newTheme = theme === 'system' ? (prefersColorScheme ? 'dark' : 'light') : theme;
     document.body.setAttribute('data-theme', newTheme);
-    setCurrentTheme(newTheme)
+    setCurrentTheme(newTheme);
     localStorage.setItem('theme', theme);
   };
 

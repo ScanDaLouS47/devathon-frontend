@@ -1,7 +1,10 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { bookinsSlice } from '../features/bookins/bookinsSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    bookings: bookinsSlice.reducer,
+  },
 });
 export type RootState = ReturnType<typeof store.getState>;
 
