@@ -1,18 +1,36 @@
-import styles from './myReservations.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { FormInput } from '../../../../components/formInput/FormInput';
-import { BookingData, IRespBooking } from '../../../../interfaces/';
-import { ApiError } from '../../../../utils/apiError';
-import { fetchApi } from '../../../../utils/fetchApi';
-import { myReservationsType, myReservationsSchema } from './myReservationsSchema';
-import { useAuth } from '../../../../auth/hook/useAuth';
 import { useEffect, useState } from 'react';
-import { Pagination } from '../../../../components/pagination/Pagination';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { AppDispatch } from '../../../../app/store';
+import { useAuth } from '../../../../auth/hook/useAuth';
+import { FormInput } from '../../../../components/formInput/FormInput';
+import { getMyBookingsData } from '../../../../features/myBookings/myBookingsSlice';
+import {
+  deleteMyBookingsThunks,
+  getAllMyBookingsThunks,
+  getMyBookingsFilteredThunks,
+} from '../../../../features/myBookings/myBookingsThunks';
+import { ApiError } from '../../../../utils/apiError';
+import { TrashIcon } from '../../../components/icons/TrashIcon';
+import { GenerateEmptyRows } from '../../../components/pagination/giveEmptyRows/GenerateEmptyRows';
+import { Pagination } from '../../../components/pagination/Pagination';
+import styles from './myReservations.module.scss';
+import { myReservationsSchema, myReservationsType } from './myReservationsSchema';
 
 export const MyReservations = () => {
   // GET a /api/v1/mybookings/62?filter=2024-08-26&active=active&number=5
+
+  const { authState } = useAuth();
+  const dispatch = useDispatch<AppDispatch>();
+  const myBookings = useSelector(getMyBookingsData);
+  const itemsPerPage = 7;
+  const [currentPage, setCurrentPage] = useState(1);
+  const actualIndex = (currentPage - 1) * itemsPerPage;
+  const handlePageChange = (page: number) => setCurrentPage(page);
+  const selectedItemsToView = myBookings?.slice(actualIndex, actualIndex + itemsPerPage);
+  const emptyRowsCount = selectedItemsToView ? itemsPerPage - selectedItemsToView.length : itemsPerPage;
 
   const {
     register,
@@ -23,68 +41,67 @@ export const MyReservations = () => {
     mode: 'onChange',
   });
 
-  const { authState } = useAuth();
-  const [dataBookings, setDataBookings] = useState<BookingData[]>();
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
   useEffect(() => {
-    (async () => {
-      await fetchApi<IRespBooking>(`/api/v1/mybookings`, 'GET', `${authState.user?.id}`, null, true, true)
-        .then((r) => setDataBookings(r.data))
-        .catch((e) => console.error(e));
-    })();
-  }, [authState.user?.id]);
+    dispatch(getAllMyBookingsThunks(authState.user?.id));
+  }, [authState.user?.id, dispatch]);
 
   const handleMyBookings: SubmitHandler<myReservationsType> = async (data) => {
-    const queryParamsFilter = data.date ? `filter=${data.date}` : '';
-    const queryParamsPersons = data.numberOfPersons ? `persons=${data.numberOfPersons}` : '';
+    const queryParamsFilters = new URLSearchParams();
+    data.date ? queryParamsFilters.append('filter', data.date) : null;
+    data.numberOfPersons ? queryParamsFilters.append('persons', data.numberOfPersons) : null;
+    const queryParams = queryParamsFilters.toString();
     const toastInfo = toast.loading('Loading...');
+    const id = authState.user?.id;
+
     try {
-      const myBookingsResp = await fetchApi<IRespBooking>(
-        `/api/v1/mybookings`,
-        'GET',
-        `${authState.user?.id}?${queryParamsFilter}&${queryParamsPersons}`,
-        null,
-        true,
-        true,
-      );
+      const response = await dispatch(getMyBookingsFilteredThunks({ id, queryParams })).unwrap();
+      console.log(response);
 
-      if (!myBookingsResp.ok) {
-        throw new ApiError(myBookingsResp.msg);
-      }
-
-      if (myBookingsResp.data) {
+      if (response.length !== 1) {
+        throw new ApiError('Fail to found reservation');
+      } else {
         toast.update(toastInfo, {
-          render: myBookingsResp.msg,
+          render: 'Reservation found',
           type: 'success',
           isLoading: false,
           autoClose: 1500,
         });
       }
-
-      console.log('ON MY BACKEND', myBookingsResp);
-      setDataBookings(myBookingsResp.data);
     } catch (error) {
       if (error instanceof ApiError) {
         toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
-        console.error('Updating error:', error.message);
+        console.error('Filter error:', error.message);
       }
     }
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const handleDeleteBooking = async (tableId: number) => {
+    const toastInfo = toast.loading('Loading...');
+    try {
+      const response = await dispatch(deleteMyBookingsThunks(tableId)).unwrap();
 
-  const actualIndex = (currentPage - 1) * itemsPerPage;
-  const selectedItemsToView = dataBookings?.slice(actualIndex, actualIndex + itemsPerPage);
+      if (isNaN(response)) {
+        throw new ApiError('Fail to delete reservation');
+      } else {
+        toast.update(toastInfo, {
+          render: 'Reservation deleted successfully',
+          type: 'success',
+          isLoading: false,
+          autoClose: 1500,
+        });
+      }
+      await dispatch(getAllMyBookingsThunks(authState.user?.id));
+    } catch (error) {
+      if (error instanceof ApiError) {
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
+        console.error('Error deleting booking', error.message);
+      }
+    }
+  };
 
   return (
     <div className={styles.myReservations}>
-      <div className={styles.myReservations__container}>
-        <h1 className={styles.myReservations__title}>My Reservations</h1>
-
+      <header className={styles.myReservations__header}>
         <form className={styles.form} onSubmit={handleSubmit(handleMyBookings)}>
           <FormInput
             label="Date"
@@ -106,13 +123,15 @@ export const MyReservations = () => {
             </button>
           </div>
         </form>
+      </header>
+      <div className={styles.myReservations__container}>
         <table className={styles.table}>
           <thead>
-            <tr className={styles.table__tr}>
-              <th>ID</th>
-              <th>TURNOS</th>
-              <th>FECHA</th>
-              {/* <th>STATUS</th> */}
+            <tr className={styles.table__trHeader}>
+              <th className={styles.table__tFirst}>TIME</th>
+              <th className={styles.table__th}>DATE</th>
+              <th className={styles.table__th}>GUESTS</th>
+              <th className={styles.table__tLast}>DELETE</th>
             </tr>
           </thead>
           <tbody>
@@ -120,21 +139,37 @@ export const MyReservations = () => {
               selectedItemsToView.map((e, i) => {
                 return (
                   <tr key={i} className={styles.table__tr}>
-                    <td>{e.id}</td>
-                    <td>{e.shift}</td>
-                    <td>{String(e.reservationDate)}</td>
-                    {/* <td>{e.status}</td> */}
+                    <td className={`${styles.table__td} ${styles.table__tFirst}`}>{e.shift}</td>
+                    <td className={styles.table__td}>{String(e.reservationDate)}</td>
+                    <td className={styles.table__td}>{e.persons}</td>
+                    <td className={styles.table__td}>
+                      <TrashIcon
+                        className={styles.table__tdIconDelete}
+                        onClick={() => handleDeleteBooking(selectedItemsToView[i].id)}
+                      />
+                    </td>
                   </tr>
                 );
               })}
+            <GenerateEmptyRows
+              styledTr={styles.table__tr}
+              count={emptyRowsCount}
+              cells={[
+                { styledTd: `${styles.table__td} ${styles.table__tFirst}` },
+                { styledTd: styles.table__td },
+                { styledTd: styles.table__td },
+                { styledTd: `${styles.table__td} ${styles.table__tLast}` },
+              ]}
+            />
           </tbody>
         </table>
-        <Pagination
-          totalItems={dataBookings ? dataBookings.length : 0}
-          itemsPerPage={itemsPerPage}
-          onPageChange={handlePageChange}
-        />
       </div>
+      <Pagination
+        lengthData={myBookings ? myBookings.length : 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

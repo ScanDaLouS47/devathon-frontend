@@ -13,7 +13,7 @@ export const Aside = ({ links }: AsideProps) => {
         {links.map((link) => (
           <NavLink
             key={link.name}
-            className={({ isActive }) => `${styles.aside__link} ${isActive ? `${styles.active}` : ''}`}
+            className={({ isActive }) => `${styles.aside__link} ${isActive ? styles.active : ''}`}
             to={link.path}
           >
             {link.name}

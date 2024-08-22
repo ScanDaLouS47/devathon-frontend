@@ -74,8 +74,6 @@ export const Header = React.forwardRef(() => {
     };
   }, []);
 
-  console.log(logged);
-
   return (
     <>
       <header className={styles.headerv2}>

@@ -8,6 +8,7 @@ import { client } from '../../../../supabase/Client';
 import { useAuth } from '../../../../auth/hook/useAuth';
 import { ApiError } from '../../../../utils/apiError';
 import { toast } from 'react-toastify';
+import { ArrowLeftIcon } from '../../../components/icons/ArrowLeftIcon';
 
 export const ChangePassword = () => {
   const {
@@ -98,6 +99,7 @@ export const ChangePassword = () => {
         </form>
         <div className={styles.changePassword__btns}>
           <NavLink className={styles.changePassword__register} to={`/panel/${user?.role}/settings`}>
+            <ArrowLeftIcon className={styles.changePassword__goBackIcon} />
             Go back
           </NavLink>
           <NavLink
