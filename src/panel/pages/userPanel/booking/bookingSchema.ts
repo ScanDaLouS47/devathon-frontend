@@ -1,13 +1,23 @@
 import { z } from 'zod';
 
-export const bookingSchema = z.object({
-  specialRequest: z.string().optional(),
-  allerguies: z.boolean().refine((value) => value !== undefined),
+export type CreateBooking = {
+  reservationDate: string;
+  persons: number;
+  shift_id: string;
+  additional_info?: string;
+};
 
-  conditions: z.boolean().refine((value) => value !== false, { message: 'You must accept the conditions' }),
-  processigData: z
-    .boolean()
-    .refine((value) => value !== false, { message: 'You must accept the processigData' }),
-});
+export const createBookingSchema = ({ persons, reservationDate, shift_id }: CreateBooking) =>
+  z.object({
+    reservationDate: z.string().min(1, { message: 'Reservation date is required' }).default(reservationDate),
+    persons: z.number().int().min(1, { message: 'You must select at least one person' }).default(persons),
+    shift_id: z.string().min(1, { message: 'Shift is required' }).default(shift_id),
+    additional_info: z.string().optional(),
 
-export type BookingSchema = z.infer<typeof bookingSchema>;
+    conditions: z.boolean().refine((value) => value !== false, { message: 'You must accept the conditions' }),
+    processigData: z
+      .boolean()
+      .refine((value) => value !== false, { message: 'You must accept the processigData' }),
+  });
+
+export type BookingSchema = z.infer<ReturnType<typeof createBookingSchema>>;

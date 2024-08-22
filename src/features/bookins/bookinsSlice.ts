@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { Booking } from '../../interfaces/booking.interface';
-import { getAllBookings } from './bookinsThunk';
+import { BookingDetails } from '../../interfaces/booking.interface';
+import { createBooking, getAllBookings } from './bookinsThunk';
 
 interface BookinsState {
-  bookins: Booking[];
-  bookin: Booking | null;
+  bookins: BookingDetails[];
+  bookin: BookingDetails | null;
+  message: string;
   people: number;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
 }
@@ -13,6 +14,7 @@ interface BookinsState {
 const initialState: BookinsState = {
   bookins: [],
   bookin: null,
+  message: '',
   people: 0,
   loading: 'idle',
 };
@@ -38,9 +40,21 @@ export const bookinsSlice = createSlice({
     builder.addCase(getAllBookings.rejected, (state) => {
       state.loading = 'failed';
     });
+
+    builder.addCase(createBooking.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builder.addCase(createBooking.fulfilled, (state, action) => {
+      state.loading = 'succeeded';
+      state.message = action.payload.msg;
+    });
+    builder.addCase(createBooking.rejected, (state) => {
+      state.loading = 'failed';
+    });
   },
 });
 
 export const getBookingsData = (state: RootState) => state.bookings.bookins;
 export const getPoepleData = (state: RootState) => state.bookings.people;
+export const getMessageData = (state: RootState) => state.bookings.message;
 export const { setPeople } = bookinsSlice.actions;

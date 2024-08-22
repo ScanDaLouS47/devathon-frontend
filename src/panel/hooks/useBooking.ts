@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../app/store';
 import { getBookingsData } from '../../features/bookins/bookinsSlice';
-import { Booking } from '../../interfaces/booking.interface';
+import { BookingDetails } from '../../interfaces/booking.interface';
 
 export const useBooking = (id: string) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const [booking, setBooking] = useState<Booking | null>(null);
+  const [booking, setBooking] = useState<BookingDetails | null>(null);
 
   const bookings = useSelector(getBookingsData);
 

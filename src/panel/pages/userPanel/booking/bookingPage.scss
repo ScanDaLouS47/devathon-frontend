@@ -2,14 +2,25 @@
   background-color: var(--white);
   border-radius: 0.3em;
   padding: 2em;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 3em;
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 600;
+  }
   &__content {
-    background-color: rebeccapurple;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
   }
   &__icon {
     width: 1.5em;
   }
   &__info {
-    background-color: rosybrown;
     display: flex;
     gap: 1em;
     align-items: center;
@@ -18,8 +29,12 @@
 
 .form {
   &__area {
-    background-color: yellow;
-    max-width: 100%;
-    resize: none;
+    width: 100%;
+    max-height: 10em;
+    resize: vertical;
+    border-radius: 0.3em;
+    outline: 0.0625rem solid var(--dark-gray);
+  }
+  &__btn {
   }
 }
