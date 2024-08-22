@@ -1,0 +1,99 @@
+.landing {
+  padding: 1em;
+  height: calc(100vh - 6.5em);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  overflow: hidden;
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: 1fr;
+    overflow: initial;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2em;
+    @media screen and (max-width: 1000px) {
+      align-items: center;
+    }
+  }
+
+  &__title {
+    max-width: 13em;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 0.5em;
+  }
+  &__span {
+    color: rgb(247, 177, 82);
+  }
+  &__description {
+    max-width: 30em;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 2em;
+  }
+  &__btn {
+    max-width: 20em;
+    padding: 0.5em 1em;
+    border-radius: 0.2em;
+    text-align: center;
+    background-color: var(--btn-bg);
+    color: var(--white);
+  }
+  &__right {
+    padding-top: 3em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.product {
+  width: 500px;
+  aspect-ratio: 2/2;
+
+  transition: all 0.5s ease;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  @media screen and (max-width: 1000px) {
+    width: 300px;
+  }
+}
+.product__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 500px;
+  border-radius: 100%;
+  aspect-ratio: 2/2;
+  transition: 0.7s ease;
+  background-blend-mode: multiply;
+  mask-size: auto 100%;
+  background:
+    var(--url) 0,
+    url('./images/dish_base.webp');
+  background-size: auto 100%;
+  mask-image: url('./images/dish_base.webp');
+  @media screen and (max-width: 1000px) {
+    width: 300px;
+  }
+}
+
+.product:hover .product__image {
+  transform: rotate(-360deg);
+}
+
+.product .product__image:nth-child(2) {
+  opacity: 0;
+}
+
+.product:hover .product__image:nth-child(2) {
+  opacity: 1;
+}

@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthRoutes } from '../auth/routes/AuthRoutes';
+import { LandingPage } from '../landing/LandingPage';
 import { ChangePassword } from '../panel/pages/accountSettings/changePassword/ChangePassword';
 import { DidForgetPass } from '../panel/pages/accountSettings/didForgetPassword/DidForgetPass';
 import { Settings } from '../panel/pages/accountSettings/settings/Settings';
@@ -17,6 +18,9 @@ export const AppRouter = () => {
   return (
     <>
       <Routes>
+        <Route path="/home" element={<PublicRoute />}>
+          <Route index element={<LandingPage />} />
+        </Route>
         <Route path="/auth/*" element={<PublicRoute />}>
           <Route path="*" element={<AuthRoutes />} />
         </Route>
@@ -46,7 +50,7 @@ export const AppRouter = () => {
           <Route path="*" element={<Navigate to="/panel/user/schedules" replace />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="/auth/login" replace />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </>
   );
