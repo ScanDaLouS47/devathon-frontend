@@ -1,4 +1,3 @@
-import styles from './loginPage.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
@@ -10,6 +9,7 @@ import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
+import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
 // import { fetchApi } from '../../../utils/fetchApi';
 
