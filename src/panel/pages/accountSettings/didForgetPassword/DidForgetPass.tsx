@@ -29,19 +29,17 @@ export const DidForgetPass = () => {
         redirectTo: 'http://localhost:5173/auth/forgot-pass/update-password',
       });
 
+      let renderMsg;
       if (error) {
         throw new ApiError(error.message);
-      }
-
-      let renderMsg;
-      if (error === null) {
+      } else {
         renderMsg = 'We have send an email';
       }
 
       toast.update(toastInfo, { render: renderMsg, type: 'warning', isLoading: false, autoClose: 1500 });
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 1500 });
         console.error('Did forget password error', error.message);
       }
     }

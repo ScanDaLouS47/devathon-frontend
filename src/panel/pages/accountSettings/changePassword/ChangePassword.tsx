@@ -29,13 +29,13 @@ export const ChangePassword = () => {
         data: { user },
       } = await client.auth.getUser();
 
-      const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
+      const { error: signInError } = await client.auth.signInWithPassword({
         email: user?.email || '',
         password: data.oldPassword,
       });
 
       if (signInError) {
-        throw new ApiError(`Incorrect credentials ${signInData}`);
+        throw new ApiError('Incorrect credentials');
       }
 
       const resp = await client.auth.updateUser({ password: data.password });
@@ -53,18 +53,18 @@ export const ChangePassword = () => {
       navigate(`/panel/${user?.role}`);
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
         console.error('Updating error:', error.message);
       }
     }
   };
 
   return (
-    <div className={`${styles.changePassword}`}>
-      <div className={`${styles.changePassword__container}`}>
-        <h1 className={`${styles.changePassword__title}`}>Change Password</h1>
+    <div className={styles.changePassword}>
+      <div className={styles.changePassword__container}>
+        <h1 className={styles.changePassword__title}>Change Password</h1>
 
-        <form className="form" onSubmit={handleSubmit(handleUpdatePassword)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleUpdatePassword)}>
           <FormInput
             label="Old Password"
             error={errors['oldPassword']}
@@ -92,16 +92,16 @@ export const ChangePassword = () => {
             {...register('repeatPassword')}
           />
 
-          <button className={`${styles.form__btn}`} type="submit">
+          <button className={styles.form__btn} type="submit">
             Change Password
           </button>
         </form>
-        <div className={`${styles.changePassword__btns}`}>
-          <NavLink className={`${styles.changePassword__register}`} to={`/panel/${user?.role}/settings`}>
+        <div className={styles.changePassword__btns}>
+          <NavLink className={styles.changePassword__register} to={`/panel/${user?.role}/settings`}>
             Go back
           </NavLink>
           <NavLink
-            className={`${styles.changePassword__register}`}
+            className={styles.changePassword__register}
             to={`/panel/${user?.role}/settings/did-forget`}
           >
             Did you forget?

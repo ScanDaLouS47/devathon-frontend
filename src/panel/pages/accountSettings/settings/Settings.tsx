@@ -97,7 +97,7 @@ export const Settings = () => {
       }
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
         console.error('Updating error:', error.message);
       }
     }

@@ -1,3 +1,4 @@
+import styles from './registerPage.module.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -9,7 +10,6 @@ import { IRespForUser } from '../../../interfaces';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApi } from '../../../utils/fetchApi';
-import './registerPage.scss';
 import { registerSchema, RegisterType } from './registerSchema';
 
 export const RegisterPage = () => {
@@ -84,18 +84,18 @@ export const RegisterPage = () => {
       navigate('/auth/login');
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
         console.error('Registration error:', error.message);
       }
     }
   };
 
   return (
-    <div className="register wrapper">
-      <div className="register__container">
-        <h1 className="register__title">Sign Up</h1>
+    <div className={`${styles.register} wrapper`}>
+      <div className={styles.register__container}>
+        <h1 className={styles.register__title}>Sign Up</h1>
 
-        <form className="form" onSubmit={handleSubmit(handleRegister)}>
+        <form className={styles.form} onSubmit={handleSubmit(handleRegister)}>
           <FormInput
             label="Name"
             error={errors['name']}
@@ -151,13 +151,13 @@ export const RegisterPage = () => {
             {...register('repeatPassword')}
           />
 
-          <button className="form__btn" type="submit">
+          <button className={styles.form__btn} type="submit">
             Register
           </button>
         </form>
-        <div className="register__btns">
+        <div className={styles.register__btns}>
           <span>Have an account?</span>
-          <NavLink className="register__register" to={'/auth/login'}>
+          <NavLink className={styles.register__register} to={'/auth/login'}>
             Sign in
           </NavLink>
         </div>
