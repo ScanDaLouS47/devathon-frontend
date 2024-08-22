@@ -16,10 +16,15 @@ type SelectProps = {
   options: OptionType[];
   children?: React.ReactNode;
   register: UseFormRegisterReturn;
+  placeholder?: string;
+  value?: string;
 };
 
 export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
-  ({ label, error, options, register }: SelectProps, ref: ForwardedRef<HTMLDivElement>) => {
+  (
+    { label, error, options, register, placeholder, value }: SelectProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
     const [selectedValue, setSelectedValue] = useState<OptionType>(options[0]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -85,8 +90,9 @@ export const FormInputPhone = React.forwardRef<HTMLDivElement, SelectProps>(
             error={error}
             id="phone"
             type="text"
-            placeholder={`+${selectedValue.countryTag} 123 123 123`}
+            placeholder={`+${selectedValue.countryTag} ${placeholder ? placeholder : '123 123 123'}`}
             {...register}
+            value={value}
           />
         </div>
       </div>

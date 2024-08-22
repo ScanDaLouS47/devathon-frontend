@@ -4,8 +4,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { updatePassSchema, UpdatePassType } from './updatePassSchema';
 import { client } from '../../../supabase/Client';
-import { useState } from 'react';
 import { FormInput } from '../../../components/formInput/FormInput';
+import { ApiError } from '../../../utils/apiError';
+import { toast } from 'react-toastify';
 
 export const UpdatePassPage = () => {
   const {
@@ -19,25 +20,24 @@ export const UpdatePassPage = () => {
 
   const navigate = useNavigate();
 
-  const [updatePassError, setUpdatePassError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const handleUpdatePass: SubmitHandler<UpdatePassType> = async (data) => {
+    const toastInfo = toast.loading('Loading...');
     try {
       const { error } = await client.auth.updateUser({ password: data.newPassword });
 
-      if (error) {
-        throw new Error(error.message);
+      let renderMsg;
+      if (error === null) {
+        renderMsg = 'Your password has been successfully updated';
+      } else {
+        throw new ApiError(error.message);
       }
 
-      setSuccessMessage('Your password has been successfully updated*');
+      toast.update(toastInfo, { render: renderMsg, type: 'success', isLoading: false, autoClose: 1500 });
       navigate('/auth/login');
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Launched error:', error.message);
-      } else {
-        setUpdatePassError('An unexpected error occurred*');
-        console.error('Unexpected error:', error);
+      if (error instanceof ApiError) {
+        toast.error(error.message, { autoClose: 3000 });
+        console.error('Update password error:', error.message);
       }
     }
   };
@@ -46,8 +46,6 @@ export const UpdatePassPage = () => {
     <div className="forgot wrapper">
       <div className="forgot__container">
         <h1 className="forgot__title">Reset Your Password</h1>
-
-        {updatePassError && <span className="forgot__message--error">{updatePassError}</span>}
 
         <form className="form" onSubmit={handleSubmit(handleUpdatePass)}>
           <FormInput
@@ -78,7 +76,6 @@ export const UpdatePassPage = () => {
             Sign in
           </NavLink>
         </div>
-        {successMessage && <span className="forgot__message">{successMessage}</span>}
       </div>
     </div>
   );

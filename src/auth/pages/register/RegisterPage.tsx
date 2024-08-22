@@ -1,14 +1,16 @@
-import './registerPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
-import { registerSchema, RegisterType } from './registerSchema';
 import { FormInputPhone } from '../../../components/formInputPhone/FormInputPhone';
-import { client } from '../../../supabase/Client';
 import { options } from '../../../data/options';
-import { useState } from 'react';
+import { IRespForUser } from '../../../interfaces';
+import { client } from '../../../supabase/Client';
+import { ApiError } from '../../../utils/apiError';
 import { fetchApi } from '../../../utils/fetchApi';
+import './registerPage.scss';
+import { registerSchema, RegisterType } from './registerSchema';
 
 export const RegisterPage = () => {
   // POST a /api/v1/create
@@ -37,9 +39,9 @@ export const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const [registerError, setRegisterError] = useState<string | null>(null);
-
   const handleRegister: SubmitHandler<RegisterType> = async (data) => {
+    const toastInfo = toast.loading('Loading...');
+
     try {
       const { data: authData, error } = await client.auth.signUp({
         email: data.email,
@@ -52,10 +54,8 @@ export const RegisterPage = () => {
           },
         },
       });
-      console.log('ON SUPABASE', authData);
-      console.log('SUP_ID', authData.user?.user_metadata.sub);
 
-      const resp = await fetchApi(
+      const resp = await fetchApi<IRespForUser>(
         '/api/v1/create',
         'POST',
         '',
@@ -65,33 +65,27 @@ export const RegisterPage = () => {
           email: data.email,
           phone: data.phone,
           password: authData.user?.user_metadata.sub,
-          // password: '123456Aa#',
           image_url: 'None',
         },
         false,
+        false,
       );
-      console.log('ON MY BACKEND', resp);
 
       if (error) {
-        throw new Error(error.message);
+        throw new ApiError(error.message);
       }
 
-      if (!authData.user) {
-        throw new Error('No user data received');
+      if (!resp.ok) {
+        throw new ApiError(resp.msg[0]);
       }
 
-      if (!resp) {
-        throw new Error('Bad request');
-      }
+      toast.update(toastInfo, { render: resp.msg, type: 'success', isLoading: false, autoClose: 1500 });
 
       navigate('/auth/login');
     } catch (error) {
-      if (error instanceof Error) {
-        setRegisterError(error.message);
+      if (error instanceof ApiError) {
+        toast.error(error.message, { autoClose: 3000 });
         console.error('Registration error:', error.message);
-      } else {
-        setRegisterError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
       }
     }
   };
@@ -100,8 +94,6 @@ export const RegisterPage = () => {
     <div className="register wrapper">
       <div className="register__container">
         <h1 className="register__title">Sign Up</h1>
-
-        {registerError && <div className="error-message">{registerError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleRegister)}>
           <FormInput

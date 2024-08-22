@@ -1,7 +1,10 @@
+import { FormInput } from '../../../../components/formInput/FormInput';
+import styles from './myReservations.module.scss';
+
 export const MyReservations = () => {
   return (
-    <div>
-      <h1>MyReservations</h1>
+    <div className={styles.myReservations}>
+      <FormInput />
     </div>
   );
 };

@@ -1,14 +1,34 @@
+import './loginPage.scss';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
-import { client } from '../../../supabase/Client';
-import { fetchApi } from '../../../utils/fetchApi';
-import { useAuth } from '../../hook/useAuth';
-import './loginPage.scss';
-import { loginSchema, LoginType } from './loginSchema';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
+import { IRespLogin } from '../../../interfaces';
+import { client } from '../../../supabase/Client';
+import { ApiError } from '../../../utils/apiError';
+import { fetchApiV2 } from '../../../utils/fetchApiV2';
+import { useAuth } from '../../hook/useAuth';
+import { loginSchema, LoginType } from './loginSchema';
+
+/**
+    ** ADMIN **
+    defaultValues: {
+      email: 'dirij75152@maxturns.com',
+      password: '123456Aa#',
+    },
+
+    ** USER **
+    defaultValues: {
+      email: 'fogoho4949@givehit.com',
+      password: 'asdf123Aa#',
+    },
+    defaultValues: {
+      email: 'magiseb409@polatrix.com',
+      password: '123456Aa#',
+    },
+*/
 
 export const LoginPage = () => {
   const {
@@ -18,25 +38,25 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'dirij75152@maxturns.com',
-      password: '123B456$',
+      email: 'magiseb409@polatrix.com',
+      password: '123456Aa#',
     },
   });
 
   const { onLogin } = useAuth();
 
-  const [loginError, setLoginError] = useState<string | null>(null);
-
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
     try {
+      const toastInfo = toast.loading('Loading...');
+
       const { data, error } = await client.auth.signInWithPassword({
         email,
         password,
       });
-      // console.log('ON SUPABASE', data);
+      sessionStorage.setItem('sub', data.user?.user_metadata.sub);
 
       if (error) {
-        throw new Error(error.message);
+        throw new ApiError(error.message);
       }
 
       if (!data.user || !data.session) {
@@ -46,34 +66,37 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      const resp = await fetchApi(
-        '/api/v1/login',
-        'POST',
-        '',
-        {
-          email: supEmail,
-          password: supPass,
-        },
-        false,
-        true,
-      );
+      // const resp = await fetchApi(
+      //   '/api/v1/login',
+      //   'POST',
+      //   '',
+      //   {
+      //     email: supEmail,
+      //     password: supPass,
+      //   },
+      //   false,
+      //   true,
+      // );
+      const resp = await fetchApiV2<IRespLogin>('/api/v1/login', 'POST', {
+        email: supEmail,
+        password: supPass,
+      });
+
+      if (!resp.ok) {
+        throw new ApiError('Login Error');
+      }
 
       console.log('ON MY BACKEND', resp);
 
-      //USER DATA TEST
-      const user = {
-        email: 'pepe@pepe.com',
-        role: 'user',
-      };
-
-      onLogin(user);
+      if (resp.data) {
+        localStorage.setItem('access_token_api', resp.data.token);
+        onLogin(resp.data.user);
+        toast.update(toastInfo, { render: resp.msg, type: 'success', isLoading: false, autoClose: 1500 });
+      }
     } catch (error) {
-      if (error instanceof Error) {
-        setLoginError(error.message);
+      if (error instanceof ApiError) {
+        toast.error(error.message, { autoClose: 3000 });
         console.error('Login error:', error.message);
-      } else {
-        setLoginError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
       }
     }
   };
@@ -94,13 +117,11 @@ export const LoginPage = () => {
       if (!data) {
         throw new Error('No user or session data received');
       }
+
+      // onLogin(data.data.user);
     } catch (error) {
       if (error instanceof Error) {
-        setLoginError(error.message);
         console.error('Google login error:', error.message);
-      } else {
-        setLoginError('An unexpected error occurred');
-        console.error('Unexpected error:', error);
       }
     }
   };
@@ -109,8 +130,6 @@ export const LoginPage = () => {
     <div className="login wrapper">
       <div className="login__container">
         <h1 className="login__title">Welcome Back</h1>
-
-        {loginError && <div className="error-message">{loginError}</div>}
 
         <form className="form" onSubmit={handleSubmit(handleLogin)}>
           <FormInput

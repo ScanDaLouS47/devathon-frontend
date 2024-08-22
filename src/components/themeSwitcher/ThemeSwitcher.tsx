@@ -7,20 +7,16 @@ export const ThemeSwitcher: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<'light' | 'dark' | 'system'>('system');
 
   const setTheme = (theme: 'light' | 'dark' | 'system') => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const newTheme = theme === 'system' ? (prefersDark ? 'dark' : 'light') : theme;
+    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const newTheme = theme === 'system' ? (prefersColorScheme ? 'dark' : 'light') : theme;
     document.body.setAttribute('data-theme', newTheme);
-    setCurrentTheme(theme);
+    setCurrentTheme(newTheme)
     localStorage.setItem('theme', theme);
   };
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'system' | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      setTheme('system');
-    }
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'system';
+    savedTheme ? setTheme(savedTheme) : setTheme('system');
   }, []);
 
   return (

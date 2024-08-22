@@ -1,28 +1,21 @@
 import { createContext } from 'react';
-
-export type UserReducerType = {
-  id?: number;
-  email: string;
-  role: string;
-  name?: string;
-  lName?: string;
-  phone?: string;
-  image_url?: string | null;
-};
+import { IUser } from '../../interfaces/user.interface';
 
 export type AuthReducerState = {
   logged: boolean;
-  user: UserReducerType | null;
+  user: IUser | null;
 };
 
 type AuthContextType = {
   authState: AuthReducerState;
-  onLogin: (user: UserReducerType) => void;
+  onLogin: (user: IUser) => void;
   onLogout: () => void;
+  updateUser: (updatedUser: IUser) => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   authState: { logged: false, user: null },
   onLogin: () => null,
   onLogout: () => null,
+  updateUser: () => null,
 });

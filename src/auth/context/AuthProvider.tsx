@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
-import { AuthContext, AuthReducerState, UserReducerType } from './AuthContext';
+import { IUser } from '../../interfaces/user.interface';
+import { AuthContext, AuthReducerState } from './AuthContext';
 import { authReducer } from './authReducer';
 
 type AuthProviderType = {
@@ -10,6 +11,7 @@ const initialState: AuthReducerState = {
   logged: false,
   user: null,
 };
+
 const init = (): AuthReducerState => {
   const userString = localStorage.getItem('userData');
   const userData = userString ? JSON.parse(userString) : null;
@@ -22,8 +24,7 @@ const init = (): AuthReducerState => {
 export const AuthProvider = ({ children }: AuthProviderType) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
-  const onLogin = (user: UserReducerType) => {
-    console.log(user);
+  const onLogin = (user: IUser) => {
     localStorage.setItem('userData', JSON.stringify(user));
     dispatch({ type: 'signIn', payload: user });
   };
@@ -35,7 +36,16 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     dispatch({ type: 'signOut' });
   };
 
-  console.log({ authState });
+  const updateUser = (updatedUser: IUser) => {
+    localStorage.setItem('userData', JSON.stringify(updatedUser));
+    dispatch({ type: 'updateUser', payload: updatedUser });
+  };
 
-  return <AuthContext.Provider value={{ authState, onLogin, onLogout }}>{children}</AuthContext.Provider>;
+  // console.log({ authState });
+
+  return (
+    <AuthContext.Provider value={{ authState, onLogin, onLogout, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
