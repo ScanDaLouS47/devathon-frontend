@@ -1,24 +1,12 @@
 import { ApiError } from './apiError';
 import { getCookie } from './getCookie';
 
-type SendPost = {
-  _method?: string;
-  id?: number;
-  email: string | undefined;
-  role?: string;
-  name?: string;
-  lName?: string;
-  phone?: string;
-  password?: string;
-  image_url?: string | null | File;
-};
-
 type HttpMethod = 'GET' | 'POST' | 'DELETE';
 
 export const fetchApiV2 = async <T>(
   path: string,
   method: HttpMethod = 'GET',
-  data?: SendPost | FormData | null,
+  data?: unknown | null,
   isRequiredToken: boolean = false,
   isWithCredentials: boolean = false,
 ): Promise<T> => {
@@ -56,7 +44,7 @@ export const fetchApiV2 = async <T>(
     const fetchOptions: RequestInit = {
       method: method,
       headers: headers,
-      ...(data ? { body: data instanceof FormData ? data : JSON.stringify(data) } : null),
+      body: data ? JSON.stringify(data) : null,
     };
 
     const response = await fetch(`${apiBaseUrl}${path}`, fetchOptions);
