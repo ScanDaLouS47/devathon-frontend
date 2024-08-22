@@ -38,17 +38,16 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'magiseb409@polatrix.com',
-      password: '123456Aa#',
+      email: 'vohac64895@iteradev.com',
+      password: 'Aa1234~~',
     },
   });
 
   const { onLogin } = useAuth();
 
   const handleLogin: SubmitHandler<LoginType> = async ({ email, password }) => {
+    const toastInfo = toast.loading('Loading...');
     try {
-      const toastInfo = toast.loading('Loading...');
-
       const { data, error } = await client.auth.signInWithPassword({
         email,
         password,
@@ -95,7 +94,12 @@ export const LoginPage = () => {
       }
     } catch (error) {
       if (error instanceof ApiError) {
-        toast.error(error.message, { autoClose: 3000 });
+        toast.update(toastInfo, {
+          render: error.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 1500,
+        });
         console.error('Login error:', error.message);
       }
     }
