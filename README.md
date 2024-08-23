@@ -1,30 +1,75 @@
-# React + TypeScript + Vite
+# TableTact: Reserve in one Tact
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TableTact is a mobile-friendly application designed for quick and intuitive restaurant reservations, allowing users to book their table "in one tact".
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Easy Reservations**: Book your table with just a few taps
+- **Mobile-Optimized**: Designed for seamless mobile experience
+- **Intuitive Interface**: User-friendly design for effortless navigation
+- **Quick Booking**: Reserve your spot in seconds
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React
+- Vite
+- TypeScript
+- Redux Toolkit
 
-- Configure the top-level `parserOptions` property like this:
+## Prerequisites
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Before you begin, ensure you have the following:
+
+- Node.js installed on your machine
+- Access to the required environment variables (contact the developers for details)
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/ScanDaLouS47/devathon-frontend.git
+cd devathon-frontend
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Install dependencies using your preferred package manager:
+
+```bash
+npm install
+# or
+pnpm install
+# or
+yarn install
+```
+
+## Configuration
+
+Obtain the necessary environment variables from the development team and configure them in your local environment `.env`.
+
+## Running the Application
+
+1. Start the backend server (refer to backend documentation for setup)
+
+2. To see available launch options, run:
+
+```bash
+npm run
+```
+
+3. To start the development server, execute:
+
+```bash
+npm run dev
+```
+
+## Contributing
+
+We welcome contributions to TableTact! Please read our contributing guidelines before submitting pull requests.
+
+## Support
+
+For any issues or queries, please contact our support team at support@tabletact.com.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details.

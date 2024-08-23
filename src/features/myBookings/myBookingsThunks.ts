@@ -17,11 +17,11 @@ export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async (
 
 export const getMyBookingsFilteredThunks = createAsyncThunk(
   'myBookingsFiltered/get',
-  async ({ id, queryParams }: { id: number | undefined; queryParams: string }) => {
+  async ({ userId, queryParams }: { userId: number | undefined; queryParams: string }) => {
     const resp = await fetchApi<IRespBooking>(
       `/api/v1/mybookings`,
       'GET',
-      `${id}?active=active&${queryParams}`,
+      `${userId}?active=active&${queryParams}`,
       null,
       true,
       true,
@@ -33,15 +33,15 @@ export const getMyBookingsFilteredThunks = createAsyncThunk(
 
 export const deleteMyBookingsThunks = createAsyncThunk(
   'myBookings/delete',
-  async (id: number, { rejectWithValue }) => {
+  async (reservationId: number, { rejectWithValue }) => {
     try {
-      const resp = await fetchApi<IRespBooking>(`/api/v1/booking`, 'DELETE', `${id}`, null, true, true);
+      const resp = await fetchApi<IRespBooking>(`/api/v1/booking`, 'DELETE', `${reservationId}`, null, true, true);
 
       if (!resp.ok) {
         throw new Error(resp.msg || 'Failed to delete booking');
       }
 
-      return id;
+      return reservationId;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'An unexpected error occurred');
     }

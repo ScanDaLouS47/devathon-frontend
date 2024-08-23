@@ -1,7 +1,5 @@
 .pagination {
   width: 100%;
-  // display: grid;
-  // grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,10 +40,6 @@
     cursor: pointer;
   }
 }
-.active {
-  color: var(--dark-gray);
-  background-color: var(--light-orange);
-}
 
 .ellipsis {
   color: var(--btn-bg);
@@ -56,4 +50,14 @@
   text-align: center;
   font-size: clamp(1rem, 2vw, 1rem);
   font-weight: 600;
+}
+
+@media (width <= 820px) {
+  .pagination {
+    gap: 0.5rem;
+
+    &__btnsPagesToShow {
+      padding: 0.2325rem 0.7rem;
+    }
+  }
 }

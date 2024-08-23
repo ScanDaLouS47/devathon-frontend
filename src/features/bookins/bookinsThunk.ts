@@ -5,8 +5,6 @@ import { CreateBooking } from '../../panel/pages/userPanel/booking/bookingSchema
 import { fetchApiV2 } from '../../utils/fetchApiV2';
 
 export const getAllBookings = createAsyncThunk('bookings/get', async (): Promise<BookingDetails[]> => {
-  // const response = await asyncRequest<Booking>({ data: events, delay: 2000 });
-
   const response = await fetchApiV2<IRespDetailsForCalendar>(
     '/api/v1/detail_booking?date=2024-08-12&persons=10',
     'GET',
@@ -14,8 +12,6 @@ export const getAllBookings = createAsyncThunk('bookings/get', async (): Promise
     true,
     true,
   );
-
-  console.log('ON MY BACKEND', response);
 
   return response.data;
 });

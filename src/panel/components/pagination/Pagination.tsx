@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './pagination.module.scss';
 import { ArrowLeftIcon } from '../icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '../icons/ArrowRightIcon';
+import { BtnPagesToShow } from './btnPagesToShow/BtnPagesToShow';
 
 type PaginationProps = {
   lengthData: number;
@@ -17,7 +18,20 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const totalPages = Math.ceil(lengthData / itemsPerPage);
-  const btnsPagesToShow = 3;
+  const [btnsPagesToShow, setBtnsPagesToShow] = useState(3);
+  const handleMediaQueryChange = (e: MediaQueryListEvent) => setBtnsPagesToShow(e.matches ? 0 : 3);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 450px)');
+
+    setBtnsPagesToShow(mediaQuery.matches ? 0 : 3);
+
+    mediaQuery.onchange = handleMediaQueryChange;
+
+    return () => {
+      mediaQuery.onchange = null;
+    };
+  }, []);
 
   const getPageRange = (): number[] => {
     let startIndex = Math.max(1, currentPage - 1);
@@ -28,8 +42,8 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   const pagesRange = getPageRange();
-  const showFirstPage = pagesRange[0] > 1;
-  const showLastPage = pagesRange[pagesRange.length - 1] < totalPages;
+  const showFirstPage = pagesRange[0] > 2;
+  const showLastPage = pagesRange[pagesRange.length - 1] < totalPages - 1;
 
   return (
     <div className={styles.pagination}>
@@ -44,22 +58,38 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {showFirstPage && (
         <>
-          <BtnPagesToShow page={1} onClick={onPageChange} />
-          {pagesRange[0] > 2 && <span className={styles.ellipsis}>...</span>}
+          <BtnPagesToShow
+            indexCurrentPage={1}
+            onClick={onPageChange}
+            className={styles.pagination__btnsPagesToShow}
+          />
+          <span className={styles.ellipsis}>...</span>
         </>
       )}
 
       {pagesRange.map((i) => (
-        <BtnPagesToShow key={i} page={i} onClick={onPageChange} isActive={currentPage === i} />
+        <BtnPagesToShow
+          key={i}
+          indexCurrentPage={i}
+          onClick={onPageChange}
+          isActive={currentPage === i}
+          aria-label={`Go to page ${i}`}
+          className={styles.pagination__btnsPagesToShow}
+        />
       ))}
 
       {showLastPage && (
         <>
-          {pagesRange[pagesRange.length - 1] < totalPages - 1 && <span className={styles.ellipsis}>...</span>}
-          <BtnPagesToShow page={totalPages} onClick={onPageChange} />
+          <span className={styles.ellipsis}>...</span>
+          <BtnPagesToShow
+            indexCurrentPage={totalPages}
+            onClick={onPageChange}
+            className={styles.pagination__btnsPagesToShow}
+          />
         </>
       )}
 
+      {btnsPagesToShow === 0 && <span className={styles.ellipsis}>...</span>}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
@@ -71,16 +101,3 @@ export const Pagination: React.FC<PaginationProps> = ({
     </div>
   );
 };
-
-const BtnPagesToShow: React.FC<{ page: number; onClick: (page: number) => void; isActive?: boolean }> = ({
-  page,
-  onClick,
-  isActive = false,
-}) => (
-  <button
-    onClick={() => onClick(page)}
-    className={`${styles.pagination__btnsPagesToShow} ${isActive ? styles.active : ''}`}
-  >
-    {page}
-  </button>
-);

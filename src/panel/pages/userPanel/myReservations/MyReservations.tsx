@@ -20,8 +20,6 @@ import styles from './myReservations.module.scss';
 import { myReservationsSchema, myReservationsType } from './myReservationsSchema';
 
 export const MyReservations = () => {
-  // GET a /api/v1/mybookings/62?filter=2024-08-26&active=active&number=5
-
   const { authState } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const myBookings = useSelector(getMyBookingsData);
@@ -49,15 +47,16 @@ export const MyReservations = () => {
     const queryParamsFilters = new URLSearchParams();
     data.date ? queryParamsFilters.append('filter', data.date) : null;
     data.numberOfPersons ? queryParamsFilters.append('persons', data.numberOfPersons) : null;
+    // data.activeReservation ? queryParamsFilters.append('active', data.activeReservation) : null;
     const queryParams = queryParamsFilters.toString();
     const toastInfo = toast.loading('Loading...');
-    const id = authState.user?.id;
+    const userId = authState.user?.id;
 
     try {
-      const response = await dispatch(getMyBookingsFilteredThunks({ id, queryParams })).unwrap();
+      const response = await dispatch(getMyBookingsFilteredThunks({ userId, queryParams })).unwrap();
       console.log(response);
 
-      if (response.length !== 1) {
+      if (response.length === 0) {
         throw new ApiError('Fail to found reservation');
       } else {
         toast.update(toastInfo, {
@@ -129,26 +128,30 @@ export const MyReservations = () => {
           <thead>
             <tr className={styles.table__trHeader}>
               <th className={styles.table__tFirst}>TIME</th>
-              {/* <th className={styles.table__th}>TURN</th> */}
               <th className={styles.table__th}>DATE</th>
               <th className={styles.table__th}>GUESTS</th>
-              <th className={styles.table__tLast}>DELETE</th>
+              <th className={styles.table__tLast}>CANCEL</th>
             </tr>
           </thead>
           <tbody>
             {selectedItemsToView &&
               selectedItemsToView.map((e, i) => {
-                // const turno1 = e.shift === "Turno 1" ? '12:30h' : e.shift;
-                // const turno2 = e.shift === 'Turno 2' ? '14:30h' : e.shift;
-                // const turno2 = e.shift === 'Turno 2' ? '19:30h' : e.shift;
-                // const turno2 = e.shift === 'Turno 2' ? '21:30h' : e.shift;
+                let turn;
+                if (e.shift === 'Turno 1') {
+                  turn = '12:30h';
+                } else if (e.shift === 'Turno 2') {
+                  turn = '14:30h';
+                } else if (e.shift === 'Turno 3') {
+                  turn = '19:30h';
+                } else if (e.shift === 'Turno 4') {
+                  turn = '21:30h';
+                }
                 return (
                   <tr key={i} className={styles.table__tr}>
-                    {/* <td className={styles.table__td}>{turno2}</td> */}
-                    <td className={`${styles.table__td} ${styles.table__tFirst}`}>{e.shift}</td>
+                    <td className={`${styles.table__td} ${styles.table__tFirst}`}>{turn}</td>
                     <td className={styles.table__td}>{String(e.reservationDate)}</td>
                     <td className={styles.table__td}>{e.persons}</td>
-                    <td className={styles.table__td}>
+                    <td className={`${styles.table__td} ${styles.table__tLast}`}>
                       <TrashIcon
                         className={styles.table__tdIconDelete}
                         onClick={() => handleDeleteBooking(selectedItemsToView[i].id)}

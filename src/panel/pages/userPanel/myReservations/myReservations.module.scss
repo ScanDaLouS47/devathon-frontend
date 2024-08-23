@@ -1,5 +1,4 @@
 .myReservations {
-  // height: calc(100dvh - 6.5rem);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -119,5 +118,38 @@ input[type='date']::-webkit-calendar-picker-indicator {
     margin: auto;
     cursor: pointer;
     color: var(--dark-red);
+  }
+}
+
+@media (width <= 820px) {
+  .form {
+    display: grid;
+    grid-template-columns: unset;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.5rem;
+
+    &__btn {
+      margin: unset;
+    }
+  }
+}
+
+@media (width <= 375px) {
+  .table {
+    &__th {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__tFirst {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__tLast {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__td {
+      padding: 0.2rem 0.2rem;
+    }
   }
 }

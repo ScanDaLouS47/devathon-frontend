@@ -13,7 +13,7 @@ export const fetchApiV2 = async <T>(
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   try {
-    // xsrf token
+    // XSRF-TOKEN
     const xsrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
       method: 'GET',
       credentials: 'include',
