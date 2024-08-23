@@ -3,10 +3,10 @@ import { getCookie } from './getCookie';
 
 type HttpMethod = 'GET' | 'POST' | 'DELETE';
 
-export const fetchApiV2 = async <T>(
+export const fetchApiV2 = async <T, D>(
   path: string,
   method: HttpMethod = 'GET',
-  data?: unknown | null,
+  data?: D | null,
   isRequiredToken: boolean = false,
   isWithCredentials: boolean = false,
 ): Promise<T> => {

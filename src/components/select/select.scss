@@ -1,4 +1,6 @@
 .select {
+  width: 100%;
+
   position: relative;
 }
 .select__select {
@@ -7,6 +9,7 @@
   width: 100%;
 
   padding: 0.5em 2.5em;
+  text-align: center;
 
   border: none;
   appearance: none;
