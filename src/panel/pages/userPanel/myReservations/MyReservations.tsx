@@ -57,7 +57,7 @@ export const MyReservations = () => {
       const response = await dispatch(getMyBookingsFilteredThunks({ id, queryParams })).unwrap();
       console.log(response);
 
-      if (response.length !== 1) {
+      if (response.length === 0) {
         throw new ApiError('Fail to found reservation');
       } else {
         toast.update(toastInfo, {
