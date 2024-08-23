@@ -40,7 +40,7 @@ export const MyReservations = () => {
   });
 
   useEffect(() => {
-    dispatch(getAllMyBookingsThunks(authState.user?.id));
+    dispatch(getAllMyBookingsThunks());
   }, [authState.user?.id, dispatch]);
 
   const handleMyBookings: SubmitHandler<myReservationsType> = async (data) => {
@@ -50,11 +50,9 @@ export const MyReservations = () => {
     // data.activeReservation ? queryParamsFilters.append('active', data.activeReservation) : null;
     const queryParams = queryParamsFilters.toString();
     const toastInfo = toast.loading('Loading...');
-    const userId = authState.user?.id;
 
     try {
-      const response = await dispatch(getMyBookingsFilteredThunks({ userId, queryParams })).unwrap();
-      console.log(response);
+      const response = await dispatch(getMyBookingsFilteredThunks({ queryParams })).unwrap();
 
       if (response.length === 0) {
         throw new ApiError('Fail to found reservation');
@@ -74,22 +72,22 @@ export const MyReservations = () => {
     }
   };
 
-  const handleDeleteBooking = async (tableId: number) => {
+  const handleDeleteBooking = async (reservationId: number) => {
     const toastInfo = toast.loading('Loading...');
     try {
-      const response = await dispatch(deleteMyBookingsThunks(tableId)).unwrap();
+      const response = await dispatch(deleteMyBookingsThunks(reservationId)).unwrap();
 
       if (isNaN(response)) {
         throw new ApiError('Fail to delete reservation');
       } else {
         toast.update(toastInfo, {
           render: 'Reservation deleted successfully',
-          type: 'success',
+          type: 'warning',
           isLoading: false,
           autoClose: 1500,
         });
       }
-      await dispatch(getAllMyBookingsThunks(authState.user?.id));
+      await dispatch(getAllMyBookingsThunks());
     } catch (error) {
       if (error instanceof ApiError) {
         toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });

@@ -1,12 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchApi } from '../../utils/fetchApi';
 import { IRespBooking } from '../../interfaces';
+import { ApiError } from '../../utils/apiError';
 
-export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async (id: number | undefined) => {
+export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async () => {
   const resp = await fetchApi<IRespBooking>(
-    `/api/v1/mybookings`,
+    `/api/v1/mybookings2`,
     'GET',
-    `${id}?active=active`,
+    `?active=active`,
     null,
     true,
     true,
@@ -17,11 +18,11 @@ export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async (
 
 export const getMyBookingsFilteredThunks = createAsyncThunk(
   'myBookingsFiltered/get',
-  async ({ userId, queryParams }: { userId: number | undefined; queryParams: string }) => {
+  async ({ queryParams }: { queryParams: string }) => {
     const resp = await fetchApi<IRespBooking>(
-      `/api/v1/mybookings`,
+      `/api/v1/mybookings2`,
       'GET',
-      `${userId}?active=active&${queryParams}`,
+      `?active=active&${queryParams}`,
       null,
       true,
       true,
@@ -35,15 +36,17 @@ export const deleteMyBookingsThunks = createAsyncThunk(
   'myBookings/delete',
   async (reservationId: number, { rejectWithValue }) => {
     try {
-      const resp = await fetchApi<IRespBooking>(`/api/v1/booking`, 'DELETE', `${reservationId}`, null, true, true);
+      console.log(reservationId);
+      const resp = await fetchApi<IRespBooking>(`/api/v1/booking`, 'DELETE', `/${reservationId}`, null, true, true);
+      console.log(resp);
 
       if (!resp.ok) {
-        throw new Error(resp.msg || 'Failed to delete booking');
+        throw new ApiError(resp.msg || 'Failed to delete booking');
       }
-
+      
       return reservationId;
     } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'An unexpected error occurred');
+      return rejectWithValue(error instanceof ApiError ? error.message : 'An unexpected error occurred');
     }
   },
 );
