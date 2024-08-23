@@ -113,7 +113,7 @@ export const MyReservations = () => {
             {...register('numberOfPersons')}
           />
           <div className={styles.form__btnContainer}>
-            <button className={styles.form__btn} type="submit">
+            <button className={styles.form__btn} type="submit" aria-label="Button to search reservation">
               Search
             </button>
           </div>

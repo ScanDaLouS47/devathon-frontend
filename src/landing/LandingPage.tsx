@@ -15,7 +15,7 @@ export const LandingPage = () => {
             Seamless, reliable, and alwayas at your fingertips.
           </p>
 
-          <NavLink to={'/auth/login'} className={style.landing__btn}>
+          <NavLink to={'/auth/login'} className={style.landing__btn} aria-label='Enter into application'>
             Start Reservation
           </NavLink>
         </div>

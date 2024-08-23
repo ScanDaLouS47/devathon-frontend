@@ -77,7 +77,7 @@ export const SchedulesPage = () => {
               <option value="4">4</option>
             </Select>
           </div>
-          <button className="search__btn" type="submit">
+          <button className="search__btn" type="submit" aria-label="Searching button">
             Search
           </button>
         </form>

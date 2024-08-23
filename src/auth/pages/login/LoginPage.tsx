@@ -20,8 +20,8 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'dirij75152@maxturns.com',
-      password: '123456Aa#',
+      email: 'vohac64895@iteradev.com',
+      password: 'Aa1234~~',
     },
     // defaultValues: {
     //   email: 'dirij75152@maxturns.com',
@@ -125,23 +125,23 @@ export const LoginPage = () => {
             {...register('password')}
           />
 
-          <button className={styles.form__btn} type="submit">
+          <button className={styles.form__btn} type="submit" aria-label='Sign In'>
             Sign In
           </button>
         </form>
 
         <div className={styles.login__otherLogins}>
           <span className={styles.login__labelLogins}>— Or sign in with —</span>
-          <button className={styles.login__btn__google} type="button" onClick={handleLoginGoogle}>
+          <button className={styles.login__btn__google} type="button" onClick={handleLoginGoogle} aria-label='Sign with Google'>
             <GoogleIcon className={styles.login__btn__googleIcon} />
           </button>
         </div>
 
         <div className={styles.login__btns}>
-          <NavLink className={styles.login__register} to={'/auth/forgot-pass'}>
+          <NavLink className={styles.login__register} to={'/auth/forgot-pass'} aria-label='Forgot password?'>
             Forgot Password?
           </NavLink>
-          <NavLink className={styles.login__register} to={'/auth/register'}>
+          <NavLink className={styles.login__register} to={'/auth/register'} aria-label='Sign Up'>
             Sign Up
           </NavLink>
         </div>

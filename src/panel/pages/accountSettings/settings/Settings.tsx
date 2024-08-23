@@ -84,7 +84,7 @@ export const Settings = () => {
           <div className={styles.form__columns}>
             <div className={styles.form__column}>
               <div className={styles.form__enableContainer}>
-                <button className={enabledClass} type="button" onClick={toggleEnable}>
+                <button className={enabledClass} type="button" onClick={toggleEnable} aria-label="Editing">
                   <EditingIcon className={styles.form__enableBtnIcon} />
                 </button>
               </div>
@@ -132,7 +132,7 @@ export const Settings = () => {
                 type="file"
                 {...register('file')}
               />
-              <button className={styles.form__btn} type="submit">
+              <button className={styles.form__btn} type="submit" aria-label="Modify">
                 Modify
               </button>
             </div>
@@ -140,7 +140,11 @@ export const Settings = () => {
         </form>
         <div className={styles.settings__btns}>
           <span>Change Password?</span>
-          <NavLink className={styles.settings__register} to={`/panel/${user?.role}/settings/change-password`}>
+          <NavLink
+            className={styles.settings__register}
+            to={`/panel/${user?.role}/settings/change-password`}
+            aria-label="Let's go"
+          >
             Let's go
           </NavLink>
         </div>

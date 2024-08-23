@@ -56,7 +56,7 @@ export const BookingPage = () => {
   return (
     <section className="booking">
       <header>
-        <button className="booking__btn" onClick={onBack} aria-label="button to go back">
+        <button className="booking__btn" onClick={onBack} aria-label="Go back">
           <ArrowLeftIcon className="booking__icon" />
           Go back
         </button>
