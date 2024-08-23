@@ -129,7 +129,6 @@ export const MyReservations = () => {
           <thead>
             <tr className={styles.table__trHeader}>
               <th className={styles.table__tFirst}>TIME</th>
-              {/* <th className={styles.table__th}>TURN</th> */}
               <th className={styles.table__th}>DATE</th>
               <th className={styles.table__th}>GUESTS</th>
               <th className={styles.table__tLast}>DELETE</th>
@@ -138,17 +137,22 @@ export const MyReservations = () => {
           <tbody>
             {selectedItemsToView &&
               selectedItemsToView.map((e, i) => {
-                // const turno1 = e.shift === "Turno 1" ? '12:30h' : e.shift;
-                // const turno2 = e.shift === 'Turno 2' ? '14:30h' : e.shift;
-                // const turno2 = e.shift === 'Turno 2' ? '19:30h' : e.shift;
-                // const turno2 = e.shift === 'Turno 2' ? '21:30h' : e.shift;
+                let turn;
+                if (e.shift === 'Turno 1') {
+                  turn = '12:30h';
+                } else if (e.shift === 'Turno 2') {
+                  turn = '14:30h';
+                } else if (e.shift === 'Turno 3') {
+                  turn = '19:30h';
+                } else if (e.shift === 'Turno 4') {
+                  turn = '21:30h';
+                }
                 return (
                   <tr key={i} className={styles.table__tr}>
-                    {/* <td className={styles.table__td}>{turno2}</td> */}
-                    <td className={`${styles.table__td} ${styles.table__tFirst}`}>{e.shift}</td>
+                    <td className={`${styles.table__td} ${styles.table__tFirst}`}>{turn}</td>
                     <td className={styles.table__td}>{String(e.reservationDate)}</td>
                     <td className={styles.table__td}>{e.persons}</td>
-                    <td className={styles.table__td}>
+                    <td className={`${styles.table__td} ${styles.table__tLast}`}>
                       <TrashIcon
                         className={styles.table__tdIconDelete}
                         onClick={() => handleDeleteBooking(selectedItemsToView[i].id)}

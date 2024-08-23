@@ -15,8 +15,6 @@ export const getAllBookings = createAsyncThunk('bookings/get', async (): Promise
     true,
   );
 
-  console.log('ON MY BACKEND', response);
-
   return response.data;
 });
 

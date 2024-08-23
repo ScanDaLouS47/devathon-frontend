@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from './generateEmptyRows.module.scss';
 
 interface CellProps {
   className?: string;
@@ -24,13 +23,13 @@ export const GenerateEmptyRows: React.FC<GenerateEmptyRowsProps> = ({
   return Array(count)
     .fill(null)
     .map((_, rowIndex) => (
-      <tr key={`empty-${rowIndex}`} className={classNames(styles.defaultRow, styledTr, className)} {...props}>
+      <tr key={`empty-${rowIndex}`} className={classNames(styledTr, className)} {...props}>
         {cells.map((cell, cellIndex) => {
           const { styledTd, className: cellClassName, onClick, ...cellProps } = cell;
           return (
             <td
               key={`cell-${rowIndex}-${cellIndex}`}
-              className={classNames(styles.defaultCell, styledTd, cellClassName)}
+              className={classNames(styledTd, cellClassName)}
               onClick={onClick}
               {...cellProps}
             >

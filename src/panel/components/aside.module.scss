@@ -46,9 +46,8 @@
   background-color: var(--light-orange);
 }
 
-@media (width <= 450px) {
+@media (width <= 820px) {
   .aside {
-    height: unset;
 
     &__link {
       font-size: 1.1rem;
