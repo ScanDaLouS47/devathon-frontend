@@ -5,12 +5,12 @@ import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { IRespLogin } from '../../../interfaces';
-import { ILoginPost } from '../../../interfaces/respFetch';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { useAuth } from '../../hook/useAuth';
 import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
+import { fetchApi } from '../../../utils/fetchApi';
 
 export const LoginPage = () => {
   const {
@@ -46,7 +46,7 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
       
-      const resp = await fetchApiV2<IRespLogin, ILoginPost>(
+      const resp = await fetchApi<IRespLogin>(
 
         '/api/v1/login',
         'POST',
