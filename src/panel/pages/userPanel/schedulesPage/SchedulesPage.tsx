@@ -14,6 +14,7 @@ import { EventContent } from '../../../components/eventContent/EventContent';
 import { KidIcon } from '../../../components/icons/KidIcon';
 import { useSchedulesForm } from '../../../hooks/useSchedulesForm';
 import './schedulesPage.scss';
+import { PeopleIcon } from '../../../components/icons';
 
 export const SchedulesPage = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export const SchedulesPage = () => {
       <header className="schedulesPage__header">
         <form className="search" onSubmit={handleFilterBookings}>
           <div className="search__container">
-            <KidIcon className="schedulesPage__icon" />
+            <PeopleIcon className="schedulesPage__icon" />
             <Select
               id="adults"
               value={persons.adults}
