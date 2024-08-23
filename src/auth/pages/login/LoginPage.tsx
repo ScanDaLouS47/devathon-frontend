@@ -5,13 +5,13 @@ import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { IRespLogin } from '../../../interfaces';
+import { ILoginPost } from '../../../interfaces/respFetch';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
 import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
-// import { fetchApi } from '../../../utils/fetchApi';
 
 /**
     ** ADMIN **
@@ -60,19 +60,7 @@ export const LoginPage = () => {
 
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
-
-      // const resp = await fetchApi<IRespLogin>(
-      //   '/api/v1/login',
-      //   'POST',
-      //   '', // id
-      //   {
-      //     email: supEmail,
-      //     password: supPass,
-      //   },
-      //   false, // Token
-      //   true, // Credentials
-      // );
-      const resp = await fetchApiV2<IRespLogin>(
+      const resp = await fetchApiV2<IRespLogin, ILoginPost>(
         '/api/v1/login',
         'POST',
         {
@@ -87,8 +75,6 @@ export const LoginPage = () => {
         throw new ApiError(resp.msg);
       }
 
-      console.log('ON MY BACKEND', resp);
-
       if (resp.data) {
         localStorage.setItem('access_token_api', resp.data.token);
         onLogin(resp.data.user);
@@ -97,7 +83,6 @@ export const LoginPage = () => {
     } catch (error) {
       if (error instanceof ApiError) {
         toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
-        console.error('Login error:', error);
       }
     }
   };
