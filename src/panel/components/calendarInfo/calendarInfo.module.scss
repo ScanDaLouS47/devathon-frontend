@@ -1,0 +1,30 @@
+.info {
+  font-size: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5em;
+  &__row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+  &__expired,
+  &__full,
+  &__available {
+    display: block;
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
+  }
+  &__expired {
+    background-color: #454545;
+  }
+  &__full {
+    background-color: #ff0000;
+  }
+
+  &__available {
+    background-color: #12b176;
+  }
+}
