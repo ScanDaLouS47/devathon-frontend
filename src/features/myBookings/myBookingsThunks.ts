@@ -2,11 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchApi } from '../../utils/fetchApi';
 import { IRespBooking } from '../../interfaces';
 
-export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async (id: number | undefined) => {
+export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async () => {
   const resp = await fetchApi<IRespBooking>(
-    `/api/v1/mybookings`,
+    `/api/v1/mybookings2`,
     'GET',
-    `${id}?active=active`,
+    `?active=active`,
     null,
     true,
     true,
@@ -17,11 +17,11 @@ export const getAllMyBookingsThunks = createAsyncThunk('myBookings/get', async (
 
 export const getMyBookingsFilteredThunks = createAsyncThunk(
   'myBookingsFiltered/get',
-  async ({ userId, queryParams }: { userId: number | undefined; queryParams: string }) => {
+  async ({ queryParams }: { queryParams: string }) => {
     const resp = await fetchApi<IRespBooking>(
-      `/api/v1/mybookings`,
+      `/api/v1/mybookings2`,
       'GET',
-      `${userId}?active=active&${queryParams}`,
+      `?active=active&${queryParams}`,
       null,
       true,
       true,

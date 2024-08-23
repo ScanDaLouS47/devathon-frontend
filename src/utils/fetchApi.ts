@@ -41,7 +41,7 @@ type HttpMethod = 'GET' | 'POST' | 'DELETE';
  *
  * ```
  * // Example of posting data without token and credentials on register
- * const newUser = await fetchApi('/create', 'POST', { name: 'John Doe', email: 'user@example.com', ... }, false, false);
+ * const newUser = await fetchApi('/create', 'POST', '', { name: 'John Doe', email: 'user@example.com', ... }, false, false);
  *
  * // Example of posting data with credentials only on login
  * const login = await fetchApi('/login', 'POST', '', { email: 'user@example.com' }, false, true);
@@ -106,7 +106,7 @@ export const fetchApi = async <T>(
       ...(data ? { body: data instanceof FormData ? data : JSON.stringify(data) } : null),
     };
 
-    const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
+    const response = await fetch(`${apiBaseUrl}${path}${id ? id : ''}`, fetchOptions);
 
     if (!response.ok) {
       throw new ApiError(`${response.status} ${response.statusText}`);

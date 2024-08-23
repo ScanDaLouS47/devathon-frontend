@@ -1,3 +1,5 @@
+# 1. Conseguir un file en la response del backend
+
 - ToDo: Fix response with backend. Return file is needed
 - Realmente no hay ningún archivo pre-cargado, hay
 - solo una preview de la img que se expone a través
@@ -10,3 +12,6 @@
    throw new ApiError('Please, modify at least one input');
   }
   ```
+
+
+# 2. Crear filtro 'active / inactive' para las reservas

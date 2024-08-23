@@ -40,7 +40,7 @@ export const MyReservations = () => {
   });
 
   useEffect(() => {
-    dispatch(getAllMyBookingsThunks(authState.user?.id));
+    dispatch(getAllMyBookingsThunks());
   }, [authState.user?.id, dispatch]);
 
   const handleMyBookings: SubmitHandler<myReservationsType> = async (data) => {
@@ -50,10 +50,9 @@ export const MyReservations = () => {
     // data.activeReservation ? queryParamsFilters.append('active', data.activeReservation) : null;
     const queryParams = queryParamsFilters.toString();
     const toastInfo = toast.loading('Loading...');
-    const userId = authState.user?.id;
 
     try {
-      const response = await dispatch(getMyBookingsFilteredThunks({ userId, queryParams })).unwrap();
+      const response = await dispatch(getMyBookingsFilteredThunks({ queryParams })).unwrap();
       console.log(response);
 
       if (response.length === 0) {
@@ -89,7 +88,7 @@ export const MyReservations = () => {
           autoClose: 1500,
         });
       }
-      await dispatch(getAllMyBookingsThunks(authState.user?.id));
+      await dispatch(getAllMyBookingsThunks());
     } catch (error) {
       if (error instanceof ApiError) {
         toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });
