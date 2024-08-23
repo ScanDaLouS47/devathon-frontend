@@ -11,12 +11,12 @@ export const DonutChart = ({data}) => {
 
     const [chartData] = useState({
         options: {
-            labels: dataLabels, // ['Turno 1','Turno 2', 'Turno 3', 'Turno 4'],
+            labels: dataLabels,
             title: {
                 text: 'Reservas por turno'
             }
         },
-        series: dataSeries // [44,55,15,12],
+        series: dataSeries
     })
 
 

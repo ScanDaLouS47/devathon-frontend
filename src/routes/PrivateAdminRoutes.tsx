@@ -6,7 +6,6 @@ import { Aside } from '../panel/components/Aside';
 const links: Link[] = [
   { path: '/panel/admin/dashboard', name: 'Dashboard' },
   { path: '/panel/admin/reservations', name: 'Reserves' },
-  // { path: '/panel/admin/list-reservations', name: 'History' },
 ];
 
 export const PrivateAdminRoute = () => {
