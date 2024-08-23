@@ -53,7 +53,6 @@ export const MyReservations = () => {
 
     try {
       const response = await dispatch(getMyBookingsFilteredThunks({ queryParams })).unwrap();
-      console.log(response);
 
       if (response.length === 0) {
         throw new ApiError('Fail to found reservation');
@@ -73,17 +72,17 @@ export const MyReservations = () => {
     }
   };
 
-  const handleDeleteBooking = async (tableId: number) => {
+  const handleDeleteBooking = async (reservationId: number) => {
     const toastInfo = toast.loading('Loading...');
     try {
-      const response = await dispatch(deleteMyBookingsThunks(tableId)).unwrap();
+      const response = await dispatch(deleteMyBookingsThunks(reservationId)).unwrap();
 
       if (isNaN(response)) {
         throw new ApiError('Fail to delete reservation');
       } else {
         toast.update(toastInfo, {
           render: 'Reservation deleted successfully',
-          type: 'success',
+          type: 'warning',
           isLoading: false,
           autoClose: 1500,
         });
