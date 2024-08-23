@@ -7,25 +7,10 @@ import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { IRespLogin } from '../../../interfaces';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
-import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
 import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
-// import { fetchApi } from '../../../utils/fetchApi';
-
-/**
-    ** ADMIN **
-    defaultValues: {
-      email: 'dirij75152@maxturns.com',
-      password: '123456Aa#',
-    },
-
-    ** USER **
-    defaultValues: {
-      email: 'vohac64895@iteradev.com',
-      password: 'Aa1234~~',
-    },
-*/
+import { fetchApi } from '../../../utils/fetchApi';
 
 export const LoginPage = () => {
   const {
@@ -61,20 +46,10 @@ export const LoginPage = () => {
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
 
-      // const resp = await fetchApi<IRespLogin>(
-      //   '/api/v1/login',
-      //   'POST',
-      //   '', // id
-      //   {
-      //     email: supEmail,
-      //     password: supPass,
-      //   },
-      //   false, // Token
-      //   true, // Credentials
-      // );
-      const resp = await fetchApiV2<IRespLogin>(
+      const resp = await fetchApi<IRespLogin>(
         '/api/v1/login',
         'POST',
+        '',
         {
           email: supEmail,
           password: supPass,
@@ -119,7 +94,6 @@ export const LoginPage = () => {
         throw new ApiError('No user or session data received');
       }
 
-      // onLogin(data.data.user);
     } catch (error) {
       if (error instanceof ApiError) {
         console.error('Google login error:', error.message);

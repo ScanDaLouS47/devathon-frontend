@@ -29,7 +29,6 @@
     &__isActive {
       border-color: var(--orange);
       background-color: var(--white);
-      // color: var(--orange);
 
       svg {
         fill: var(--orange);
@@ -39,8 +38,6 @@
 
   @media (hover: hover) {
     &__btn__icon:hover {
-      // filter: drop-shadow(0 0 0.5rem var(--light-orange));
-      // -webkit-filter: drop-shadow(0 0 0.5rem var(--light-orange));
       cursor: pointer;
       transition: all 0.7s ease;
       -webkit-transition: all 0.7s ease;

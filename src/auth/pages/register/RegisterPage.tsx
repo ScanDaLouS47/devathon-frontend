@@ -13,21 +13,6 @@ import { fetchApi } from '../../../utils/fetchApi';
 import { registerSchema, RegisterType } from './registerSchema';
 
 export const RegisterPage = () => {
-  // POST a /api/v1/create
-  /**
-    name
-
-    lName
-
-    email
-
-    phone
-
-    password
-
-    image_url
-   */
-
   const {
     register,
     handleSubmit,
@@ -79,7 +64,7 @@ export const RegisterPage = () => {
         throw new ApiError(resp.msg[0]);
       }
 
-      toast.update(toastInfo, { render: resp.msg, type: 'success', isLoading: false, autoClose: 1500 });
+      toast.update(toastInfo, { render: 'We have send an email', type: 'warning', isLoading: false, autoClose: 1500 });
 
       navigate('/auth/login');
     } catch (error) {

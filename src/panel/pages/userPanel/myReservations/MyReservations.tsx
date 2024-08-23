@@ -20,8 +20,6 @@ import styles from './myReservations.module.scss';
 import { myReservationsSchema, myReservationsType } from './myReservationsSchema';
 
 export const MyReservations = () => {
-  // GET a /api/v1/mybookings/62?filter=2024-08-26&active=active&number=5
-
   const { authState } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const myBookings = useSelector(getMyBookingsData);
@@ -49,12 +47,13 @@ export const MyReservations = () => {
     const queryParamsFilters = new URLSearchParams();
     data.date ? queryParamsFilters.append('filter', data.date) : null;
     data.numberOfPersons ? queryParamsFilters.append('persons', data.numberOfPersons) : null;
+    // data.activeReservation ? queryParamsFilters.append('active', data.activeReservation) : null;
     const queryParams = queryParamsFilters.toString();
     const toastInfo = toast.loading('Loading...');
-    const id = authState.user?.id;
+    const userId = authState.user?.id;
 
     try {
-      const response = await dispatch(getMyBookingsFilteredThunks({ id, queryParams })).unwrap();
+      const response = await dispatch(getMyBookingsFilteredThunks({ userId, queryParams })).unwrap();
       console.log(response);
 
       if (response.length === 0) {
@@ -131,7 +130,7 @@ export const MyReservations = () => {
               <th className={styles.table__tFirst}>TIME</th>
               <th className={styles.table__th}>DATE</th>
               <th className={styles.table__th}>GUESTS</th>
-              <th className={styles.table__tLast}>DELETE</th>
+              <th className={styles.table__tLast}>CANCEL</th>
             </tr>
           </thead>
           <tbody>

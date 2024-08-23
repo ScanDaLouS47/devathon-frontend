@@ -14,23 +14,6 @@ import styles from './settings.module.scss';
 import { createSettingsSchema, SettingsType } from './settingsSchema';
 
 export const Settings = () => {
-  // POST a /api/v1/user/
-  /**
-    _method: PUT
-
-    name
-
-    lName
-
-    email
-
-    phone
-
-    image
-   */
-
-  // GET a /api/v1/user/profile
-
   const { authState, updateUser } = useAuth();
   const { user } = authState;
   const settingsSchema = createSettingsSchema(user);
@@ -53,13 +36,6 @@ export const Settings = () => {
       lastName: user?.lName,
       email: user?.email,
       phone: phoneWithoutPrefix,
-      // ToDo: Fix response with backend. Return file is needed
-      // Realmente no hay ningún archivo pre-cargado, hay
-      // solo una preview de la img que se expone a través
-      // de un string (URL) y se necesita un File o
-      // FileList. Debería recibir del backend el archivo
-      // que se le envió para poder resolver el problema.
-      // Por este motivo `isDirty` no se puede utilizar
       file: user?.image_url,
     },
   });
@@ -71,10 +47,6 @@ export const Settings = () => {
   const handleUpdate: SubmitHandler<SettingsType> = async (data) => {
     const toastInfo = toast.loading('Loading...');
     try {
-      // if (!isDirty) {
-      //   throw new ApiError('Please, modify at least one input');
-      // }
-
       const formData = new FormData();
       formData.append('_method', 'PUT');
       formData.append('name', data.name);
