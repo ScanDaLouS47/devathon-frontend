@@ -8,24 +8,9 @@ import { IRespLogin } from '../../../interfaces';
 import { ILoginPost } from '../../../interfaces/respFetch';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
-import { fetchApiV2 } from '../../../utils/fetchApiV2';
 import { useAuth } from '../../hook/useAuth';
 import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
-
-/**
-    ** ADMIN **
-    defaultValues: {
-      email: 'dirij75152@maxturns.com',
-      password: '123456Aa#',
-    },
-
-    ** USER **
-    defaultValues: {
-      email: 'vohac64895@iteradev.com',
-      password: 'Aa1234~~',
-    },
-*/
 
 export const LoginPage = () => {
   const {
@@ -60,9 +45,12 @@ export const LoginPage = () => {
 
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
+      
       const resp = await fetchApiV2<IRespLogin, ILoginPost>(
+
         '/api/v1/login',
         'POST',
+        '',
         {
           email: supEmail,
           password: supPass,
@@ -97,16 +85,15 @@ export const LoginPage = () => {
       });
 
       if (error) {
-        throw new Error(error.message);
+        throw new ApiError(error.message);
       }
 
       if (!data) {
-        throw new Error('No user or session data received');
+        throw new ApiError('No user or session data received');
       }
 
-      // onLogin(data.data.user);
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof ApiError) {
         console.error('Google login error:', error.message);
       }
     }

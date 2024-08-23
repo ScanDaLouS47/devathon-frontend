@@ -25,6 +25,8 @@ export const getAllBookings = createAsyncThunk(
   },
 );
 
+
+
 export const createBooking = createAsyncThunk(
   'bookings/post',
   async (data: CreateBooking): Promise<IBookingCreate> => {
@@ -35,7 +37,6 @@ export const createBooking = createAsyncThunk(
       true,
       true,
     );
-
     return response;
   },
 );

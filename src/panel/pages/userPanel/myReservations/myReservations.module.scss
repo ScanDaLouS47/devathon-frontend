@@ -1,7 +1,21 @@
 .myReservations {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
+  background-color: var(--white);
+  border-radius: 0.3125rem;
+  -webkit-border-radius: 0.3125rem;
+  -moz-border-radius: 0.3125rem;
+  -ms-border-radius: 0.3125rem;
+  -o-border-radius: 0.3125rem;
+
+  &__header {
+    padding: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
 
   &__container {
     width: 100%;
@@ -15,18 +29,12 @@
     -ms-border-radius: 0.3125rem;
     -o-border-radius: 0.3125rem;
   }
-
-  &__title {
-    font-size: clamp(1.5rem, 6vw, 2rem);
-    font-weight: 600;
-  }
 }
 
 .form {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  // place-items: center;
 
   &__btnContainer {
     display: flex;
@@ -43,11 +51,11 @@
     background-color: var(--btn-bg);
     color: var(--btn-color);
     cursor: pointer;
-    border-radius: 0.3em;
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    -ms-border-radius: 0.3em;
-    -o-border-radius: 0.3em;
+    border-radius: 0.3125rem;
+    -webkit-border-radius: 0.3125rem;
+    -moz-border-radius: 0.3125rem;
+    -ms-border-radius: 0.3125rem;
+    -o-border-radius: 0.3125rem;
   }
 }
 
@@ -55,17 +63,93 @@
   color: var(--error);
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(70%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
   -webkit-filter: invert(70%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
 .table {
-  margin: .5rem;
   width: 100%;
 
-  &__tr {
-    padding: .3125rem;
+  &__trHeader {
+    width: 100%;
     text-align: center;
+    font-weight: 600;
+    background-color: var(--btn-bg);
+    color: var(--btn-color);
+  }
+
+  &__th {
+    padding: 0.5rem;
+  }
+
+  &__tFirst {
+    border-top-left-radius: 0.3125rem;
+    border-bottom-left-radius: 0.3125rem;
+  }
+
+  &__tLast {
+    border-top-right-radius: 0.3125rem;
+    border-bottom-right-radius: 0.3125rem;
+  }
+
+  &__tr {
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+      background-color: var(--hover-avt-opt);
+      color: var(--dark-gray);
+    }
+  }
+
+  &__td {
+    padding: 0.5rem;
+  }
+
+  &__tdIconUpdate {
+    width: 1rem;
+    margin: auto;
+    cursor: pointer;
+  }
+
+  &__tdIconDelete {
+    width: 1rem;
+    margin: auto;
+    cursor: pointer;
+    color: var(--dark-red);
+  }
+}
+
+@media (width <= 820px) {
+  .form {
+    display: grid;
+    grid-template-columns: unset;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.5rem;
+
+    &__btn {
+      margin: unset;
+    }
+  }
+}
+
+@media (width <= 375px) {
+  .table {
+    &__th {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__tFirst {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__tLast {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__td {
+      padding: 0.2rem 0.2rem;
+    }
   }
 }

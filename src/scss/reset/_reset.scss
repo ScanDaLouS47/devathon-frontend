@@ -20,7 +20,7 @@
   --gray-color: rgb(183, 183, 183);
 
   --error: rgb(237, 74, 74);
-  --logout: rgb(204, 63, 63);
+  --dark-red: rgb(204, 63, 63);
 
   /* Tipografía */
   --tipo-principal: 'Poppins', Helvetica, Arial, sans-serif;
@@ -231,9 +231,3 @@ body {
   /* (Opcional) */
   -moz-osx-font-smoothing: grayscale;
 }
-
-// @media (width <= 450px) {
-//   body {
-//     font-size: 1.2rem;
-//   }
-// }

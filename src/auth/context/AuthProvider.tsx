@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
   const onLogout = () => {
     localStorage.removeItem('userData');
     localStorage.removeItem('access_token_api');
-    localStorage.removeItem('sb-xyiqucxpwnvmembqwevm-auth-token'); // Supabase
+    localStorage.removeItem('sb-xyiqucxpwnvmembqwevm-auth-token');
     dispatch({ type: 'signOut' });
   };
 
@@ -40,8 +40,6 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     localStorage.setItem('userData', JSON.stringify(updatedUser));
     dispatch({ type: 'updateUser', payload: updatedUser });
   };
-
-  // console.log({ authState });
 
   return (
     <AuthContext.Provider value={{ authState, onLogin, onLogout, updateUser }}>

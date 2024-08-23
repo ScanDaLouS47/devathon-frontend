@@ -4,7 +4,7 @@
   align-items: center;
   gap: 1rem;
   background-color: var(--white);
-  border-radius: 0.3em;
+  border-radius: 0.3125rem;
 
   &__header {
     padding: 1em;
@@ -58,7 +58,7 @@
   &__btn {
     width: 100%;
     padding: 0.5em 1em;
-    border-radius: 0.3em;
+    border-radius: 0.3125rem;
     background-color: var(--btn-bg);
     color: var(--btn-color);
   }

@@ -8,6 +8,7 @@ import { FormInput } from '../../../../components/formInput/FormInput';
 import { useAuth } from '../../../../auth/hook/useAuth';
 import { ApiError } from '../../../../utils/apiError';
 import { toast } from 'react-toastify';
+import { ArrowLeftIcon } from '../../../components/icons/ArrowLeftIcon';
 
 export const DidForgetPass = () => {
   const {
@@ -66,6 +67,7 @@ export const DidForgetPass = () => {
         </form>
         <div className={`${styles.didForget__btns}`}>
           <NavLink className={`${styles.didForget__register}`} to={`/panel/${user?.role}/settings`}>
+            <ArrowLeftIcon className={styles.didForget__goBackIcon} />
             Go back
           </NavLink>
         </div>

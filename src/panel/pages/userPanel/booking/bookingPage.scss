@@ -1,6 +1,6 @@
 .booking {
   background-color: var(--white);
-  border-radius: 0.3em;
+  border-radius: 0.3125rem;
   padding: 2em;
 
   display: flex;
@@ -11,7 +11,7 @@
     border-radius: 0.3em;
     display: flex;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.3em;
     font-weight: 600;
     transition: background-color 0.3s;
     &:hover {
@@ -45,7 +45,7 @@
     max-height: 14em;
     padding: 0.5em;
     resize: vertical;
-    border-radius: 0.3em;
+    border-radius: 0.3125rem;
     outline: 0.0625rem solid var(--dark-gray);
   }
   &__btn {

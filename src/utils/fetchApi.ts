@@ -72,7 +72,7 @@ export const fetchApi = async <T>(
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   try {
-    // xsrf token
+    // XSRF-TOKEN
     const xsrfResponse = await fetch(`${apiBaseUrl}/sanctum/csrf-cookie`, {
       method: 'GET',
       credentials: 'include',
@@ -109,7 +109,7 @@ export const fetchApi = async <T>(
     const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
 
     if (!response.ok) {
-      throw new ApiError(`ON FETCHING API: ${response.status} ${response.statusText}`);
+      throw new ApiError(`${response.status} ${response.statusText}`);
     }
 
     const responseData: T = await response.json();

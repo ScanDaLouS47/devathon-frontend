@@ -13,7 +13,6 @@ import { ThemeSwitcher } from '../themeSwitcher/ThemeSwitcher';
 import styles from './header.module.scss';
 
 export const Header = React.forwardRef(() => {
-  // GET a /api/v1/logout
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -73,8 +72,6 @@ export const Header = React.forwardRef(() => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
-
-  console.log(logged);
 
   return (
     <>

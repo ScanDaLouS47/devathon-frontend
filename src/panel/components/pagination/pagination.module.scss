@@ -1,0 +1,63 @@
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+
+  &__btnsPagesToShow {
+    padding: 0.3125rem 1rem;
+    font-weight: 600;
+    border: 0.0625rem solid var(--btn-bg);
+    color: var(--orange);
+    cursor: pointer;
+    border-radius: 0.3rem;
+    -webkit-border-radius: 0.3rem;
+    -moz-border-radius: 0.3rem;
+    -ms-border-radius: 0.3rem;
+    -o-border-radius: 0.3rem;
+
+    &:hover {
+      background-color: var(--hover-avt-opt);
+      color: var(--dark-gray);
+      transition: all 0.7s ease;
+      -webkit-transition: all 0.7s ease;
+      -moz-transition: all 0.7s ease;
+      -ms-transition: all 0.7s ease;
+      -o-transition: all 0.7s ease;
+    }
+  }
+
+  &__btnsPagesToShowIcon {
+    width: 1.5rem;
+  }
+
+  &__btnsPagesNav {
+    font-weight: 600;
+    color: var(--orange);
+    display: flex;
+    gap: 0.3rem;
+    cursor: pointer;
+  }
+}
+
+.ellipsis {
+  color: var(--btn-bg);
+  padding: 0.3125rem 0.98rem;
+  white-space: nowrap;
+  display: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: clamp(1rem, 2vw, 1rem);
+  font-weight: 600;
+}
+
+@media (width <= 820px) {
+  .pagination {
+    gap: 0.5rem;
+
+    &__btnsPagesToShow {
+      padding: 0.2325rem 0.7rem;
+    }
+  }
+}
