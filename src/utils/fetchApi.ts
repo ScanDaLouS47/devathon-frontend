@@ -109,7 +109,7 @@ export const fetchApi = async <T>(
     const response = await fetch(`${apiBaseUrl}${path}${id ? '/' + id : ''}`, fetchOptions);
 
     if (!response.ok) {
-      throw new ApiError(`ON FETCHING API: ${response.status} ${response.statusText}`);
+      throw new ApiError(`${response.status} ${response.statusText}`);
     }
 
     const responseData: T = await response.json();

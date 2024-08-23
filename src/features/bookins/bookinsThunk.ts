@@ -15,7 +15,7 @@ export const getAllBookings = createAsyncThunk('bookings/get', async (): Promise
     true,
   );
 
-  console.log(response);
+  console.log('ON MY BACKEND', response);
 
   return response.data;
 });
@@ -24,7 +24,7 @@ export const createBooking = createAsyncThunk(
   'bookings/post',
   async (data: CreateBooking): Promise<IBookingCreate> => {
     const response = await fetchApiV2<IBookingCreate>('/api/v1/booking', 'POST', data, true, true);
-    console.log(response);
+    console.log('ON MY BACKEND', response);
 
     return response;
   },
