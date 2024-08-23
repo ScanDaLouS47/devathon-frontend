@@ -27,7 +27,7 @@ export const Settings = () => {
     register,
     handleSubmit,
     setFocus,
-    formState: { errors /* , isDirty */ },
+    formState: { errors },
   } = useForm<SettingsType>({
     resolver: zodResolver(settingsSchema),
     mode: 'onChange',
@@ -58,6 +58,9 @@ export const Settings = () => {
         : formData.append('image', 'None');
 
       const udpResp = await fetchApi<IRespForUser>('/api/v1/user/', 'POST', '', formData, true, true);
+
+      console.log(udpResp);
+      
 
       if (!udpResp.ok) {
         throw new ApiError(udpResp.msg);
