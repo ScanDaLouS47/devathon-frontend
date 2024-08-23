@@ -23,6 +23,10 @@ export const LoginPage = () => {
       email: 'dirij75152@maxturns.com',
       password: '123456Aa#',
     },
+    // defaultValues: {
+    //   email: 'dirij75152@maxturns.com',
+    //   password: '123456Aa#',
+    // },
   });
 
   const { onLogin } = useAuth();
