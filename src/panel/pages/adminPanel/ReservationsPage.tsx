@@ -29,11 +29,9 @@ export const ReservationsPage = () => {
       let url = '';
       if(filter===''){
         url = '/api/v1/todaybookings';
-        console.log('asd')
       }else{
         const { search } = filter;
         url = `/api/v1/booking/${search}`; 
-        console.log('asd 2')
       }        
       const resp: any = await fetchApi(
         url,
@@ -41,20 +39,17 @@ export const ReservationsPage = () => {
         '',
         null                       
       );
-      console.log('ON MY TABLE222', resp.data);
 
       if(resp.ok && resp.data.length > 0){        
           const headersArr = Object.keys(resp.data[0]);            
           setHeaders(headersArr);
           if(data.length === 0){
             resp.data.forEach((element:any) => {
-              console.log(element);
               data.push(element);
             });
             setData(data);
           }
-          console.log(headers);
-          console.log(data); 
+
           setFind(true); 
           setLoading(false);      
       }else{

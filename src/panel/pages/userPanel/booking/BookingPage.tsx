@@ -40,14 +40,16 @@ export const BookingPage = () => {
     navigate(-1);
   };
   const onHandleSubmit: SubmitHandler<BookingSchema> = async (data) => {
-    console.log(data);
     const toastInfo = toast.loading('Loading...');
 
     await dispatch(createBooking(data));
 
-    console.log('ANTES DEL TOAST', message);
-
-    toast.update(toastInfo, { render: message, type: 'success', isLoading: false, autoClose: 1500 });
+    toast.update(toastInfo, {
+      render: 'Reservation do it',
+      type: 'success',
+      isLoading: false,
+      autoClose: 1500,
+    });
     navigate(-1);
   };
 

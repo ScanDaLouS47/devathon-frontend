@@ -47,7 +47,6 @@ export const MyReservations = () => {
     const queryParamsFilters = new URLSearchParams();
     data.date ? queryParamsFilters.append('filter', data.date) : null;
     data.numberOfPersons ? queryParamsFilters.append('persons', data.numberOfPersons) : null;
-    // data.activeReservation ? queryParamsFilters.append('active', data.activeReservation) : null;
     const queryParams = queryParamsFilters.toString();
     const toastInfo = toast.loading('Loading...');
 
@@ -87,7 +86,6 @@ export const MyReservations = () => {
           autoClose: 1500,
         });
       }
-      await dispatch(getAllMyBookingsThunks());
     } catch (error) {
       if (error instanceof ApiError) {
         toast.update(toastInfo, { render: error.message, type: 'error', isLoading: false, autoClose: 3000 });

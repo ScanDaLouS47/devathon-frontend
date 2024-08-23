@@ -21,20 +21,6 @@ export const PerfilPage = () => {
 
   const handleRegister: SubmitHandler<RegisterType> = async (data) => {
     try {
-      // const { data: authData, error } = await client.auth.signUp({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name,
-      //       lastName: data.lastName,
-      //       phone: data.phone,
-      //     },
-      //   },
-      // });
-      // console.log('ON SUPABASE', authData);
-      // console.log('SUP_ID', authData.user?.user_metadata.sub);
-
       const resp = await fetchApi(
         '/api/v1/update',
         'PATCH',
@@ -44,27 +30,15 @@ export const PerfilPage = () => {
           lName: data.lastName,
           email: data.email,
           phone: data.phone,
-          // password: authData.user?.user_metadata.sub,
-          // password: '123456Aa#',
           image_url: 'None',
         },
         false,
       );
-      console.log('ON MY BACKEND', resp);
-
-      // if (error) {
-      //   throw new Error(error.message);
-      // }
-
-      // if (!authData.user) {
-      //   throw new Error('No user data received');
-      // }
 
       if (!resp) {
         throw new Error('Bad request');
       }
 
-      // TODO: Mostrar un mensaje mediante un toast o algo por el estilo
     } catch (error) {
       if (error instanceof Error) {
         setRegisterError(error.message);

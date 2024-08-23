@@ -37,8 +37,11 @@ export const deleteMyBookingsThunks = createAsyncThunk(
   async (reservationId: number, { rejectWithValue }) => {
     try {
       console.log(reservationId);
+      
       const resp = await fetchApi<IRespBooking>(`/api/v1/booking`, 'DELETE', `/${reservationId}`, null, true, true);
+
       console.log(resp);
+      
 
       if (!resp.ok) {
         throw new ApiError(resp.msg || 'Failed to delete booking');

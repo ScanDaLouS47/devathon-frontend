@@ -45,11 +45,7 @@ export const SchedulesPage = () => {
     });
   };
   const handleDatesSet = async (arg: DatesSetArg) => {
-    // let currentDate = new Date();
-    // const currentMonth = new Date().toISOString().slice(0, 7);
-
     const date = arg.startStr.slice(0, 7);
-    console.log(date);
   };
   useEffect(() => {
     dispatch(getAllBookings({}));

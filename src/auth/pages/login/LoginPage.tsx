@@ -5,12 +5,12 @@ import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { IRespLogin } from '../../../interfaces';
-import { ILoginPost } from '../../../interfaces/respFetch';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { useAuth } from '../../hook/useAuth';
 import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
+import { fetchApi } from '../../../utils/fetchApi';
 
 export const LoginPage = () => {
   const {
@@ -20,8 +20,8 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'vohac64895@iteradev.com',
-      password: 'Aa1234~~',
+      email: 'dirij75152@maxturns.com',
+      password: '123456Aa#',
     },
   });
 
@@ -45,9 +45,8 @@ export const LoginPage = () => {
 
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
-      
-      const resp = await fetchApiV2<IRespLogin, ILoginPost>(
 
+      const resp = await fetchApi<IRespLogin>(
         '/api/v1/login',
         'POST',
         '',
@@ -91,7 +90,6 @@ export const LoginPage = () => {
       if (!data) {
         throw new ApiError('No user or session data received');
       }
-
     } catch (error) {
       if (error instanceof ApiError) {
         console.error('Google login error:', error.message);

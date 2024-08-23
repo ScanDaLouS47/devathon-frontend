@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Chart from 'react-apexcharts';
 
 export const DonutChart = ({data}) => {
-    console.log(data, 'DATA DONUT')
     let dataSeries = [];
     let dataLabels = [];
     data.forEach(element => {
