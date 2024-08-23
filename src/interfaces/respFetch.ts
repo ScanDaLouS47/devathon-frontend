@@ -20,3 +20,8 @@ export interface RespFetch {
   data: Data | null;
   msg: string;
 }
+
+export interface ILoginPost {
+  email: string;
+  password: string;
+}
