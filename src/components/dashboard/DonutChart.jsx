@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Chart from 'react-apexcharts';
 
 export const DonutChart = ({data}) => {
-    console.log(data, 'DATA DONUT')
     let dataSeries = [];
     let dataLabels = [];
     data.forEach(element => {
@@ -12,12 +11,12 @@ export const DonutChart = ({data}) => {
 
     const [chartData] = useState({
         options: {
-            labels: dataLabels, // ['Turno 1','Turno 2', 'Turno 3', 'Turno 4'],
+            labels: dataLabels,
             title: {
                 text: 'Reservas por turno'
             }
         },
-        series: dataSeries // [44,55,15,12],
+        series: dataSeries
     })
 
 

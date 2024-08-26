@@ -21,20 +21,6 @@ export const PerfilPage = () => {
 
   const handleRegister: SubmitHandler<RegisterType> = async (data) => {
     try {
-      // const { data: authData, error } = await client.auth.signUp({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name,
-      //       lastName: data.lastName,
-      //       phone: data.phone,
-      //     },
-      //   },
-      // });
-      // console.log('ON SUPABASE', authData);
-      // console.log('SUP_ID', authData.user?.user_metadata.sub);
-
       const resp = await fetchApi(
         '/api/v1/update',
         'PATCH',
@@ -44,27 +30,15 @@ export const PerfilPage = () => {
           lName: data.lastName,
           email: data.email,
           phone: data.phone,
-          // password: authData.user?.user_metadata.sub,
-          // password: '123456Aa#',
           image_url: 'None',
         },
         false,
       );
-      console.log('ON MY BACKEND', resp);
-
-      // if (error) {
-      //   throw new Error(error.message);
-      // }
-
-      // if (!authData.user) {
-      //   throw new Error('No user data received');
-      // }
 
       if (!resp) {
         throw new Error('Bad request');
       }
 
-      // TODO: Mostrar un mensaje mediante un toast o algo por el estilo
     } catch (error) {
       if (error instanceof Error) {
         setRegisterError(error.message);
@@ -75,59 +49,63 @@ export const PerfilPage = () => {
       }
     }
   };
-  return (    
-    <div className="content">        
-        <div className="register wrapper">
-      <div className="register__container">  
-        <div className="image-container">
-          <img className="image-perfil" src="https://pub-static.fotor.com/assets/projects/pages/d5bdd0513a0740a8a38752dbc32586d0/fotor-03d1a91a0cec4542927f53c87e0599f6.jpg" alt="" />
-        </div>      
-        {registerError && <div className="error-message">{registerError}</div>}
+  return (
+    <div className="content">
+      <div className="register wrapper">
+        <div className="register__container">
+          <div className="image-container">
+            <img
+              className="image-perfil"
+              src="https://pub-static.fotor.com/assets/projects/pages/d5bdd0513a0740a8a38752dbc32586d0/fotor-03d1a91a0cec4542927f53c87e0599f6.jpg"
+              alt=""
+            />
+          </div>
+          {registerError && <div className="error-message">{registerError}</div>}
 
-        <form className="form" onSubmit={handleSubmit(handleRegister)}>
-          <FormInput
-            label="Name"
-            error={errors['name']}
-            id="name"
-            type="text"
-            placeholder="John"
-            autoFocus
-            {...register('name')}
-          />
+          <form className="form" onSubmit={handleSubmit(handleRegister)}>
+            <FormInput
+              label="Name"
+              error={errors['name']}
+              id="name"
+              type="text"
+              placeholder="John"
+              autoFocus
+              {...register('name')}
+            />
 
-          <FormInput
-            label="Last Name"
-            error={errors['lastName']}
-            id="lastName"
-            type="text"
-            placeholder="Doe"
-            {...register('lastName')}
-          />
+            <FormInput
+              label="Last Name"
+              error={errors['lastName']}
+              id="lastName"
+              type="text"
+              placeholder="Doe"
+              {...register('lastName')}
+            />
 
-          <FormInputPhone
-            options={options}
-            label={'Phone Number'}
-            error={errors['phone']}
-            register={register('phone', {
-              setValueAs: (value) => `${options[0].countryTag ? `+${options[0].countryTag}` : ''}${value}`,
-            })}
-          />
+            <FormInputPhone
+              options={options}
+              label={'Phone Number'}
+              error={errors['phone']}
+              register={register('phone', {
+                setValueAs: (value) => `${options[0].countryTag ? `+${options[0].countryTag}` : ''}${value}`,
+              })}
+            />
 
-          <FormInput
-            label="Email Address"
-            error={errors['email']}
-            id="email"
-            type="email"
-            placeholder="bob@mail.com"
-            {...register('email')}
-          />
+            <FormInput
+              label="Email Address"
+              error={errors['email']}
+              id="email"
+              type="email"
+              placeholder="bob@mail.com"
+              {...register('email')}
+            />
 
-          <button className="form__btn" type="submit">
-            Guardar
-          </button>
-        </form>
+            <button className="form__btn" type="submit" aria-label="Save">
+              Save
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-    </div>
-  )
+  );
 }

@@ -11,54 +11,44 @@ export const ReservationsPage = () => {
     handleSubmit,
     setFocus,
     formState: { errors /* , isDirty */ },
-  } = useForm<any>();  
+  } = useForm<any>();
 
   const [headers, setHeaders] = useState<string[]>([]);
   const [data, setData] = useState<any[]>([]);
   const [find, setFind] = useState(true);
   const [loading, setLoading] = useState(false);
-  
-  useEffect(() => {    
-    searchData('');    
-  }, []);
-  
-  const searchData = async(filter:any) => {
-    try {    
-      setLoading(true); 
-      setData([])       
-      let url = '';
-      if(filter===''){
-        url = '/api/v1/todaybookings';
-        console.log('asd')
-      }else{
-        const { search } = filter;
-        url = `/api/v1/booking/${search}`; 
-        console.log('asd 2')
-      }        
-      const resp: any = await fetchApi(
-        url,
-        'GET',
-        '',
-        null                       
-      );
-      console.log('ON MY TABLE222', resp.data);
 
-      if(resp.ok && resp.data.length > 0){        
-          const headersArr = Object.keys(resp.data[0]);            
-          setHeaders(headersArr);
-          if(data.length === 0){
-            resp.data.forEach((element:any) => {
-              console.log(element);
-              data.push(element);
-            });
-            setData(data);
-          }
-          console.log(headers);
-          console.log(data); 
-          setFind(true); 
-          setLoading(false);      
-      }else{
-        if(!loading){
+  useEffect(() => {
+    searchData('');
+  }, []);
+
+  const searchData = async (filter: any) => {
+    try {
+      setLoading(true);
+      setData([]);
+      let url = '';
+      if (filter === '') {
+        url = '/api/v1/todaybookings';
+      } else {
+        const { search } = filter;
+        url = `/api/v1/booking/${search}`;
+      }
+      const resp: any = await fetchApi(url, 'GET', '', null);
+
+      if (resp.ok && resp.data.length > 0) {
+        const headersArr = Object.keys(resp.data[0]);
+        setHeaders(headersArr);
+        if (data.length === 0) {
+          resp.data.forEach((element: any) => {
+            data.push(element);
+          });
+          setData(data);
+        }
+
+        setFind(true);
+        setLoading(false);
+      } else {
+        if (!loading) {
           setLoading(false);
           setFind(false);
         }
@@ -66,48 +56,41 @@ export const ReservationsPage = () => {
 
       if (!resp) {
         throw new Error('Bad request');
-      }                 
-      
+      }
     } catch (error) {
-      if (error instanceof Error) {        
+      if (error instanceof Error) {
         console.error('Table error:', error.message);
-      } else {        
+      } else {
         console.error('Table error:', error);
       }
     }
-  }
+  };
 
   return (
-    <div>      
+    <div>
       <div className={styles.settings}>
-        <div className={styles.settings__container}>        
+        <div className={styles.settings__container}>
           <h1 className={styles.settings__title}>Reserves</h1>
-          <form className={styles.form} onSubmit={handleSubmit(searchData)} >
+          <form className={styles.form} onSubmit={handleSubmit(searchData)}>
             <div className={styles.form__columns}>
-              <div className={styles.form__column}>                
-                  <FormInput
-                    label=""
-                    placeholder='ingrese'
-                    error={errors['search']}
-                    id="search"
-                    type="text"                
-                    {...register('search')}
-                  />                                
-              </div>            
+              <div className={styles.form__column}>
+                <FormInput
+                  label=""
+                  placeholder="Ingrese DNI"
+                  error={errors['search']}
+                  id="search"
+                  type="text"
+                  {...register('search')}
+                />
+              </div>
             </div>
           </form>
           <div className={styles.form__columns}>
-              <div className={styles.form__column}> 
-                {
-                  (find) ? 
-                      <Table headers={headers} data={data} /> :
-                      <p>No se encontraron datos</p> 
-                }
-                {
-                  (loading) && <p>Loading...</p>
-                }               
-              </div>            
+            <div className={styles.form__column}>
+              {find ? <Table headers={headers} data={data} /> : <p>No se encontraron datos</p>}
+              {loading && <p>Loading...</p>}
             </div>
+          </div>
         </div>
       </div>
     </div>

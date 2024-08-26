@@ -5,12 +5,12 @@ import { toast } from 'react-toastify';
 import { FormInput } from '../../../components/formInput/FormInput';
 import { GoogleIcon } from '../../../components/icons/GoogleIcon';
 import { IRespLogin } from '../../../interfaces';
-import { ILoginPost } from '../../../interfaces/respFetch';
 import { client } from '../../../supabase/Client';
 import { ApiError } from '../../../utils/apiError';
 import { useAuth } from '../../hook/useAuth';
 import styles from './loginPage.module.scss';
 import { loginSchema, LoginType } from './loginSchema';
+import { fetchApi } from '../../../utils/fetchApi';
 
 export const LoginPage = () => {
   const {
@@ -23,6 +23,10 @@ export const LoginPage = () => {
       email: 'vohac64895@iteradev.com',
       password: 'Aa1234~~',
     },
+    // defaultValues: {
+    //   email: 'dirij75152@maxturns.com',
+    //   password: '123456Aa#',
+    // },
   });
 
   const { onLogin } = useAuth();
@@ -45,9 +49,8 @@ export const LoginPage = () => {
 
       const supPass = data.user.user_metadata.sub;
       const supEmail = data.user.user_metadata.email;
-      
-      const resp = await fetchApiV2<IRespLogin, ILoginPost>(
 
+      const resp = await fetchApi<IRespLogin>(
         '/api/v1/login',
         'POST',
         '',
@@ -91,7 +94,6 @@ export const LoginPage = () => {
       if (!data) {
         throw new ApiError('No user or session data received');
       }
-
     } catch (error) {
       if (error instanceof ApiError) {
         console.error('Google login error:', error.message);
@@ -123,23 +125,23 @@ export const LoginPage = () => {
             {...register('password')}
           />
 
-          <button className={styles.form__btn} type="submit">
+          <button className={styles.form__btn} type="submit" aria-label='Sign In'>
             Sign In
           </button>
         </form>
 
         <div className={styles.login__otherLogins}>
           <span className={styles.login__labelLogins}>— Or sign in with —</span>
-          <button className={styles.login__btn__google} type="button" onClick={handleLoginGoogle}>
+          <button className={styles.login__btn__google} type="button" onClick={handleLoginGoogle} aria-label='Sign with Google'>
             <GoogleIcon className={styles.login__btn__googleIcon} />
           </button>
         </div>
 
         <div className={styles.login__btns}>
-          <NavLink className={styles.login__register} to={'/auth/forgot-pass'}>
+          <NavLink className={styles.login__register} to={'/auth/forgot-pass'} aria-label='Forgot password?'>
             Forgot Password?
           </NavLink>
-          <NavLink className={styles.login__register} to={'/auth/register'}>
+          <NavLink className={styles.login__register} to={'/auth/register'} aria-label='Sign Up'>
             Sign Up
           </NavLink>
         </div>

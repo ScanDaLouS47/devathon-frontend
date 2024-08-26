@@ -93,18 +93,23 @@ export const ChangePassword = () => {
             {...register('repeatPassword')}
           />
 
-          <button className={styles.form__btn} type="submit">
+          <button className={styles.form__btn} type="submit" aria-label="Change Password">
             Change Password
           </button>
         </form>
         <div className={styles.changePassword__btns}>
-          <NavLink className={styles.changePassword__register} to={`/panel/${user?.role}/settings`}>
+          <NavLink
+            className={styles.changePassword__register}
+            to={`/panel/${user?.role}/settings`}
+            aria-label="Go Back"
+          >
             <ArrowLeftIcon className={styles.changePassword__goBackIcon} />
             Go back
           </NavLink>
           <NavLink
             className={styles.changePassword__register}
             to={`/panel/${user?.role}/settings/did-forget`}
+            aria-label="Did you forget?"
           >
             Did you forget?
           </NavLink>

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Chart from 'react-apexcharts';
 
 export const BarChart = ({data}) => {
-    console.log(data, 'DATA BARCHART') 
     let dataTotal = [];
     let dataCategories = [];
     data.forEach(element => {

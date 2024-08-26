@@ -51,6 +51,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className={styles.pagination__btnsPagesNav}
+        aria-label="Pagination"
       >
         <ArrowLeftIcon className={styles.pagination__btnsPagesToShowIcon} />
         Prev
@@ -94,6 +95,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className={styles.pagination__btnsPagesNav}
+        aria-label="Next"
       >
         Next
         <ArrowRightIcon className={styles.pagination__btnsPagesToShowIcon} />

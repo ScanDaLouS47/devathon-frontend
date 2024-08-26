@@ -61,12 +61,16 @@ export const DidForgetPass = () => {
             {...register('contactEmail')}
           />
 
-          <button className={`${styles.form__btn}`} type="submit">
+          <button className={`${styles.form__btn}`} type="submit" aria-label="Submit">
             Send
           </button>
         </form>
         <div className={`${styles.didForget__btns}`}>
-          <NavLink className={`${styles.didForget__register}`} to={`/panel/${user?.role}/settings`}>
+          <NavLink
+            className={`${styles.didForget__register}`}
+            to={`/panel/${user?.role}/settings`}
+            aria-label="Go Back"
+          >
             <ArrowLeftIcon className={styles.didForget__goBackIcon} />
             Go back
           </NavLink>

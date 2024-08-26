@@ -136,13 +136,13 @@ export const RegisterPage = () => {
             {...register('repeatPassword')}
           />
 
-          <button className={styles.form__btn} type="submit">
+          <button className={styles.form__btn} type="submit" aria-label='Register'>
             Register
           </button>
         </form>
         <div className={styles.register__btns}>
           <span>Have an account?</span>
-          <NavLink className={styles.register__register} to={'/auth/login'}>
+          <NavLink className={styles.register__register} to={'/auth/login'} aria-label='Sign In'>
             Sign in
           </NavLink>
         </div>

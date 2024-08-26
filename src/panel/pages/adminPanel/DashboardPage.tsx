@@ -18,11 +18,9 @@ export const DashboardPage = () => {
           '',
           null                       
         );
-        console.log('ON MY DASHBOARD', resp);
   
         if(resp.ok){
           setDatachart(resp.data);
-          console.log(datachart, 'DATA')
         }
   
         if (!resp) {
@@ -50,11 +48,9 @@ export const DashboardPage = () => {
           '',
           null                       
         );
-        console.log('ON MY DASHBOARD', resp);
   
         if(resp.ok){
           setDataDonutchart(resp.data);
-          console.log(dataDonutchart, 'DATA')
         }
   
         if (!resp) {
@@ -67,11 +63,9 @@ export const DashboardPage = () => {
           '',
           null                       
         );
-        console.log('ON MY DASHBOARD DONUT', respDonut);
   
         if(respDonut.ok){
           setDataDonutchart(respDonut.data);
-          console.log(dataDonutchart, 'DATA')
         }
   
         if (!respDonut) {

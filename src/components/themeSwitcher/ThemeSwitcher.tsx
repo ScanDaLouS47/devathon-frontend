@@ -24,12 +24,14 @@ export const ThemeSwitcher: React.FC = () => {
       <button
         className={`${styles.themeSwitcher__btn} ${currentTheme === 'light' ? styles.themeSwitcher__btn__isActive : ''}`}
         onClick={() => setTheme('light')}
+        aria-label='Theme light'
       >
         <ThemeLight className={styles.themeSwitcher__btn__icon} />
       </button>
       <button
         className={`${styles.themeSwitcher__btn} ${currentTheme === 'dark' ? styles.themeSwitcher__btn__isActive : ''}`}
         onClick={() => setTheme('dark')}
+        aria-label='Theme dark'
       >
         <ThemeDark className={styles.themeSwitcher__btn__icon} />
       </button>

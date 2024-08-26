@@ -27,7 +27,7 @@ export const Settings = () => {
     register,
     handleSubmit,
     setFocus,
-    formState: { errors /* , isDirty */ },
+    formState: { errors },
   } = useForm<SettingsType>({
     resolver: zodResolver(settingsSchema),
     mode: 'onChange',
@@ -59,6 +59,9 @@ export const Settings = () => {
 
       const udpResp = await fetchApi<IRespForUser>('/api/v1/user/', 'POST', '', formData, true, true);
 
+      console.log(udpResp);
+      
+
       if (!udpResp.ok) {
         throw new ApiError(udpResp.msg);
       }
@@ -84,7 +87,7 @@ export const Settings = () => {
           <div className={styles.form__columns}>
             <div className={styles.form__column}>
               <div className={styles.form__enableContainer}>
-                <button className={enabledClass} type="button" onClick={toggleEnable}>
+                <button className={enabledClass} type="button" onClick={toggleEnable} aria-label="Editing">
                   <EditingIcon className={styles.form__enableBtnIcon} />
                 </button>
               </div>
@@ -132,7 +135,7 @@ export const Settings = () => {
                 type="file"
                 {...register('file')}
               />
-              <button className={styles.form__btn} type="submit">
+              <button className={styles.form__btn} type="submit" aria-label="Modify">
                 Modify
               </button>
             </div>
@@ -140,7 +143,11 @@ export const Settings = () => {
         </form>
         <div className={styles.settings__btns}>
           <span>Change Password?</span>
-          <NavLink className={styles.settings__register} to={`/panel/${user?.role}/settings/change-password`}>
+          <NavLink
+            className={styles.settings__register}
+            to={`/panel/${user?.role}/settings/change-password`}
+            aria-label="Let's go"
+          >
             Let's go
           </NavLink>
         </div>
