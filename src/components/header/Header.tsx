@@ -25,7 +25,7 @@ export const Header = React.forwardRef(() => {
     if (option === 'settings') {
       navigate(`/panel/${user?.role}/settings`);
     } else if (option === 'logout') {
-      const toastInfo = toast.loading('Loadint...');
+      const toastInfo = toast.loading('Loading...');
       try {
         const logoutResp = await fetchApi<IRespLogout>('/api/v1/logout', 'GET', '', null, true, true);
         if (!logoutResp.ok) {
